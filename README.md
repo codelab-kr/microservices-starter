@@ -12,7 +12,7 @@ chmod 400 mongodb.key
 
 docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 
 
-docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 --eval 'rs.initiate({
+docker-compose exec -it mongodb-primary mongosh -u root -p password123 --eval 'rs.initiate({
 	 _id: "mongoReplicaSet",
 	 members: [
 	   {_id: 0, host: "mongodb-primary"},
@@ -21,6 +21,7 @@ docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 -
 	 ]
 });'
 
+docker restart micro-starter-auth-1
 docker restart micro-starter-history-1
 docker restart micro-starter-videos-1
 --

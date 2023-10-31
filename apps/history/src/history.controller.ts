@@ -1,7 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { HistoryService } from './history.service';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { RmqService } from '@app/common';
+import { JwtAuthGuard, RmqService } from '@app/common';
 
 @Controller()
 export class HistoryController {
@@ -11,8 +11,9 @@ export class HistoryController {
   ) {}
 
   @EventPattern('video_created')
+  @UseGuards(JwtAuthGuard)
   async handleVideoCreated(@Payload() data: any, @Ctx() context: RmqContext) {
-    await this.historyService.create(data);
+    this.historyService.create(data);
     this.rmqService.ack(context);
   }
 }

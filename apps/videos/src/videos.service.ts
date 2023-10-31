@@ -12,16 +12,18 @@ export class VideosService {
     @Inject(HISTORY_SERVICE) private historyClient: ClientProxy,
   ) {}
 
-  async create(request: CreateVideoRequest) {
+  async create(request: CreateVideoRequest, authentication: string) {
+    console.log('authentication', authentication);
     const session = await this.videosRepository.startTransaction();
     try {
-      console.log('create video');
       const video = await this.videosRepository.create(request, { session });
-      console.log('video: ', video);
       await lastValueFrom(
-        this.historyClient.emit('video_created', { request }),
+        this.historyClient.emit('video_created', {
+          request,
+          Authentication: authentication,
+        }),
       );
-      console.log('history created');
+      console.log('video', video);
       await session.commitTransaction();
       return video;
     } catch (err) {

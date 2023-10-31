@@ -16,7 +16,9 @@ export class JwtAuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    console.log('========== JwtAuthGuard');
     const authentication = this.getAuthentication(context);
+    console.log('========== authentication', authentication);
     return this.authClient
       .send('validate_user', {
         Authentication: authentication,
@@ -33,9 +35,14 @@ export class JwtAuthGuard implements CanActivate {
 
   private getAuthentication(context: ExecutionContext) {
     let authentication: string;
+    console.log('context.getType()', context.getType());
     if (context.getType() === 'rpc') {
       authentication = context.switchToRpc().getData().Authentication;
     } else if (context.getType() === 'http') {
+      console.log(
+        'context.switchToHttp().getRequest().cookies?.Authentication',
+        context.switchToHttp().getRequest().cookies?.Authentication,
+      );
       authentication = context.switchToHttp().getRequest()
         .cookies?.Authentication;
     }
