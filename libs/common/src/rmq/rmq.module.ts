@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { RmqService } from './rmq.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { RmqService } from './rmq.service';
 
 interface RmqModuleOptions {
   name: string;
@@ -12,7 +12,7 @@ interface RmqModuleOptions {
   exports: [RmqService],
 })
 export class RmqModule {
-  static resigter({ name }: RmqModuleOptions): DynamicModule {
+  static register({ name }: RmqModuleOptions): DynamicModule {
     return {
       module: RmqModule,
       imports: [

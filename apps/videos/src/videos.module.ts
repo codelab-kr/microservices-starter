@@ -21,7 +21,7 @@ import * as Joi from 'joi';
     }),
     DatabaseModule,
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
-    RmqModule.resigter({ name: HISTORY_SERVICE }),
+    RmqModule.register({ name: HISTORY_SERVICE }),
   ],
   controllers: [VideosController],
   providers: [VideosService, VideosRepository],

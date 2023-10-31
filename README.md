@@ -22,7 +22,7 @@ docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 -
 });'
 
 docker restart micro-starter-history-1
-docker restart micro-starter-users-1
+docker restart micro-starter-videos-1
 --
 
 rs.status()
