@@ -2,7 +2,13 @@ import { Module } from '@nestjs/common';
 import { VideosController } from './videos.controller';
 import { VideosService } from './videos.service';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule, DatabaseModule, HttpModule, RmqModule } from '@app/common';
+import {
+  AuthModule,
+  DatabaseModule,
+  EnhancerModule,
+  HttpModule,
+  RmqModule,
+} from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
 import { VideosRepository } from './videos.repository';
@@ -25,6 +31,7 @@ import * as Joi from 'joi';
     RmqModule.register({ name: HISTORY_SERVICE }),
     AuthModule,
     HttpModule,
+    EnhancerModule,
   ],
   controllers: [VideosController],
   providers: [VideosService, VideosRepository],

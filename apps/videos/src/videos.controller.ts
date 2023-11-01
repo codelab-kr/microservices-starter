@@ -21,15 +21,22 @@ export class VideosController {
     return this.videosService.create(request, req.cookies?.Authentication);
   }
 
-  // test: /videos?url=https://jsonplaceholder.typicode.com/todos/1
-  @Get()
-  async get(@Query('url') url: string): Promise<any[]> {
-    return this.videosService.get(url);
-  }
-
   @Get()
   @UseGuards(JwtAuthGuard)
   async getVideos() {
     return this.videosService.getVideos();
+  }
+
+  // test: /videos/get?url=https://jsonplaceholder.typicode.com/todos/1
+  @Get('get')
+  @UseGuards(JwtAuthGuard)
+  async get(@Query('url') url: string): Promise<any[]> {
+    return this.videosService.get(url);
+  }
+
+  @Get('error')
+  @UseGuards(JwtAuthGuard)
+  async error(): Promise<any> {
+    return this.videosService.error();
   }
 }

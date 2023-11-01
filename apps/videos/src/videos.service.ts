@@ -1,10 +1,10 @@
+import { HISTORY_SERVICE, METADATA_SERVICE } from './constans/services';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateVideoRequest } from './dto/create-video.request';
 import { VideosRepository } from './videos.repository';
-import { HISTORY_SERVICE, METADATA_SERVICE } from './constans/services';
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
 import { HttpService } from '@app/common';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class VideosService {
@@ -45,5 +45,13 @@ export class VideosService {
 
   async get(url: string) {
     return this.httpService.get(url);
+  }
+
+  async error() {
+    throw new Error('Invalid credentials.');
+    // throw new RpcException('Invalid credentials.');
+    // throw new HttpException('Not Found.', 404);
+    // throw new HttpVersionNotSupportedException();
+    // throw new NotFoundException();
   }
 }
