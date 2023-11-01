@@ -4,16 +4,17 @@ import { VideosRepository } from './videos.repository';
 import { HISTORY_SERVICE } from './constans/services';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { HttpService } from '@app/common';
 
 @Injectable()
 export class VideosService {
   constructor(
     private readonly videosRepository: VideosRepository,
+    private readonly httpService: HttpService,
     @Inject(HISTORY_SERVICE) private historyClient: ClientProxy,
   ) {}
 
   async create(request: CreateVideoRequest, authentication: string) {
-    console.log('authentication', authentication);
     const session = await this.videosRepository.startTransaction();
     try {
       const video = await this.videosRepository.create(request, { session });
@@ -23,7 +24,6 @@ export class VideosService {
           Authentication: authentication,
         }),
       );
-      console.log('video', video);
       await session.commitTransaction();
       return video;
     } catch (err) {
@@ -34,5 +34,9 @@ export class VideosService {
 
   async getVideos() {
     return this.videosRepository.find({});
+  }
+
+  async get(url: string) {
+    return this.httpService.get(url);
   }
 }

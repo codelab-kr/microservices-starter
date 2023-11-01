@@ -1,0 +1,70 @@
+services:
+  mongodb-primary:
+    image: mongo:6.0.3
+    environment:
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_MODE=primary
+    volumes:
+      - 'mongodb_master_data:/docker.io/mongo'
+      - ./mongodb.key:/etc/mongodb.key
+    command:
+      [
+        '--replSet',
+        'mongoReplicaSet',
+        '--keyFile',
+        '/etc/mongodb.key',
+        '--bind_ip_all',
+      ]
+    ports:
+      - '27017:27017'
+
+  mongodb-secondary:
+    image: mongo:6.0.3
+    depends_on:
+      - mongodb-primary
+    environment:
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
+      - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_MODE=secondary
+    ports:
+      - 27018:27017
+    volumes:
+      - ./mongodb.key:/etc/mongodb.key
+    command:
+      [
+        '--replSet',
+        'mongoReplicaSet',
+        '--keyFile',
+        '/etc/mongodb.key',
+        '--bind_ip_all',
+      ]
+
+  mongodb-arbiter:
+    image: mongo:6.0.3
+    depends_on:
+      - mongodb-primary
+    environment:
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
+      - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_MODE=arbiter
+    ports:
+      - 27019:27017
+    volumes:
+      - ./mongodb.key:/etc/mongodb.key
+    command:
+      [
+        '--replSet',
+        'mongoReplicaSet',
+        '--keyFile',
+        '/etc/mongodb.key',
+        '--bind_ip_all',
+      ]
+volumes:
+  mongodb_master_data:
+    driver: local

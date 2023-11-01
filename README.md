@@ -1,7 +1,3 @@
-
-
-
-
 https://velog.io/@youngeui_hong/Docker를-사용하여-MongoDB-Replica-Set-구축하기
 https://blog.devgenius.io/how-to-deploy-a-mongodb-replicaset-using-docker-compose-a538100db471
 
@@ -27,3 +23,9 @@ docker restart micro-starter-videos-1
 --
 
 rs.status()
+
+
+---
+
+docker-compose -f docker-compose.db.yaml up --build -V -d
+docker-compose up --build -V -d

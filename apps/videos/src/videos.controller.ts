@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  UseGuards,
+  Req,
+  Query,
+} from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoRequest } from './dto/create-video.request';
 import { JwtAuthGuard } from '@app/common';
@@ -10,8 +18,13 @@ export class VideosController {
   @Post()
   @UseGuards(JwtAuthGuard)
   async createVideo(@Body() request: CreateVideoRequest, @Req() req: any) {
-    console.log('req.cookies?.Authentication', req.cookies?.Authentication);
     return this.videosService.create(request, req.cookies?.Authentication);
+  }
+
+  // test: /videos?url=https://jsonplaceholder.typicode.com/todos/1
+  @Get()
+  async get(@Query('url') url: string): Promise<any[]> {
+    return this.videosService.get(url);
   }
 
   @Get()
