@@ -11,6 +11,7 @@ services:
       # - mongodb-primary
       # - mongodb-secondary
       # - mongodb-arbiter
+      - metadata
       - history
       - auth
       - rabbitmq
@@ -19,6 +20,24 @@ services:
       - /usr/src/app/node_modules
     ports:
       - '3000:3000'
+
+  metadata:
+    build:
+      context: .
+      dockerfile: ./apps/metadata/Dockerfile
+      target: development
+    command: yarn start:dev metadata
+    env_file:
+      - ./apps/metadata/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - auth
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
 
   history:
     build:

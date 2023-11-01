@@ -6,7 +6,7 @@ import { AuthModule, DatabaseModule, HttpModule, RmqModule } from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
 import { VideosRepository } from './videos.repository';
-import { HISTORY_SERVICE } from './constans/services';
+import { HISTORY_SERVICE, METADATA_SERVICE } from './constans/services';
 import * as Joi from 'joi';
 
 @Module({
@@ -21,6 +21,7 @@ import * as Joi from 'joi';
     }),
     DatabaseModule,
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
+    RmqModule.register({ name: METADATA_SERVICE }),
     RmqModule.register({ name: HISTORY_SERVICE }),
     AuthModule,
     HttpModule,

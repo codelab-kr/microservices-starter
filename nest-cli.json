@@ -19,6 +19,15 @@
     }
   },
   "projects": {
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
     "auth": {
       "type": "application",
       "root": "apps/auth",
@@ -28,13 +37,13 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
-    "common": {
-      "type": "library",
-      "root": "libs/common",
-      "entryFile": "index",
-      "sourceRoot": "libs/common/src",
+    "metadata": {
+      "type": "application",
+      "root": "apps/metadata",
+      "entryFile": "main",
+      "sourceRoot": "apps/metadata/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/common/tsconfig.lib.json"
+        "tsConfigPath": "apps/metadata/tsconfig.app.json"
       }
     },
     "history": {

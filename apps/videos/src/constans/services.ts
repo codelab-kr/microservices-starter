@@ -1,1 +1,2 @@
 export const HISTORY_SERVICE = 'HISTORY';
+export const METADATA_SERVICE = 'METADATA';
