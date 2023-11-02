@@ -48,9 +48,12 @@ export class VideosService {
     if (video?.length === 0) {
       throw new UnprocessableEntityException(VideosMessage.NOT_FOUND_VIDEO);
     }
-    // await this.cacheManager.set('cached_user', video);
-    // console.log(await this.cacheManager.get('cached_user'));
+    console.log(video);
     return video;
+  }
+
+  async getHello() {
+    return 'Hello World!';
   }
 
   async getVideos() {

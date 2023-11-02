@@ -1,14 +1,27 @@
-FROM node:alpine AS development
+FROM node:alpine AS builder
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 
-RUN yarn run build
+RUN npm run build history
+
+
+FROM node:alpine AS development
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/ ./
+
+CMD npx wait-port mongodb-primary:27017 && \
+  npx wait-port rabbitmq:5672 &&  \
+  npx wait-port redis:6379 && \
+  yarn start:dev history
+
 
 FROM node:alpine AS production
 
@@ -19,12 +32,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install --only=production
+RUN npm install --only=production
 
 COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/dist ./dist
 
-CMD npx wait-port mongodb-primary:27017 && \
-  npx wait-port rabbit:5672 &&  \
-  node dist/apps/history/main
+CMD ["node", "dist/apps/history/main"]

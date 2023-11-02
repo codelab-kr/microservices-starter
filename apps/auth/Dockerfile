@@ -1,4 +1,4 @@
-FROM node:alpine AS development
+FROM node:alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -9,6 +9,19 @@ RUN npm install
 COPY . .
 
 RUN npm run build auth
+
+
+FROM node:alpine AS development
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/ ./
+
+CMD npx wait-port mongodb-primary:27017 && \
+  npx wait-port rabbitmq:5672 &&  \
+  npx wait-port redis:6379 && \
+  yarn start:dev auth
+
 
 FROM node:alpine AS production
 
@@ -23,6 +36,6 @@ RUN npm install --only=production
 
 COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/dist ./dist
 
 CMD ["node", "dist/apps/auth/main"]

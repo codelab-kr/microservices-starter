@@ -7,11 +7,14 @@ import {
   Req,
   Query,
   Param,
+  UseInterceptors,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoRequest } from './dto/create-video.request';
 import { JwtAuthGuard } from '@app/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
@@ -20,6 +23,11 @@ export class VideosController {
   @UseGuards(JwtAuthGuard)
   async createVideo(@Body() request: CreateVideoRequest, @Req() req: any) {
     return this.videosService.create(request, req.cookies?.Authentication);
+  }
+
+  @Get('hello')
+  async getHello() {
+    return this.videosService.getHello();
   }
 
   @Get(':_id')

@@ -1,28 +1,20 @@
 services:
-  redis:
-    image: redis:latest
-    container_name: cache
-    ports:
-      - 6379:6379
-    volumes:
-      - redis:/data
-
   videos:
     build:
       context: .
       dockerfile: ./apps/videos/Dockerfile
       target: development
-    command: yarn start:dev videos
     env_file:
       - ./apps/videos/.env
     depends_on:
       # - mongodb-primary
       # - mongodb-secondary
       # - mongodb-arbiter
+      - rabbitmq
+      - redis
       - metadata
       - history
       - auth
-      - rabbitmq
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -41,8 +33,9 @@ services:
       # - mongodb-primary
       # - mongodb-secondary
       # - mongodb-arbiter
-      - auth
       - rabbitmq
+      - redis
+      - auth
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -52,15 +45,15 @@ services:
       context: .
       dockerfile: ./apps/history/Dockerfile
       target: development
-    command: yarn start:dev history
     env_file:
       - ./apps/history/.env
     depends_on:
       # - mongodb-primary
       # - mongodb-secondary
       # - mongodb-arbiter
-      - auth
       - rabbitmq
+      - redis
+      - auth
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -70,7 +63,6 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
-    command: npm run start:dev auth
     ports:
       - '3001:3001'
     env_file:
@@ -80,6 +72,7 @@ services:
       # - mongodb-secondary
       # - mongodb-arbiter
       - rabbitmq
+      - redis
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -88,74 +81,84 @@ services:
     image: rabbitmq
     ports:
       - '5672:5672'
-#   mongodb-primary:
-#     image: mongo:6.0.3
-#     environment:
-#       - MONGO_ADVERTISED_HOSTNAME=mongodb-primary
-#       - MONGO_INITDB_ROOT_USERNAME=root
-#       - MONGO_INITDB_ROOT_PASSWORD=password123
-#       - MONGO_REPLICA_SET_MODE=primary
-#     volumes:
-#       - 'mongodb_master_data:/docker.io/mongo'
-#       - ./mongodb.key:/etc/mongodb.key
-#     command:
-#       [
-#         '--replSet',
-#         'mongoReplicaSet',
-#         '--keyFile',
-#         '/etc/mongodb.key',
-#         '--bind_ip_all',
-#       ]
-#     ports:
-#       - '27017:27017'
 
-#   mongodb-secondary:
-#     image: mongo:6.0.3
-#     depends_on:
-#       - mongodb-primary
-#     environment:
-#       - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
-#       - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
-#       - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
-#       - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-#       - MONGO_REPLICA_SET_MODE=secondary
-#     ports:
-#       - 27018:27017
-#     volumes:
-#       - ./mongodb.key:/etc/mongodb.key
-#     command:
-#       [
-#         '--replSet',
-#         'mongoReplicaSet',
-#         '--keyFile',
-#         '/etc/mongodb.key',
-#         '--bind_ip_all',
-#       ]
+  #   mongodb-primary:
+  #     image: mongo:6.0.3
+  #     environment:
+  #       - MONGO_ADVERTISED_HOSTNAME=mongodb-primary
+  #       - MONGO_INITDB_ROOT_USERNAME=root
+  #       - MONGO_INITDB_ROOT_PASSWORD=password123
+  #       - MONGO_REPLICA_SET_MODE=primary
+  #     volumes:
+  #       - 'mongodb_master_data:/docker.io/mongo'
+  #       - ./mongodb.key:/etc/mongodb.key
+  #     command:
+  #       [
+  #         '--replSet',
+  #         'mongoReplicaSet',
+  #         '--keyFile',
+  #         '/etc/mongodb.key',
+  #         '--bind_ip_all',
+  #       ]
+  #     ports:
+  #       - '27017:27017'
 
-#   mongodb-arbiter:
-#     image: mongo:6.0.3
-#     depends_on:
-#       - mongodb-primary
-#     environment:
-#       - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
-#       - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
-#       - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
-#       - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-#       - MONGO_REPLICA_SET_MODE=arbiter
-#     ports:
-#       - 27019:27017
-#     volumes:
-#       - ./mongodb.key:/etc/mongodb.key
-#     command:
-#       [
-#         '--replSet',
-#         'mongoReplicaSet',
-#         '--keyFile',
-#         '/etc/mongodb.key',
-#         '--bind_ip_all',
-#       ]
+  #   mongodb-secondary:
+  #     image: mongo:6.0.3
+  #     depends_on:
+  #       - mongodb-primary
+  #     environment:
+  #       - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
+  #       - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
+  #       - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
+  #       - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+  #       - MONGO_REPLICA_SET_MODE=secondary
+  #     ports:
+  #       - 27018:27017
+  #     volumes:
+  #       - ./mongodb.key:/etc/mongodb.key
+  #     command:
+  #       [
+  #         '--replSet',
+  #         'mongoReplicaSet',
+  #         '--keyFile',
+  #         '/etc/mongodb.key',
+  #         '--bind_ip_all',
+  #       ]
+
+  #   mongodb-arbiter:
+  #     image: mongo:6.0.3
+  #     depends_on:
+  #       - mongodb-primary
+  #     environment:
+  #       - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
+  #       - MONGO_INITIAL_PRIMARY_HOST=mongodb-primary
+  #       - MONGO_INITIAL_PRIMARY_ROOT_USERNAME=root
+  #       - MONGO_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+  #       - MONGO_REPLICA_SET_MODE=arbiter
+  #     ports:
+  #       - 27019:27017
+  #     volumes:
+  #       - ./mongodb.key:/etc/mongodb.key
+  #     command:
+  #       [
+  #         '--replSet',
+  #         'mongoReplicaSet',
+  #         '--keyFile',
+  #         '/etc/mongodb.key',
+  #         '--bind_ip_all',
+  #       ]
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+
 volumes:
-  #   mongodb_master_data:
-  #     driver: local
+  # mongodb_master_data:
+  #   driver: local
   redis:
     driver: local
