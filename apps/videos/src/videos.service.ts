@@ -1,9 +1,13 @@
 import { HISTORY_SERVICE, METADATA_SERVICE } from './constans/services';
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateVideoRequest } from './dto/create-video.request';
 import { VideosRepository } from './videos.repository';
 import { ClientProxy } from '@nestjs/microservices';
-import { HttpService } from '@app/common';
+import { HttpService, VideosMessage } from '@app/common';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -37,6 +41,16 @@ export class VideosService {
       await session.abortTransaction();
       throw err;
     }
+  }
+
+  async getVideo({ _id }) {
+    const video = await this.videosRepository.find({ _id });
+    if (video?.length === 0) {
+      throw new UnprocessableEntityException(VideosMessage.NOT_FOUND_VIDEO);
+    }
+    // await this.cacheManager.set('cached_user', video);
+    // console.log(await this.cacheManager.get('cached_user'));
+    return video;
   }
 
   async getVideos() {

@@ -6,6 +6,7 @@ import {
   UseGuards,
   Req,
   Query,
+  Param,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoRequest } from './dto/create-video.request';
@@ -19,6 +20,12 @@ export class VideosController {
   @UseGuards(JwtAuthGuard)
   async createVideo(@Body() request: CreateVideoRequest, @Req() req: any) {
     return this.videosService.create(request, req.cookies?.Authentication);
+  }
+
+  @Get(':_id')
+  // @UseGuards(JwtAuthGuard)
+  async getVideo(@Param('_id') _id: string) {
+    return this.videosService.getVideo({ _id });
   }
 
   @Get()
