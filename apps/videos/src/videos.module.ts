@@ -12,7 +12,6 @@ import {
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
 import { VideosRepository } from './videos.repository';
-import { HISTORY_SERVICE, METADATA_SERVICE } from './constans/services';
 import * as Joi from 'joi';
 
 @Module({
@@ -21,14 +20,15 @@ import * as Joi from 'joi';
       isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
+        RABBIT_MQ_URI: Joi.string().required(),
+        RABBIT_MQ_VIDEOS_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/videos/.env',
     }),
     EnhancerModule,
     DatabaseModule,
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
-    RmqModule.register({ name: METADATA_SERVICE }),
-    RmqModule.register({ name: HISTORY_SERVICE }),
+    RmqModule,
     AuthModule,
     HttpModule,
   ],

@@ -2,11 +2,13 @@
 // Upload a file from the browser to the backend API.
 //
 function uploadFile(file) {
-  let formData = new FormData();
-  formData.append('file', file);
   fetch('upload', {
-    body: formData,
+    body: file,
     method: 'POST',
+    headers: {
+      'File-Name': file.name,
+      'Content-Type': file.type,
+    },
   })
     .then(() => {
       //

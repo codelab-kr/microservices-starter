@@ -10,12 +10,12 @@ export class StorageController {
 
   @Post('/upload')
   UploadVideo(@Req() req: Request, @Res() res: Response) {
-    console.log('Uploading video... Mockstorage!');
-    console.log('req.headers', req.headers);
-    const videoId = req.headers.videoid as string;
-    console.log('videoId', videoId);
-    const localFilePath = path.join(__dirname, '..', 'videos', videoId);
-    console.log('localFilePath', localFilePath);
+    const localFilePath = path.join(
+      __dirname,
+      '..',
+      'videos',
+      req.headers.path.toString(),
+    );
     const fileWriteStream = createWriteStream(localFilePath);
     req
       .pipe(fileWriteStream)

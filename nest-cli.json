@@ -37,15 +37,6 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
-    "metadata": {
-      "type": "application",
-      "root": "apps/metadata",
-      "entryFile": "main",
-      "sourceRoot": "apps/metadata/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/metadata/tsconfig.app.json"
-      }
-    },
     "history": {
       "type": "application",
       "root": "apps/history",

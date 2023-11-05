@@ -10,7 +10,7 @@ export class HistoryController {
     private readonly rmqService: RmqService,
   ) {}
 
-  @EventPattern('video_created')
+  @EventPattern('video_viewed')
   @UseGuards(JwtAuthGuard)
   async handleVideoCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     this.historyService.create(data);

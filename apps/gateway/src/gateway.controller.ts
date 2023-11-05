@@ -2,18 +2,20 @@ import {
   Controller,
   Get,
   Post,
-  Req,
   Res,
+  Req,
   UseInterceptors,
-  UseGuards,
   UploadedFile,
+  // UseGuards,
 } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { Response } from 'express';
-import { JwtAuthGuard } from '@app/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ObjectId } from 'mongodb';
+import { FileInterceptor } from '@nestjs/platform-express';
 import axios from 'axios';
+// import { JwtAuthGuard } from '@app/common';
+// import { CurrentUser } from 'apps/auth/src/current-user.decorator';
+// import { User } from 'apps/auth/src/users/schemas/user.schema';
 
 @Controller()
 export class GatewayController {
@@ -24,41 +26,45 @@ export class GatewayController {
     res.render('upload-video', {});
   }
 
+  /*
+   * Added for postman test
+   * - @UseInterceptors(FileInterceptor('file'))
+   * - @UploadedFile() file: Express.Multer.File,
+   * - file?.buffer, file?.originalname, file?.mimetype
+   */
   @Post('upload')
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
+  // @UseGuards(JwtAuthGuard)
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request,
     @Res() res: Response,
-    @Req() req: any,
+    @UploadedFile() file: Express.Multer.File,
+    // @CurrentUser() user: User,
   ) {
-    const authentication = req.cookies?.Authentication as string;
-    const fileName = file.originalname;
-    const fileType = file.mimetype;
-    const videoId = new ObjectId().toString();
-
+    const data = file?.buffer ?? req;
+    const fileName = file?.originalname ?? (req.headers['file-name'] as string);
+    const contentType =
+      file?.mimetype ?? (req.headers['content-type'] as string);
+    const path = new ObjectId().toString();
     const response = await axios({
-      // Forwards the request to the video-upload microservice.
       method: 'POST',
       url: 'http://storage/upload',
-      data: file,
+      data,
       responseType: 'stream',
       headers: {
         'file-name': fileName,
-        'content-type': fileType,
-        authentication,
-        videoId,
+        'content-type': contentType,
+        path,
       },
     });
-    response.data.pipe(res).on('finish', async () => {
-      await axios({
-        method: 'POST',
-        url: 'http://videos',
-        data: { title: fileName, path: videoId },
-        headers: {
-          authentication,
-        },
-      });
+    await response.data.pipe(res);
+    await this.gatewayService.createVideo({
+      title: fileName,
+      type: contentType,
+      path,
+      description: 'test',
+      // user_id: user._id as ObjectId,
+      user_id: '65470c9b441e822dc1322052' as unknown as ObjectId,
     });
   }
 }

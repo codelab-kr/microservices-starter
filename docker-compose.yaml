@@ -20,11 +20,32 @@ services:
       - ./apps/gateway/public:/usr/src/app/dist/apps/public
       - /usr/src/app/node_modules
 
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    ports:
+      - '3001:80'
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+      - redis
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
   videos:
     build:
       context: .
       dockerfile: ./apps/videos/Dockerfile
       target: development
+    ports:
+      - '3002:80'
     env_file:
       - ./apps/videos/.env
     depends_on:
@@ -33,28 +54,7 @@ services:
       # - mongodb-arbiter
       - rabbitmq
       - redis
-      - metadata
       - history
-      - auth
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - '3002:80'
-
-  metadata:
-    build:
-      context: .
-      dockerfile: ./apps/metadata/Dockerfile
-      target: development
-    env_file:
-      - ./apps/metadata/.env
-    depends_on:
-      # - mongodb-primary
-      # - mongodb-secondary
-      # - mongodb-arbiter
-      - rabbitmq
-      - redis
       - auth
     volumes:
       - .:/usr/src/app
@@ -65,8 +65,6 @@ services:
       context: .
       dockerfile: ./apps/storage/Dockerfile
       target: development
-    ports:
-      - '3003:80'
     env_file:
       - ./apps/storage/.env
     depends_on:
@@ -95,25 +93,6 @@ services:
       - rabbitmq
       - redis
       - auth
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-
-  auth:
-    build:
-      context: .
-      dockerfile: ./apps/auth/Dockerfile
-      target: development
-    ports:
-      - '3001:80'
-    env_file:
-      - ./apps/auth/.env
-    depends_on:
-      # - mongodb-primary
-      # - mongodb-secondary
-      # - mongodb-arbiter
-      - rabbitmq
-      - redis
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
