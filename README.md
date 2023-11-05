@@ -5,6 +5,7 @@ https://blog.devgenius.io/how-to-deploy-a-mongodb-replicaset-using-docker-compos
 openssl rand -base64 756 > mongodb.key
 chmod 400 mongodb.key
 
+docker-compose -f docker-compose.db.yaml up --build -V -d
 
 docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 
 
@@ -27,5 +28,5 @@ rs.status()
 
 ---
 
-docker-compose -f docker-compose.db.yaml up --build -V -d
+
 docker-compose up --build -V -d

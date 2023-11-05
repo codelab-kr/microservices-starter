@@ -1,4 +1,25 @@
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: development
+    ports:
+      - '3000:80'
+    env_file:
+      - ./apps/gateway/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+      - redis
+    volumes:
+      - ./apps/gateway/src:/usr/src/app/apps/gateway/src
+      - ./apps/gateway/views:/usr/src/app/dist/apps/views
+      - ./apps/gateway/public:/usr/src/app/dist/apps/public
+      - /usr/src/app/node_modules
+
   videos:
     build:
       context: .
@@ -19,14 +40,13 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - '3000:3000'
+      - '3002:80'
 
   metadata:
     build:
       context: .
       dockerfile: ./apps/metadata/Dockerfile
       target: development
-    command: yarn start:dev metadata
     env_file:
       - ./apps/metadata/.env
     depends_on:
@@ -38,6 +58,27 @@ services:
       - auth
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  storage:
+    build:
+      context: .
+      dockerfile: ./apps/storage/Dockerfile
+      target: development
+    ports:
+      - '3003:80'
+    env_file:
+      - ./apps/storage/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+      - redis
+      - auth
+    volumes:
+      - ./apps/storage/src:/usr/src/app/apps/storage/src
+      - ./apps/storage/videos:/usr/src/app/dist/apps/videos
       - /usr/src/app/node_modules
 
   history:
@@ -64,7 +105,7 @@ services:
       dockerfile: ./apps/auth/Dockerfile
       target: development
     ports:
-      - '3001:3001'
+      - '3001:80'
     env_file:
       - ./apps/auth/.env
     depends_on:
