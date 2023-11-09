@@ -20,22 +20,18 @@ export class AuthService {
       userId: user._id.toHexString(),
     };
 
-    const expires = new Date();
-    expires.setSeconds(
-      expires.getSeconds() + this.configService.get('JWT_EXPIRATION'),
-    );
+    const now = new Date();
+    const interval = parseInt(this.configService.get('JWT_EXPIRATION'));
+    const expires = new Date(now.getTime() + interval * 1000);
 
     const token = this.jwtService.sign(tokenPayload);
-
     response.cookie('Authentication', token, {
-      httpOnly: true,
       expires,
     });
   }
 
   logout(response: Response) {
     response.cookie('Authentication', '', {
-      httpOnly: true,
       expires: new Date(),
     });
   }

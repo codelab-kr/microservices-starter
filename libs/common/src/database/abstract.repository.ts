@@ -41,6 +41,10 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return document as TDocument;
   }
 
+  async find(filterQuery: FilterQuery<TDocument>) {
+    return this.model.find(filterQuery, {}, { lean: true });
+  }
+
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
@@ -69,8 +73,17 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) {
-    return this.model.find(filterQuery, {}, { lean: true });
+  async delete(filterQuery: FilterQuery<TDocument>) {
+    const document = this.model.findOneAndUpdate(filterQuery, {
+      deletedAt: new Date(),
+    });
+
+    if (!document) {
+      this.logger.warn(`Document not found with filterQuery:`, filterQuery);
+      throw new NotFoundException('Document not found.');
+    }
+
+    return document;
   }
 
   async startTransaction() {
