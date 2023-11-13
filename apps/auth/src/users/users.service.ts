@@ -7,7 +7,6 @@ import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './users.repository';
 import { CreateUserRequest } from './dto/create-user.request';
 import { User } from './schemas/user.schema';
-import { Types } from 'mongoose';
 import { UpdateUserRequest } from './dto/update-user.request';
 
 @Injectable()
@@ -47,9 +46,7 @@ export class UsersService {
   }
 
   async getUser(_id: string) {
-    return this.usersRepository.findOne({
-      id: _id as unknown as Types.ObjectId,
-    });
+    return this.usersRepository.findOne({ _id });
   }
 
   async getUsers(getUserArgs: Partial<User>): Promise<User[]> {
@@ -58,15 +55,13 @@ export class UsersService {
 
   async updateUser(_id: string, request: UpdateUserRequest) {
     const updatedUser = await this.usersRepository.findOneAndUpdate(
-      { _id: _id as unknown as Types.ObjectId },
+      { _id },
       request,
     );
     return updatedUser;
   }
 
   async deleteUser(_id: string) {
-    return this.usersRepository.delete({
-      _id: _id as unknown as Types.ObjectId,
-    });
+    return this.usersRepository.delete({ _id });
   }
 }

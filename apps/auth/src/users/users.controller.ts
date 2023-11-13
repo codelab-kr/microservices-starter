@@ -12,7 +12,9 @@ import { CreateUserRequest } from './dto/create-user.request';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
 import { UpdateUserRequest } from './dto/update-user.request';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users API')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -22,7 +24,6 @@ export class UsersController {
     return this.usersService.createUser(request);
   }
 
-  @Post()
   @Get(':_id')
   async getUser(@Param('_id') _id: string): Promise<User> {
     return this.usersService.getUser(_id);

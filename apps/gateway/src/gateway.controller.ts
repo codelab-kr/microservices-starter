@@ -13,44 +13,68 @@ import { GatewayService } from './gateway.service';
 import { Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from '@app/common';
-import axios from 'axios';
+import { CheckAuthGuard, JwtAuthGuard } from '@app/common';
+import { ApiTags } from '@nestjs/swagger';
+import { LoginUserRequest } from './dto/login-user.request';
 import { CurrentUser } from 'apps/auth/src/current-user.decorator';
 import { User } from 'apps/auth/src/users/schemas/user.schema';
+import axios from 'axios';
 
 @Controller()
+@ApiTags('Gateway API')
 export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) {}
+
+  @UseGuards(CheckAuthGuard)
+  @Get()
+  async index(
+    @Req() req: Request,
+    @Res() res: Response,
+    @CurrentUser() user?: User,
+  ) {
+    if (user) {
+      res.render('video-list', { user });
+    } else {
+      res.render('login', {});
+    }
+  }
 
   @Get('login')
   login(@Res() res: Response) {
     res.render('login', {});
   }
 
-  @Post('login')
-  async loginSubmit(@Body() formData: any, @Res() res: Response) {
-    const response = await axios({
-      method: 'POST',
-      url: 'http://auth/login',
-      data: formData,
-    });
-
-    const cookies = response.headers['set-cookie']
-      .values()
-      .next()
-      .value.cookie.split(';');
-    const access_token = cookies[0].split('=')[1];
-    const expires = cookies[2].split('=')[1];
-
-    res.cookie('Authentication', access_token, {
-      expires: new Date(expires),
-    });
-    res.redirect('upload');
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  videoList(@Res() res: Response, @CurrentUser() user: User) {
+    res.render('video-list', { user });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('upload')
-  upload(@Res() res: Response) {
-    res.render('upload-video', {});
+  upload(@Res() res: Response, @CurrentUser() user: User) {
+    res.render('upload-video', { user });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('history')
+  history(@Res() res: Response, @CurrentUser() user: User) {
+    res.render('history', { user });
+  }
+
+  @Post('login')
+  async loginSubmit(@Body() data: LoginUserRequest, @Res() res: Response) {
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: 'http://auth/login',
+        data,
+      });
+      res.setHeader('set-cookie', response.headers['set-cookie'].toString());
+      res.render('video-list', { user: response.data });
+    } catch (error) {
+      res.render('login', { error: error.response.data.message });
+    }
   }
 
   /*

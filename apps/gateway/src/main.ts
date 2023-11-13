@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { RmqService } from '@app/common';
+import { RmqService, setupSwagger } from '@app/common';
 import { GatewayModule } from './gateway.module';
 import { RmqOptions } from '@nestjs/microservices';
 import { ValidationPipe } from '@nestjs/common';
@@ -13,6 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
+  setupSwagger(app);
   await app.startAllMicroservices();
   await app.listen(80);
 }

@@ -10,22 +10,29 @@
     </head>
     <body>
         <div class="flex flex-col">
-            <div class="border-b-2 bg-gray-100">
-                <div class="nav flex flex-row items-center mt-1 p-2">
-                    <div class="text-xl font-bold">
-                        FlixTube
-                    </div>
-                    <div class="ml-16">
-                        <a href="/">Videos</a>
-                    </div>
-                    <div class="ml-4">
-                        <a href="/upload">Upload</a>
-                    </div>
-                    <div class="ml-4">
-                        <a href="/history">History</a>
-                    </div>
+        <div class="border-b-2 bg-gray-100">
+            <div class="nav flex flex-row items-center mt-1 p-2">
+                <div class="text-xl font-bold">
+                    FlixTube
+                </div>
+                <div class="ml-16 border-b-2 border-blue-600">
+                    <a href="/">Videos</a>
+                </div>
+                <div class="ml-4">
+                    <a href="/upload">Upload</a>
+                </div>
+                <div class="ml-4">
+                    <a href="/history">History</a>
+                </div>
+                <div class="ml-16">
+            {{#if user}}
+                   [ {{ user.email }} ]
+            {{else}}
+                    <a href="/login">login</a>
+            {{/if}}
                 </div>
             </div>
+        </div>
         </div>
 
         <div class="m-4">

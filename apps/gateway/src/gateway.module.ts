@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GatewayController } from './gateway.controller';
 import { GatewayService } from './gateway.service';
-import { AuthModule, RmqModule } from '@app/common';
+import { AuthModule, EnhancerModule, RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { VIDEOS_SERVICE } from './constans/services';
@@ -22,6 +22,7 @@ import * as Joi from 'joi';
     }),
     RmqModule.register({ name: VIDEOS_SERVICE }),
     AuthModule,
+    EnhancerModule,
   ],
   controllers: [GatewayController],
   providers: [GatewayService],

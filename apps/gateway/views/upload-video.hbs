@@ -28,6 +28,13 @@
                 <div class="ml-4">
                     <a href="/history">History</a>
                 </div>
+                <div class="ml-16">
+            {{#if user}}
+                   [ {{ user.email }} ]
+            {{else}}
+                    <a href="/login">login</a>
+            {{/if}}
+                </div>
             </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
@@ -6,7 +6,10 @@ import { CurrentUser } from './current-user.decorator';
 import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from './users/schemas/user.schema';
+import { LoginUserRequest } from './users/dto/login-user.request';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth API')
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -15,10 +18,16 @@ export class AuthController {
   @Post('login')
   async login(
     @CurrentUser() user: User,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) res: Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Body() _data: LoginUserRequest,
   ) {
-    await this.authService.login(user, response);
-    response.send(user);
+    const cookie = await this.authService.getCookie(user);
+    res.cookie('Authentication', cookie.token, {
+      maxAge: cookie.maxAge,
+    });
+    user.password = undefined;
+    res.send(user);
   }
 
   @UseGuards(JwtAuthGuard)

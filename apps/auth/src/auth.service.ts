@@ -11,23 +11,19 @@ export interface TokenPayload {
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly configService: ConfigService,
+    private readonly confisgService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(user: User, response: Response) {
+  async getCookie(user: User) {
     const tokenPayload: TokenPayload = {
-      userId: user._id.toHexString(),
+      userId: user._id.toString(),
     };
 
-    const now = new Date();
-    const interval = parseInt(this.configService.get('JWT_EXPIRATION'));
-    const expires = new Date(now.getTime() + interval * 1000);
-
+    const maxAge = parseInt(this.confisgService.get('JWT_EXPIRATION')) * 1000;
     const token = this.jwtService.sign(tokenPayload);
-    response.cookie('Authentication', token, {
-      expires,
-    });
+
+    return { token, maxAge };
   }
 
   logout(response: Response) {
