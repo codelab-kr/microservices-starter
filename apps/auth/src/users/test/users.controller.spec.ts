@@ -3,8 +3,8 @@ import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
 import { userStub } from './stubs/user.stub';
 import { User } from '../schemas/user.schema';
-import { CreateUserRequest } from '../dto/create-user.request';
-import { UpdateUserRequest } from '../dto/update-user.request';
+import { CreateUserInput } from '../dto/input/create-user.input';
+import { UpdateUserInput } from '../dto/input/update-user.input';
 
 // 순서
 // 1. jest.mock() - 테스팅을 위해 모킹할 서비스 생성 <- users/__mocks__ 폴더에 서비스 목킹 생성 <- users/test/stubs/유저 스텁 생성
@@ -71,7 +71,7 @@ describe('UsersController', () => {
   describe('createUser', () => {
     describe('when createUser is called', () => {
       let user: User;
-      let request: CreateUserRequest;
+      let request: CreateUserInput;
 
       beforeEach(async () => {
         request = {
@@ -97,10 +97,11 @@ describe('UsersController', () => {
   describe('updateUser', () => {
     describe('when updateUser is called', () => {
       let user: User;
-      let request: UpdateUserRequest;
+      let request: UpdateUserInput;
 
       beforeEach(async () => {
         request = {
+          _id: userStub()._id.toString(),
           password: 'password2',
           username: 'test2',
         };
@@ -112,10 +113,7 @@ describe('UsersController', () => {
       });
 
       test('then it should call usersService', () => {
-        expect(usersService.updateUser).toHaveBeenCalledWith(
-          userStub()._id.toString(),
-          request,
-        );
+        expect(usersService.updateUser).toHaveBeenCalledWith(request);
       });
 
       test('then it should return a user', () => {
@@ -133,9 +131,9 @@ describe('UsersController', () => {
       });
 
       test('then it should call usersService', () => {
-        expect(usersService.deleteUser).toHaveBeenCalledWith(
-          userStub()._id.toString(),
-        );
+        expect(usersService.deleteUser).toHaveBeenCalledWith({
+          _id: userStub()._id.toString(),
+        });
       });
 
       test('then it should return a user', () => {
