@@ -1,5 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { User } from './users/schemas/user.schema';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 export const getCurrentUserByContext = (context: ExecutionContext): User => {
   if (context.getType() === 'http') {
@@ -8,6 +9,8 @@ export const getCurrentUserByContext = (context: ExecutionContext): User => {
   if (context.getType() === 'rpc') {
     return context.switchToRpc().getData().user;
   }
+  const ctx = GqlExecutionContext.create(context);
+  return ctx.getContext().req.user;
 };
 
 export const CurrentUser = createParamDecorator(

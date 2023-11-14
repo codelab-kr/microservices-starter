@@ -5,9 +5,11 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './users.repository';
-import { CreateUserRequest } from './dto/create-user.request';
 import { User } from './schemas/user.schema';
-import { UpdateUserRequest } from './dto/update-user.request';
+import { GetUsersArgs } from './dto/args/get-users.args';
+import { CreateUserInput } from './dto/input/create-user.input';
+import { UpdateUserInput } from './dto/input/update-user.input';
+import { DeleteUserInput } from './dto/input/delete-user.input';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +25,7 @@ export class UsersService {
     return user;
   }
 
-  private async validateCreateUserRequest(request: CreateUserRequest) {
+  private async validateCreateUserRequest(request: CreateUserInput) {
     let user: User;
     try {
       user = await this.usersRepository.findOne({
@@ -36,7 +38,7 @@ export class UsersService {
     }
   }
 
-  async createUser(request: CreateUserRequest) {
+  async createUser(request: CreateUserInput) {
     await this.validateCreateUserRequest(request);
     const user = await this.usersRepository.create({
       ...request,
@@ -49,19 +51,23 @@ export class UsersService {
     return this.usersRepository.findOne({ _id });
   }
 
-  async getUsers(getUserArgs: Partial<User>): Promise<User[]> {
-    return this.usersRepository.find(getUserArgs);
+  async getUsers(getUsersArgs: GetUsersArgs) {
+    return this.usersRepository.find(getUsersArgs);
   }
 
-  async updateUser(_id: string, request: UpdateUserRequest) {
+  async updateUser(request: UpdateUserInput) {
+    const updateRequst = { ...request };
+    if (updateRequst.password) {
+      updateRequst.password = await bcrypt.hash(updateRequst.password, 10);
+    }
     const updatedUser = await this.usersRepository.findOneAndUpdate(
-      { _id },
-      request,
+      { _id: request._id },
+      updateRequst,
     );
     return updatedUser;
   }
 
-  async deleteUser(_id: string) {
-    return this.usersRepository.delete({ _id });
+  async deleteUser(request: DeleteUserInput) {
+    return this.usersRepository.delete({ _id: request._id });
   }
 }

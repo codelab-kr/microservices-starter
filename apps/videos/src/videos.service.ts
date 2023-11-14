@@ -18,7 +18,6 @@ export class VideosService {
     if (video?.length === 0) {
       throw new UnprocessableEntityException(VideosMessage.NOT_FOUND_VIDEO);
     }
-    console.log(video);
     return video;
   }
 

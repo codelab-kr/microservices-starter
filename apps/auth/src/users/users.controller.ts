@@ -7,12 +7,15 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { CreateUserRequest } from './dto/create-user.request';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
-import { UpdateUserRequest } from './dto/update-user.request';
 import { ApiTags } from '@nestjs/swagger';
+import { GetUsersArgs } from './dto/args/get-users.args';
+import { CreateUserInput } from './dto/input/create-user.input';
+import { UpdateUserInput } from './dto/input/update-user.input';
+import JwtAuthGuard from '../guards/jwt-auth.guard';
 
 @ApiTags('Users API')
 @Controller('users')
@@ -20,31 +23,31 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async createUser(@Body() request: CreateUserRequest): Promise<User> {
+  async createUser(@Body() request: CreateUserInput): Promise<User> {
     return this.usersService.createUser(request);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':_id')
   async getUser(@Param('_id') _id: string): Promise<User> {
     return this.usersService.getUser(_id);
   }
 
-  // TODO: DefaultValuePipe 적용?
   @Get()
-  async getUsers(@Query() getUserArgs?: Partial<User>): Promise<User[]> {
-    return this.usersService.getUsers(getUserArgs ?? {});
+  async getUsers(@Query() getUsersArgs?: GetUsersArgs): Promise<User[]> {
+    return this.usersService.getUsers(getUsersArgs);
   }
 
   @Put(':_id')
   async updateUser(
     @Param('_id') _id: string,
-    @Body() request: UpdateUserRequest,
+    @Body() request: UpdateUserInput,
   ): Promise<User> {
-    return this.usersService.updateUser(_id, request);
+    return this.usersService.updateUser({ ...request, _id });
   }
 
   @Delete(':_id')
   async deleteUser(@Param('_id') _id: string): Promise<User> {
-    return this.usersService.deleteUser(_id);
+    return this.usersService.deleteUser({ _id });
   }
 }

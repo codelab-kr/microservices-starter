@@ -6,7 +6,7 @@ import { CurrentUser } from './current-user.decorator';
 import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from './users/schemas/user.schema';
-import { LoginUserRequest } from './users/dto/login-user.request';
+import { LoginUserRequest } from './users/dto/input/login-user.input';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth API')

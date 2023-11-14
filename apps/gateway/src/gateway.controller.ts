@@ -27,11 +27,7 @@ export class GatewayController {
 
   @UseGuards(CheckAuthGuard)
   @Get()
-  async index(
-    @Req() req: Request,
-    @Res() res: Response,
-    @CurrentUser() user?: User,
-  ) {
+  async index(@Res() res: Response, @CurrentUser() user?: User) {
     if (user) {
       res.render('video-list', { user });
     } else {
