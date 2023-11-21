@@ -10,6 +10,8 @@ export * from './http/http.service';
 export * from './http/http.module';
 export * from './enhancer/enhancer.module';
 export * from './config/swagger.config';
+export * from './util/shared.util';
+export * from './database/typeorm-ex.module';
 
 // massage
 export * from './message/users.message';
