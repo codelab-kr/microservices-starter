@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { Relation } from '../relation.entity';
-import { CustomRepository } from '../../../libs/common/src/database/typeorm-ex.decorator';
+import { CustomRepository } from '../../../libs/common/src/typeorm-ex/typeorm-ex.decorator';
 
 @CustomRepository(Relation)
 export class RelationRepository extends Repository<Relation> {

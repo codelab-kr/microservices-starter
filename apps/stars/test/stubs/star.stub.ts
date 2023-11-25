@@ -1,6 +1,6 @@
-import { User } from '../../src/user.entity';
+import { Star } from '../../src/star.entity';
 
-export const userStub = (): User => {
+export const starStub = (): Star => {
   return {
     id: 1,
     firstName: 'Tei',

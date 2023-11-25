@@ -11,7 +11,12 @@ export * from './http/http.module';
 export * from './enhancer/enhancer.module';
 export * from './config/swagger.config';
 export * from './util/shared.util';
-export * from './database/typeorm-ex.module';
+export * from './typeorm-ex/typeorm-ex.module';
+export * from './typeorm-ex/typeorm-ex.decorator';
+export * from './database/data.module';
+export * from './database/data.source';
+export * from './database/data.service';
+export * from './database/database.module';
 
 // massage
 export * from './message/users.message';

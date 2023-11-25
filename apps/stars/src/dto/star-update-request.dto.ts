@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsBoolean, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserUpdateRequestDto {
+export class StarUpdateRequestDto {
   @IsNotEmpty({ message: 'id는 필수값입니다.' })
   @IsNumber()
   @ApiProperty({ description: 'id' })

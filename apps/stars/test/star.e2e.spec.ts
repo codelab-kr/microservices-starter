@@ -2,12 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from '../src/users.module';
-import { UserCreateRequestDto } from '../src/dto/user-create-request.dto';
-import { User } from '../src/user.entity';
+import { StarsModule } from '../src/stars.module';
+import { StarCreateRequestDto } from '../src/dto/star-create-request.dto';
+import { Star } from '../src/star.entity';
 
-describe('Users - /users (e2e)', () => {
-  const user = {
+describe('Stars - /stars (e2e)', () => {
+  const star = {
     id: 1,
     firstName: 'FirstName #1',
     lastName: 'LastName #1',
@@ -26,11 +26,11 @@ describe('Users - /users (e2e)', () => {
           username: 'test',
           password: 'testtest',
           database: 'test',
-          entities: [User],
+          entities: [Star],
           autoLoadEntities: true,
           synchronize: true,
         }),
-        UsersModule,
+        StarsModule,
       ],
     }).compile();
 
@@ -38,46 +38,46 @@ describe('Users - /users (e2e)', () => {
     await app.init();
   });
 
-  it('Create [POST /users]', () => {
+  it('Create [POST /stars]', () => {
     return request(app.getHttpServer())
-      .post('/users')
-      .send(user as unknown as UserCreateRequestDto)
+      .post('/stars')
+      .send(star as unknown as StarCreateRequestDto)
       .expect(201)
       .then(({ body }) => {
-        expect(body).toEqual(user);
+        expect(body).toEqual(star);
       });
   });
 
-  it('Get all users [GET /users]', () => {
+  it('Get all stars [GET /stars]', () => {
     return request(app.getHttpServer())
-      .get('/users')
+      .get('/stars')
       .expect(200)
       .then(({ body }) => {
         expect(body).toBeDefined();
       });
   });
 
-  it('Get one user [GET /users/:id]', () => {
+  it('Get one star [GET /stars/:id]', () => {
     return request(app.getHttpServer())
-      .get('/users/1')
+      .get('/stars/1')
       .expect(200)
       .then(({ body }) => {
         expect(body).toBeDefined();
       });
   });
 
-  // it('Update one user [PUT /users/:id]', () => {
+  // it('Update one star [PUT /stars/:id]', () => {
   //   return request(app.getHttpServer())
-  //     .put('/users/1')
-  //     .send(user as unknown as UserCreateRequestDto)
+  //     .put('/stars/1')
+  //     .send(star as unknown as StarCreateRequestDto)
   //     .expect(200)
   //     .then(({ body }) => {
-  //       expect(body).toEqual(user);
+  //       expect(body).toEqual(star);
   //     });
   // });
 
-  it('Delete one user [DELETE /users/:id]', () => {
-    return request(app.getHttpServer()).delete('/users/1').expect(200);
+  it('Delete one star [DELETE /stars/:id]', () => {
+    return request(app.getHttpServer()).delete('/stars/1').expect(200);
   });
 
   afterAll(async () => {

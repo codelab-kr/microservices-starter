@@ -39,6 +39,26 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
 
+  stars:
+    build:
+      context: .
+      dockerfile: ./apps/stars/Dockerfile
+      target: development
+    ports:
+      - '3009:80'
+    env_file:
+      - ./apps/stars/.env
+    depends_on:
+      # - mysql
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+      - redis
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
   videos:
     build:
       context: .

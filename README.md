@@ -21,9 +21,10 @@ docker-compose exec -it mongodb-primary mongosh -u root -p password123 --eval 'r
 	 ]
 });'
 
-# docker restart micro-starter-auth-1
-# docker restart micro-starter-history-1
-# docker restart micro-starter-videos-1
+# docker restart microservices-starter-auth-1
+# docker restart microservices-starter-history-1
+# docker restart microservices-starter-videos-1
+# docker restart microservices-starter-stars-1
 
 
 rs.status()
