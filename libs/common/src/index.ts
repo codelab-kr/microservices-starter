@@ -14,7 +14,6 @@ export * from './util/shared.util';
 export * from './typeorm-ex/typeorm-ex.module';
 export * from './typeorm-ex/typeorm-ex.decorator';
 export * from './database/data.module';
-export * from './database/data.source';
 export * from './database/data.service';
 export * from './database/database.module';
 

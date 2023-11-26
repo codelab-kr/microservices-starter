@@ -8,9 +8,7 @@ import { StarsMessage } from './stars.message';
 
 @Injectable()
 export class StarsService {
-  constructor(private readonly starsRepository: StarsRepository) {
-    console.log('this.starsRepository: ', this.starsRepository);
-  }
+  constructor(private readonly starsRepository: StarsRepository) {}
 
   /**
    * 회원를 생성한다.

@@ -1,27 +1,27 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import helmet from 'helmet';
-import { ConfigService } from '../config';
-import { setupApp, setupSwagger } from '../config/common';
-import { logger as instance } from '../config/logger.config';
-import { WinstonModule } from 'nest-winston';
-import { NestFactoryStatic } from '@nestjs/core/nest-factory';
+// import { NestFactory } from '@nestjs/core';
+// import helmet from 'helmet';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger({ instance }),
-  });
+// import { setupApp, setupSwagger } from '../config/common';
+// import { logger as instance } from '../config/logger.config';
+// import { WinstonModule } from 'nest-winston';
+// import { NestFactoryStatic } from '@nestjs/core/nest-factory';
+// import { ConfigService } from '@nestjs/config';
 
-  const configService = app.get<ConfigService>(ConfigService);
-  const port = configService.get('APP_CONTAINER_PORT');
+// async function bootstrap() {
+//   const app = await NestFactory.create(AppModule, {
+//     logger: WinstonModule.createLogger({ instance }),
+//   });
 
-  setupApp(app);
-  app.use(helmet());
-  app.enableCors();
-  NestFactoryStatic;
-  setupSwagger(app);
-  await app.listen(port);
-  console.info(`Server listening on port ${port}`);
-}
+//   const configService = app.get<ConfigService>(ConfigService);
+//   const port = configService.get('APP_CONTAINER_PORT');
 
-void bootstrap();
+//   setupApp(app);
+//   app.use(helmet());
+//   app.enableCors();
+//   NestFactoryStatic;
+//   setupSwagger(app);
+//   await app.listen(port);
+//   console.info(`Server listening on port ${port}`);
+// }
+
+// void bootstrap();

@@ -6,13 +6,13 @@ import { TypeOrmExModule } from '../typeorm-ex/typeorm-ex.module';
 
 @Module({
   imports: [
+    TypeOrmExModule,
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         ...new TypeOrmConfigService(configService).dataSourceOptions,
       }),
       inject: [ConfigService],
     }),
-    TypeOrmExModule,
   ],
 })
 export class DataModule {}

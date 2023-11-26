@@ -13,4 +13,12 @@ node_modules
 # Misc
 .eslintrc.js
 .prettierrc
-README.md
+docker-compose*.yaml
+Dockerfile
+README*.md
+migration
+.etc
+.husky
+.logs
+
+.DS_Store

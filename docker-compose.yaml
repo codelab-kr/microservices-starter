@@ -15,10 +15,11 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ./apps/gateway/src:/usr/src/app/apps/gateway/src
-      - ./apps/gateway/views:/usr/src/app/dist/apps/views
-      - ./apps/gateway/public:/usr/src/app/dist/apps/public
-      - /usr/src/app/node_modules
+      # - ./apps/gateway/public:/usr/src/app/dist/apps/gateway/public:z
+      # - ./apps/gateway/src/views:/usr/src/app/dist/apps/gateway/src/views:z
+      - ./apps/gateway:/usr/src/app/apps/gateway:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   auth:
     build:
@@ -36,8 +37,9 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./apps/auth:/usr/src/app/apps/auth:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   stars:
     build:
@@ -56,8 +58,9 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./apps/stars:/usr/src/app/apps/stars:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   videos:
     build:
@@ -77,8 +80,9 @@ services:
       - history
       - auth
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./apps/videos:/usr/src/app/apps/videos:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   storage:
     build:
@@ -95,9 +99,10 @@ services:
       - redis
       - auth
     volumes:
-      - ./apps/storage/src:/usr/src/app/apps/storage/src
-      - ./apps/storage/videos:/usr/src/app/dist/apps/videos
-      - /usr/src/app/node_modules
+      # - ./apps/storage/videos:/usr/src/app/dist/apps/storage/videos:z
+      - ./apps/storage:/usr/src/app/apps/storage:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   history:
     build:
@@ -114,8 +119,9 @@ services:
       - redis
       - auth
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./apps/history:/usr/src/app/apps/history:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   rabbitmq:
     image: rabbitmq
@@ -202,3 +208,5 @@ volumes:
   #   driver: local
   redis:
     driver: local
+  # node_modules:
+  #   driver: local

@@ -5,12 +5,12 @@ https://blog.devgenius.io/ how-to-deploy-a-mongodb-replicaset-using-docker-compo
 
 
 ```bash
-openssl rand -base64 756 > mongodb.key
-chmod 400 mongodb.key
+openssl rand -base64 756 > ./.etc/mongodb.key
+chmod 400 ./.etc/mongodb.key
 
 docker-compose -f docker-compose.db.yaml up --build -V -d
 
-docker exec -it micro-starter-mongodb-primary-1 mongosh -u root -p password123 
+docker exec -it microservices-starter-mongodb-primary-1 mongosh -u root -p password123 
 
 docker-compose exec -it mongodb-primary mongosh -u root -p password123 --eval 'rs.initiate({
 	 _id: "mongoReplicaSet",

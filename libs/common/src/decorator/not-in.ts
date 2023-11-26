@@ -2,8 +2,6 @@ import {
   registerDecorator,
   ValidationArguments,
   ValidationOptions,
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
 } from 'class-validator';
 
 export function NotIn(property: string, validationOptions?: ValidationOptions) {

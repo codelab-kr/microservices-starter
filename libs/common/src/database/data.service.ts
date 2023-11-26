@@ -1,38 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
-import { Star } from '../../../../apps/stars/src/star.entity';
+import { ConfigService } from '../config/config.service';
+import { ConfigService as ConfigServiceOrigin } from '@nestjs/config';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  constructor(private configService: ConfigService) {
-    // console.log('this.configService: ', this.configService);
-    // console.log(
-    //   'this.configService: ',
-    //   this.configService.get('RABBIT_MQ_STAR_QUEUE'),
-    // );
-    console.log('__dirname: ', __dirname);
-  }
+  constructor(private configService: ConfigService | ConfigServiceOrigin) {}
 
   dataSourceOptions: DataSourceOptions = {
-    type: this.configService.get<string>('DB_TYPE') ?? ('mysql' as any),
+    type: 'mysql',
     host:
-      this.configService.get<string>('NODE_ENV') === 'test'
+      this.configService.get('NODE_ENV') in ['migration', 'development']
         ? 'localhost'
-        : this.configService.get<string>('DB_HOST'),
+        : this.configService.get('DB_HOST'),
     port: parseInt(this.configService.get('DB_PORT')) || 3306,
-    username: this.configService.get<string>('DB_USERNAME'),
-    password: this.configService.get<string>('DB_PASSWORD'),
-    database: this.configService.get<string>('DB_NAME'),
-    // entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
-    entities: [Star],
+    username: this.configService.get('DB_USERNAME'),
+    password: this.configService.get('DB_PASSWORD'),
+    database: this.configService.get('DB_NAME'),
+    entities: ['./dist/apps/**/*.entity{.ts,.js}'],
     synchronize: false,
     logging:
-      this.configService.get<string>('NODE_ENV') === 'production'
+      this.configService.get('NODE_ENV') in ['production']
         ? ['error']
         : ['error', 'query', 'schema'],
-    // migrations: ['./*.ts'],
     migrationsTableName: 'migrations',
   };
 

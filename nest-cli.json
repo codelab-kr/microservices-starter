@@ -4,20 +4,12 @@
   "sourceRoot": "apps/videos/src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/videos/tsconfig.app.json"
   },
   "monorepo": true,
   "root": "apps/videos",
-  "videos": {
-    "type": "application",
-    "root": "apps/videos",
-    "entryFile": "main",
-    "sourceRoot": "app/videos/src",
-    "compilerOptions": {
-      "tsConfigPath": "apps/videos/tsconfig.app.json"
-    }
-  },
+
   "projects": {
     "common": {
       "type": "library",
@@ -28,6 +20,17 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
+
+    "videos": {
+      "type": "application",
+      "root": "apps/videos",
+      "entryFile": "main",
+      "sourceRoot": "app/videos/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/videos/tsconfig.app.json"
+      }
+    },
+
     "auth": {
       "type": "application",
       "root": "apps/auth",
@@ -37,6 +40,7 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
+
     "stars": {
       "type": "application",
       "root": "apps/stars",
@@ -46,6 +50,7 @@
         "tsConfigPath": "apps/stars/tsconfig.app.json"
       }
     },
+
     "history": {
       "type": "application",
       "root": "apps/history",
@@ -55,6 +60,7 @@
         "tsConfigPath": "apps/history/tsconfig.app.json"
       }
     },
+
     "storage": {
       "type": "application",
       "root": "apps/storage",
@@ -64,6 +70,7 @@
         "tsConfigPath": "apps/storage/tsconfig.app.json"
       }
     },
+    
     "gateway": {
       "type": "application",
       "root": "apps/gateway",

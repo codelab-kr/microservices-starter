@@ -7,8 +7,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password123
       - MONGO_REPLICA_SET_MODE=primary
     volumes:
-      - 'mongodb_master_data:/docker.io/mongo'
-      - ./mongodb.key:/etc/mongodb.key
+      - mongodb_master_data:/data/db
+      - ./.etc/mongodb.key:/etc/mongodb.key:z
     command:
       [
         '--replSet',
@@ -33,7 +33,8 @@ services:
     ports:
       - 27018:27017
     volumes:
-      - ./mongodb.key:/etc/mongodb.key
+      - mongodb_secondary_data:/data/db
+      - ./.etc/mongodb.key:/etc/mongodb.key:z
     command:
       [
         '--replSet',
@@ -56,7 +57,8 @@ services:
     ports:
       - 27019:27017
     volumes:
-      - ./mongodb.key:/etc/mongodb.key
+      - mongodb_arbiter_data:/data/db
+      - ./.etc/mongodb.key:/etc/mongodb.key:z
     command:
       [
         '--replSet',
@@ -65,7 +67,7 @@ services:
         '/etc/mongodb.key',
         '--bind_ip_all',
       ]
-      
+
   mysql:
     image: mysql:8
     container_name: mysql
@@ -76,7 +78,7 @@ services:
       - --default-time-zone=+09:00
     volumes:
       - mysql_dbdata:/var/lib/mysql
-      - ./.etc/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./.etc/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:z
     ports:
       - 3306:3306
     environment:
@@ -89,6 +91,10 @@ services:
 
 volumes:
   mongodb_master_data:
+    driver: local
+  mongodb_secondary_data:
+    driver: local
+  mongodb_arbiter_data:
     driver: local
   mysql_dbdata:
     driver: local
