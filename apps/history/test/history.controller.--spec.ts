@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HistoryController } from './history.controller';
-import { HistoryService } from './history.service';
+
 import { RmqService } from '@app/common';
 import { RmqContext } from '@nestjs/microservices';
+import { HistoryController } from '../src/history.controller';
+import { HistoryService } from '../src/history.service';
 
 describe('HistoryController', () => {
   let historyController: HistoryController;

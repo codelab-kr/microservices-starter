@@ -8,22 +8,23 @@ import { ConfigService as ConfigServiceOrigin } from '@nestjs/config';
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService | ConfigServiceOrigin) {}
 
+  private readonly nodeEnv =
+    this.configService.get('NODE_ENV') ?? 'development';
+
   dataSourceOptions: DataSourceOptions = {
     type: 'mysql',
-    host:
-      this.configService.get('NODE_ENV') in ['migration', 'development']
-        ? 'localhost'
-        : this.configService.get('DB_HOST'),
+    host: ['migration', 'test'].includes(this.nodeEnv)
+      ? 'localhost'
+      : this.configService.get('DB_HOST'),
     port: parseInt(this.configService.get('DB_PORT')) || 3306,
     username: this.configService.get('DB_USERNAME'),
     password: this.configService.get('DB_PASSWORD'),
     database: this.configService.get('DB_NAME'),
     entities: ['./dist/apps/**/*.entity{.ts,.js}'],
     synchronize: false,
-    logging:
-      this.configService.get('NODE_ENV') in ['production']
-        ? ['error']
-        : ['error', 'query', 'schema'],
+    logging: ['production'].includes(this.nodeEnv)
+      ? ['error']
+      : ['error', 'query', 'schema'],
     migrationsTableName: 'migrations',
   };
 

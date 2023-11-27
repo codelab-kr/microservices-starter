@@ -1,15 +1,9 @@
 import { DataSource } from 'typeorm';
-import { TypeOrmConfigService } from '../../libs/common/src/database/data.service';
-
+import { TypeOrmConfigService, ConfigService } from '@app/common';
 import * as path from 'path';
-import { ConfigService } from '../../libs/common/src/config/config.service';
 
-const ggg = path.resolve(
-  // __dirname,
-  './',
-  // 'apps/stars/src/**/*.entity{.ts,.js}',
-);
-console.log('ggg: ', ggg);
+const curruntPath = path.resolve('./');
+console.log('curruntPath', curruntPath);
 
 export const dataSource: DataSource = new DataSource({
   ...new TypeOrmConfigService(new ConfigService('../.env')).dataSourceOptions,

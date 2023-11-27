@@ -19,9 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/test/jest-e2e.json",
-    "migration:generate": "cd migrations && ts-node ../node_modules/typeorm/cli.js migration:generate -d source/data.source.ts",
-    "migration:run": "cd migrations && ts-node ../node_modules/typeorm/cli.js migration:run -d source/data.source.ts",
-    "migration:revert": "cd migrations && ts-node ../node_modules/typeorm/cli.js migration:revert -d source/data.source.ts"
+    "migration:generate": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:generate -d source/data.source.ts",
+    "migration:run": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:run -d source/data.source.ts",
+    "migration:revert": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:revert -d source/data.source.ts"
   },
   "dependencies": {
     "@mercuriusjs/federation": "^2.0.0",

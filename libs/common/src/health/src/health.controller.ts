@@ -8,7 +8,7 @@ import {
   HttpHealthIndicator,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
-import { EmailService } from '../email/email.service';
+import { EmailService } from '../../email/email.service';
 
 @Controller('')
 @ApiTags('')

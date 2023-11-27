@@ -17,9 +17,7 @@ export class EmailService {
   constructor(
     private readonly logger: Logger,
     @Inject(
-      process.env.NODE_ENV === 'development'
-        ? testEmailConfig.KEY
-        : emailConfig.KEY,
+      process.env.NODE_ENV === 'test' ? testEmailConfig.KEY : emailConfig.KEY,
     )
     private readonly config:
       | ConfigType<typeof emailConfig>

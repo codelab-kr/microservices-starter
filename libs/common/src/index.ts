@@ -10,6 +10,8 @@ export * from './http/http.service';
 export * from './http/http.module';
 export * from './enhancer/enhancer.module';
 export * from './config/swagger.config';
+export * from './config/config.service';
+export * from './config/app.config';
 export * from './util/shared.util';
 export * from './typeorm-ex/typeorm-ex.module';
 export * from './typeorm-ex/typeorm-ex.decorator';
