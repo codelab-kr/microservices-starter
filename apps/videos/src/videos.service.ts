@@ -23,7 +23,6 @@ export class VideosService {
 
   async getVideos() {
     const videos = await this.videosRepository.find({});
-    console.log('videos', videos);
     return videos;
   }
 

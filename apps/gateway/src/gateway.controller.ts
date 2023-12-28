@@ -60,7 +60,6 @@ export class GatewayController {
   @Get('logout')
   async logout(@Res() res: Response) {
     res.clearCookie('Authentication');
-    res.setHeader('set-cookie', '');
     res.redirect('/');
   }
 
@@ -68,11 +67,7 @@ export class GatewayController {
   @Get('videos')
   async videoList(@Res() res: Response, @CurrentUser() user: User) {
     try {
-      const response = await axios({
-        method: 'GET',
-        url: 'http://videos/',
-      });
-      const videos = response.data;
+      const videos = (await axios.get('http://videos/')).data;
       res.render('video-list', { user, videos });
     } catch (error) {
       res.render('video-list', { error: error.response.data.message });
@@ -87,11 +82,7 @@ export class GatewayController {
     @Param('_id') _id: string,
   ) {
     try {
-      const response = await axios({
-        method: 'GET',
-        url: `http://videos/${_id}`,
-      });
-      const video = response.data[0];
+      const video = (await axios.get(`http://videos/${_id}`)).data[0];
       res.render('play-video', { user, video });
     } catch (error) {
       res.render('play-video', { error: error.response.data.message });
