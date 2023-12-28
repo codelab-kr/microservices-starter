@@ -9,8 +9,6 @@ RUN yarn build storage
 FROM node:alpine AS development
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
-# RUN mkdir -p ./dist/apps/storage/videos
-# COPY --from=builder /usr/src/app/apps/storage/videos/ ./dist/apps/storage/videos/
 CMD npx wait-port mongodb-primary:27017 && \
   npx wait-port rabbitmq:5672 &&  \
   npx wait-port redis:6379 && \
@@ -26,6 +24,7 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock ./
 RUN yarn install --frozen-lockfile --omit dev
 COPY --from=builder /usr/src/app/dist/ ./dist/
-COPY --from=builder /usr/src/app/apps/storage/videos/ ./dist/apps/storage/videos/
+RUN mkdir -p ./public/video
+COPY --from=builder /usr/src/app/public/video/ ./public/video/
 
 CMD ["node", "dist/apps/storage/src/main"]

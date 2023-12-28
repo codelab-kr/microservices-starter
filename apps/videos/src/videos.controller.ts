@@ -40,7 +40,7 @@ export class VideosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async getVideos() {
     return this.videosService.getVideos();
   }

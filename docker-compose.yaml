@@ -98,7 +98,7 @@ services:
       - redis
       - auth
     volumes:
-      # - ./apps/storage/videos:/usr/src/app/dist/apps/storage/videos:z
+      - ./public/video:/usr/src/app/public/video:z
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
       # - ./node_modules:/usr/src/app/node_modules:z

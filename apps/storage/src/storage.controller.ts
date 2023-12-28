@@ -10,11 +10,8 @@ export class StorageController {
 
   @Post('/upload')
   UploadVideo(@Req() req: Request, @Res() res: Response) {
-    const localFilePath = path.join(
-      __dirname,
-      '..',
-      'videos',
-      req.headers.path.toString(),
+    const localFilePath = path.resolve(
+      `public/video/${req.headers.path.toString()}`,
     );
     const fileWriteStream = createWriteStream(localFilePath);
     req

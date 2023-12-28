@@ -8,6 +8,7 @@ import {
   UploadedFile,
   Body,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { Response } from 'express';
@@ -29,7 +30,7 @@ export class GatewayController {
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
     if (user) {
-      res.render('video-list', { user });
+      res.redirect('/videos');
     } else {
       res.render('login', {});
     }
@@ -38,24 +39,6 @@ export class GatewayController {
   @Get('login')
   login(@Res() res: Response) {
     res.render('login', {});
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  videoList(@Res() res: Response, @CurrentUser() user: User) {
-    res.render('video-list', { user });
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('upload')
-  upload(@Res() res: Response, @CurrentUser() user: User) {
-    res.render('upload-video', { user });
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('history')
-  history(@Res() res: Response, @CurrentUser() user: User) {
-    res.render('history', { user });
   }
 
   @Post('login')
@@ -67,10 +50,58 @@ export class GatewayController {
         data,
       });
       res.setHeader('set-cookie', response.headers['set-cookie'].toString());
-      res.render('video-list', { user: response.data });
+      res.redirect('/videos');
     } catch (error) {
       res.render('login', { error: error.response.data.message });
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('logout')
+  async logout(@Res() res: Response) {
+    res.clearCookie('Authentication');
+    res.setHeader('set-cookie', '');
+    res.redirect('/');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('videos')
+  async videoList(@Res() res: Response, @CurrentUser() user: User) {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: 'http://videos/',
+      });
+      const videos = response.data;
+      res.render('video-list', { user, videos });
+    } catch (error) {
+      res.render('video-list', { error: error.response.data.message });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('videos/:_id')
+  async video(
+    @Res() res: Response,
+    @CurrentUser() user: User,
+    @Param('_id') _id: string,
+  ) {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `http://videos/${_id}`,
+      });
+      const video = response.data[0];
+      res.render('play-video', { user, video });
+    } catch (error) {
+      res.render('play-video', { error: error.response.data.message });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('upload')
+  upload(@Res() res: Response, @CurrentUser() user: User) {
+    res.render('upload-video', { user });
   }
 
   /*
@@ -112,5 +143,11 @@ export class GatewayController {
       description: 'test',
       user_id: user._id as ObjectId,
     });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('history')
+  history(@Res() res: Response, @CurrentUser() user: User) {
+    res.render('history', { user });
   }
 }

@@ -22,7 +22,9 @@ export class VideosService {
   }
 
   async getVideos() {
-    return this.videosRepository.find({});
+    const videos = await this.videosRepository.find({});
+    console.log('videos', videos);
+    return videos;
   }
 
   async get(url: string) {
