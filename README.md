@@ -35,9 +35,18 @@ docker-compose up --build -V -d
 
 <br>
 
+# Test
+
+http://localhost:3000/api-docs
+http://localhost:3001/api-docs
+http://localhost:3009/api-docs
+
+
+
 # GraphQL
 
 http://localhost:3001/graphql
+
 
 
 jwt.strategy.ts
@@ -131,7 +140,9 @@ beforeEach() 로 테스트할 메소드를 실행하고 test() 에서는 해당 
 
 
 mysql
-docker exec -it star-db mysql -uroot -p  # testtest 입력
+아래 안 해도 될 듯??
+
+docker exec -it mysql mysql -uroot -p  # testtest 입력
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
 
 

@@ -21,7 +21,7 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
-COPY --from=builder ./package.json ./yarn.lock ./
+COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock ./
 RUN yarn install --frozen-lockfile --omit dev
 COPY --from=builder /usr/src/app/dist/ ./dist/
 

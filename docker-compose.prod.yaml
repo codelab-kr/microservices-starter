@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
-      target: development
+      target: production
     ports:
       - '3000:80'
     env_file:
@@ -15,16 +15,16 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ./public:/usr/src/app/public:z
       - ./apps/gateway:/usr/src/app/apps/gateway:z
       - ./libs/common:/usr/src/app/libs/common:z
+      - ./public:/usr/src/app/public:z
       # - ./node_modules:/usr/src/app/node_modules:z
 
   auth:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
-      target: development
+      target: production
     ports:
       - '3001:80'
     env_file:
@@ -44,7 +44,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/stars/Dockerfile
-      target: development
+      target: production
     ports:
       - '3009:80'
     env_file:
@@ -65,7 +65,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/videos/Dockerfile
-      target: development
+      target: production
     ports:
       - '3002:80'
     env_file:
@@ -87,7 +87,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/storage/Dockerfile
-      target: development
+      target: production
     env_file:
       - ./apps/storage/.env
     depends_on:
@@ -98,7 +98,7 @@ services:
       - redis
       - auth
     volumes:
-      # - ./apps/storage/videos:/usr/src/app/dist/apps/storage/videos:z
+      - ./apps/storage/videos:/usr/src/app/dist/apps/storage/videos:z
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
       # - ./node_modules:/usr/src/app/node_modules:z
@@ -107,7 +107,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/history/Dockerfile
-      target: development
+      target: production
     env_file:
       - ./apps/history/.env
     depends_on:

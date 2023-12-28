@@ -11,7 +11,7 @@ async function bootstrap() {
   const rmqService = app.get<RmqService>(RmqService);
   app.connectMicroservice<RmqOptions>(rmqService.getOptions('GATEWAY', true));
   app.useGlobalPipes(new ValidationPipe());
-  app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
+  app.setBaseViewsDir(path.resolve('public/views'));
   app.setViewEngine('hbs');
   setupSwagger(app);
   await app.startAllMicroservices();

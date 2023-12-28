@@ -8,6 +8,10 @@ export class ConfigService {
     this.envConfig = dotenv.config({
       path: path.resolve(filePath ?? './.env'),
     }).parsed;
+
+    if (!this.envConfig) {
+      throw new Error('No .env file found');
+    }
   }
 
   get(key: string): string {

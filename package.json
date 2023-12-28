@@ -19,11 +19,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/test/jest-e2e.json",
-    "migration:generate": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:generate -d source/data.source.ts",
-    "migration:run": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:run -d source/data.source.ts",
-    "migration:revert": "NODE_ENV=migration && cd migrations && ts-node ../node_modules/typeorm/cli.js migration:revert -d source/data.source.ts"
+    "migration:generate": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:generate -d source/data.source.ts",
+    "migration:run": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:run -d source/data.source.ts",
+    "migration:revert": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:revert -d source/data.source.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.9.5",
     "@mercuriusjs/federation": "^2.0.0",
     "@mercuriusjs/gateway": "^2.1.0",
     "@nestjs/apollo": "^12.0.11",
@@ -106,7 +107,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^5.3.2" 
+    "typescript": "^5.3.2"
   },
   "jest": {
     "moduleFileExtensions": [

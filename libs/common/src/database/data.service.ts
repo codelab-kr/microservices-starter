@@ -9,7 +9,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService | ConfigServiceOrigin) {}
 
   private readonly nodeEnv =
-    this.configService.get('NODE_ENV') ?? 'development';
+    process.env.NODE_ENV ?? this.configService.get('NODE_ENV') ?? 'development';
 
   dataSourceOptions: DataSourceOptions = {
     type: 'mysql',

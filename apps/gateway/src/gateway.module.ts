@@ -5,7 +5,7 @@ import { AuthModule, EnhancerModule, RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { VIDEOS_SERVICE } from './constans/services';
-import { join } from 'path';
+import * as path from 'path';
 import * as Joi from 'joi';
 
 @Module({
@@ -18,7 +18,7 @@ import * as Joi from 'joi';
       }),
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
+      rootPath: path.resolve('public'),
     }),
     RmqModule.register({ name: VIDEOS_SERVICE }),
     AuthModule,
