@@ -3,6 +3,7 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 import { ConfigService } from '../config/config.service';
 import { ConfigService as ConfigServiceOrigin } from '@nestjs/config';
+import * as os from 'os';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -16,9 +17,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   get dataSourceOptions(): DataSourceOptions {
     return {
       type: 'mysql',
-      host: ['migration', 'test'].includes(this.nodeEnv)
-        ? 'localhost'
-        : this.configService.get('DB_HOST'),
+      host: os.platform() === 'linux' ? process.env.DB_HOST : 'localhost',
       port: parseInt(this.configService.get('DB_PORT')) || 3306,
       username: this.configService.get('DB_USERNAME'),
       password: this.configService.get('DB_PASSWORD'),

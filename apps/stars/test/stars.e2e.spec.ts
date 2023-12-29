@@ -1,57 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import {
-  TypeOrmModule,
-  // TypeOrmModuleOptions,
-  // TypeOrmOptionsFactory,
-} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { StarsRepository } from '../src/stars.repository';
 import { StarsModule } from '../src/stars.module';
-// import { TypeOrmConfigService } from '@app/common';
-// import * as path from 'path';
 import { Star } from '../src/star.entity';
-
-// class MockTypeOrmConfigServer implements TypeOrmOptionsFactory {
-//   createTypeOrmOptions(): TypeOrmModuleOptions {
-//     return {
-//       type: 'sqlite',
-//       database: ':memory:',
-//       synchronize: true,
-//       dropSchema: true,
-//       entities: [Star],
-//       autoLoadEntities: true,
-//     };
-//   }
-// }
-
-// const mockTypeOrmConfigService = new MockTypeOrmConfigServer();
-
-const curruntPath = process.cwd(); // path.resolve('./');
-
-console.log('curruntPath', curruntPath);
 
 describe('StarsController (e2e)', () => {
   let app: INestApplication;
   let starsRepository: StarsRepository;
 
   beforeAll(async () => {
-    // const module: TestingModule = await Test.createTestingModule({
-    //   imports: [StarsModule],
-    // })
-    //   .overrideProvider(TypeOrmConfigService)
-    //   .useValue(mockTypeOrmConfigService)
-    //   .compile();
-
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot({
-          type: 'mysql',
-          host: 'localhost',
-          port: 3306,
-          username: 'test',
-          password: 'testtest',
-          database: 'test',
+          type: 'sqlite',
+          database: ':memory:',
           entities: [Star],
           autoLoadEntities: true,
           synchronize: true,
@@ -78,7 +42,7 @@ describe('StarsController (e2e)', () => {
     it('200(OK)과 생성된 모든 유저 목록을 json 타입으로 응답한다', async () => {
       await starsRepository.save([
         { id: 1, firstName: 'Tei', lastName: 'Lee', isActive: true },
-        // { id: 2, firstName: '태의', lastName: '이', isActive: true },
+        { id: 2, firstName: '태의', lastName: '이', isActive: true },
       ]);
 
       const res = await request(app.getHttpServer()).get('/stars');
@@ -93,12 +57,12 @@ describe('StarsController (e2e)', () => {
           lastName: 'Lee',
           isActive: true,
         },
-        // {
-        //   id: 2,
-        //   firstName: '태의',
-        //   lastName: '이',
-        //   isActive: true,
-        // },
+        {
+          id: 2,
+          firstName: '태의',
+          lastName: '이',
+          isActive: true,
+        },
       ]);
     });
   });

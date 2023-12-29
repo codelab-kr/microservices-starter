@@ -18,7 +18,7 @@ services:
       - ./public:/usr/src/app/public:z
       - ./apps/gateway:/usr/src/app/apps/gateway:z
       - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./node_modules:/usr/src/app/node_modules:z
 
   auth:
     build:
@@ -38,7 +38,7 @@ services:
     volumes:
       - ./apps/auth:/usr/src/app/apps/auth:z
       - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./node_modules:/usr/src/app/node_modules:z
 
   stars:
     build:
@@ -57,9 +57,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ./apps/stars:/usr/src/app/apps/stars:z
-      - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./:/usr/src/app/:z
 
   videos:
     build:
@@ -81,7 +79,7 @@ services:
     volumes:
       - ./apps/videos:/usr/src/app/apps/videos:z
       - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./node_modules:/usr/src/app/node_modules:z
 
   storage:
     build:
@@ -101,7 +99,7 @@ services:
       - ./public/video:/usr/src/app/public/video:z
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./node_modules:/usr/src/app/node_modules:z
 
   history:
     build:
@@ -120,7 +118,7 @@ services:
     volumes:
       - ./apps/history:/usr/src/app/apps/history:z
       - ./libs/common:/usr/src/app/libs/common:z
-      # - ./node_modules:/usr/src/app/node_modules:z
+      - ./node_modules:/usr/src/app/node_modules:z
 
   rabbitmq:
     image: rabbitmq
