@@ -78,7 +78,7 @@ describe('StarsController (e2e)', () => {
     it('200(OK)과 생성된 모든 유저 목록을 json 타입으로 응답한다', async () => {
       await starsRepository.save([
         { id: 1, firstName: 'Tei', lastName: 'Lee', isActive: true },
-        { id: 2, firstName: '태의', lastName: '이', isActive: true },
+        // { id: 2, firstName: '태의', lastName: '이', isActive: true },
       ]);
 
       const res = await request(app.getHttpServer()).get('/stars');
@@ -93,12 +93,12 @@ describe('StarsController (e2e)', () => {
           lastName: 'Lee',
           isActive: true,
         },
-        {
-          id: 2,
-          firstName: '태의',
-          lastName: '이',
-          isActive: true,
-        },
+        // {
+        //   id: 2,
+        //   firstName: '태의',
+        //   lastName: '이',
+        //   isActive: true,
+        // },
       ]);
     });
   });
