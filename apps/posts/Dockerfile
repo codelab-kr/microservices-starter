@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY ./package.json ./yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
-RUN yarn build stars
+RUN yarn build posts
 
 
 FROM node:alpine AS development
@@ -12,7 +12,7 @@ COPY --from=builder /usr/src/app/ ./
 CMD npx wait-port mongodb-primary:27017 && \
   npx wait-port rabbitmq:5672 &&  \
   npx wait-port redis:6379 && \
-  yarn start:dev stars
+  yarn start:dev posts
 
 
 FROM node:alpine AS production
@@ -25,4 +25,4 @@ COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock ./
 RUN yarn install --frozen-lockfile --omit dev
 COPY --from=builder /usr/src/app/dist/ ./dist/
 
-CMD ["node", "dist/apps/stars/src/main"]
+CMD ["node", "dist/apps/posts/src/main"]

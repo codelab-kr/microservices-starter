@@ -41,13 +41,13 @@
       }
     },
 
-    "stars": {
+    "posts": {
       "type": "application",
-      "root": "apps/stars",
+      "root": "apps/posts",
       "entryFile": "main",
-      "sourceRoot": "apps/stars/src",
+      "sourceRoot": "apps/posts/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/stars/tsconfig.app.json"
+        "tsConfigPath": "apps/posts/tsconfig.app.json"
       }
     },
 

@@ -140,9 +140,9 @@ beforeEach() 로 테스트할 메소드를 실행하고 test() 에서는 해당 
 
 
 mysql
-아래 안 해도 될 듯??
 
 docker exec -it mysql mysql -uroot -p  # testtest 입력
+use microservices
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
 
 

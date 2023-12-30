@@ -1,0 +1,39 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PostSettings {
+  postId: Int!
+  commentable: Boolean!
+  shareable: Boolean!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  content: String
+  userId: Int!
+  settings: PostSettings
+}
+
+type Query {
+  post(id: Int!): Post
+  posts: [Post!]
+}
+
+type Mutation {
+  createPost(createPostData: CreatePostInput!): Post!
+  createPostSetting(createPostSettingData: CreatePostSettingsInput!): PostSettings!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String
+  userId: Int!
+}
+
+input CreatePostSettingsInput {
+  postId: Int!
+  commentable: Boolean = false
+  shareable: Boolean = false
+}

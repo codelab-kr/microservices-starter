@@ -1,68 +1,68 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { StarsService } from '../src/stars.service';
-import { StarsRepository } from '../src/stars.repository';
-import { StarCreateRequestDto } from '../src/dto/star-create-request.dto';
-import { StarUpdateRequestDto } from '../src/dto/star-update-request.dto';
-import { Star } from '../src/star.entity';
-import { starStub } from './stubs/star.stub';
+import { PostsService } from '../src/posts.service';
+import { PostsRepository } from '../src/posts.repository';
+import { PostCreateRequestDto } from '../src/dto/post-create-request.dto';
+import { PostUpdateRequestDto } from '../src/dto/post-update-request.dto';
+import { Post } from '../src/models/post';
+import { postStub } from './stubs/post.stub';
 
-describe('StarsService (Stub)', () => {
-  let starsService: StarsService;
+describe('PostsService (Stub)', () => {
+  let postsService: PostsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [StarsService, StarsRepository],
+      providers: [PostsService, PostsRepository],
     }).compile();
-    starsService = module.get<StarsService>(StarsService);
+    postsService = module.get<PostsService>(PostsService);
   });
 
-  describe('createStar', () => {
-    describe('when createStar is called', () => {
-      let star: Star;
+  describe('createPost', () => {
+    describe('when createPost is called', () => {
+      let post: Post;
       let saveSpy: jest.SpyInstance;
 
-      const request = new StarCreateRequestDto();
-      request.firstName = starStub().firstName;
-      request.lastName = starStub().lastName;
-      request.isActive = starStub().isActive;
+      const request = new PostCreateRequestDto();
+      request.title = postStub().title;
+      request.content = postStub().content;
+      request.userId = postStub().userId;
 
       beforeEach(async () => {
         saveSpy = jest
-          .spyOn(StarsRepository.prototype, 'save')
-          .mockResolvedValue(starStub());
-        star = await starsService.createStar(request);
+          .spyOn(PostsRepository.prototype, 'save')
+          .mockResolvedValue(postStub());
+        post = await postsService.createPost(request);
       });
 
-      test('then it should call starRepository', async () => {
+      test('then it should call postRepository', async () => {
         expect(saveSpy).toHaveBeenCalledWith(request);
       });
 
-      test('then it should return a star', () => {
-        expect(star).toEqual(starStub());
+      test('then it should return a post', () => {
+        expect(post).toEqual(postStub());
       });
     });
   });
 
   describe('findAll', () => {
     describe('when findAll is called', () => {
-      let stars: Star[];
+      let posts: Post[];
       let findSpy: jest.SpyInstance;
 
       beforeEach(async () => {
         findSpy = jest
-          .spyOn(StarsRepository.prototype, 'find')
-          .mockResolvedValue([starStub()]);
-        stars = await starsService.findAll();
+          .spyOn(PostsRepository.prototype, 'find')
+          .mockResolvedValue([postStub()]);
+        posts = await postsService.findAll();
       });
 
-      test('then it should call starRepository', async () => {
+      test('then it should call postRepository', async () => {
         expect(findSpy).toHaveBeenCalled();
       });
 
-      test('then it should return stars', () => {
-        expect(stars).toStrictEqual([starStub()]);
+      test('then it should return posts', () => {
+        expect(posts).toStrictEqual([postStub()]);
       });
     });
   });
@@ -74,68 +74,68 @@ describe('StarsService (Stub)', () => {
 
       beforeEach(async () => {
         findSpy = jest
-          .spyOn(StarsRepository.prototype, 'findOne')
+          .spyOn(PostsRepository.prototype, 'findOne')
           .mockResolvedValue(undefined);
       });
 
       test('then it should return NotFoundException', async () => {
-        await expect(starsService.findById(id)).rejects.toThrow(
+        await expect(postsService.findById(id)).rejects.toThrow(
           NotFoundException,
         );
       });
 
-      test('then it should call starRepository', async () => {
+      test('then it should call postRepository', async () => {
         try {
-          await starsService.findById(id);
+          await postsService.findById(id);
         } catch (error) {
           expect(findSpy).toHaveBeenCalledWith({ where: { id } });
         }
       });
 
       describe('생성된 유저의 id가 주어진다면 해당 id의 유저를 반환한다', () => {
-        let star: Star;
+        let post: Post;
         let findSpy: jest.SpyInstance;
         const id = 1;
 
         beforeEach(async () => {
           findSpy = jest
-            .spyOn(StarsRepository.prototype, 'findOne')
-            .mockResolvedValue(starStub());
-          star = await starsService.findById(id);
+            .spyOn(PostsRepository.prototype, 'findOne')
+            .mockResolvedValue(postStub());
+          post = await postsService.findById(id);
         });
 
-        test('then it should call starRepository', async () => {
+        test('then it should call postRepository', async () => {
           expect(findSpy).toHaveBeenCalledWith({ where: { id } });
         });
 
-        test('then it should return a star', async () => {
-          expect(star).toEqual(starStub());
+        test('then it should return a post', async () => {
+          expect(post).toEqual(postStub());
         });
       });
 
-      describe('updateStar', () => {
+      describe('updatePost', () => {
         describe('생성되지 않은 유저의 id가 주어진다면 유저를 찾을 수 없다는 예외를 던진다', () => {
           let findSpy: jest.SpyInstance;
-          const requestDto: StarUpdateRequestDto = {
+          const requestDto: PostUpdateRequestDto = {
             id: 1,
-            isActive: false,
+            userId: 1,
           };
 
           beforeEach(async () => {
             findSpy = jest
-              .spyOn(StarsRepository.prototype, 'findOne')
+              .spyOn(PostsRepository.prototype, 'findOne')
               .mockResolvedValue(undefined);
           });
 
           test('then it should return NotFoundException', async () => {
-            await expect(starsService.updateStar(requestDto)).rejects.toThrow(
+            await expect(postsService.updatePost(requestDto)).rejects.toThrow(
               NotFoundException,
             );
           });
 
-          test('then it should call starRepository', async () => {
+          test('then it should call postRepository', async () => {
             try {
-              await starsService.findById(requestDto.id);
+              await postsService.findById(requestDto.id);
             } catch (error) {
               expect(findSpy).toHaveBeenCalledWith({
                 where: { id: requestDto.id },
@@ -145,39 +145,39 @@ describe('StarsService (Stub)', () => {
         });
 
         describe('생성된 유저의 id가 주어진다면 해당 id의 유저를 수정하고 수정된 유저를 반환한다', () => {
-          let star: Star;
+          let post: Post;
           let findSpy: jest.SpyInstance;
           let saveSpy: jest.SpyInstance;
-          const request: StarUpdateRequestDto = {
+          const request: PostUpdateRequestDto = {
             id: 1,
-            isActive: false,
+            userId: 1,
           };
 
           beforeEach(async () => {
             findSpy = jest
-              .spyOn(StarsRepository.prototype, 'findOne')
-              .mockResolvedValue(starStub());
+              .spyOn(PostsRepository.prototype, 'findOne')
+              .mockResolvedValue(postStub());
             saveSpy = jest
-              .spyOn(StarsRepository.prototype, 'save')
-              .mockResolvedValue(starStub());
-            star = await starsService.updateStar(request);
+              .spyOn(PostsRepository.prototype, 'save')
+              .mockResolvedValue(postStub());
+            post = await postsService.updatePost(request);
           });
 
-          test('then it should call starRepository', async () => {
+          test('then it should call postRepository', async () => {
             expect(findSpy).toHaveBeenCalledWith({ where: { id } });
             expect(saveSpy).toHaveBeenCalledWith({
-              ...starStub(),
+              ...postStub(),
               ...request,
             });
           });
 
-          test('then it should return a star', async () => {
-            expect(star).toEqual(starStub());
+          test('then it should return a post', async () => {
+            expect(post).toEqual(postStub());
           });
         });
       });
 
-      describe('deleteStar', () => {
+      describe('deletePost', () => {
         describe('생성된 유저의 id가 주어진다면 생성된 유저를 삭제한다', () => {
           const id = 1;
           let deleteSpy: jest.SpyInstance;
@@ -185,12 +185,12 @@ describe('StarsService (Stub)', () => {
 
           beforeEach(async () => {
             deleteSpy = jest
-              .spyOn(StarsRepository.prototype, 'delete')
+              .spyOn(PostsRepository.prototype, 'delete')
               .mockResolvedValue({} as DeleteResult);
-            result = await starsService.deleteStar(id);
+            result = await postsService.deletePost(id);
           });
 
-          test('then it should call starRepository', async () => {
+          test('then it should call postRepository', async () => {
             expect(deleteSpy).toHaveBeenCalledWith(id);
           });
 

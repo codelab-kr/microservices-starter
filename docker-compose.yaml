@@ -18,7 +18,7 @@ services:
       - ./public:/usr/src/app/public:z
       - ./apps/gateway:/usr/src/app/apps/gateway:z
       - ./libs/common:/usr/src/app/libs/common:z
-      - ./node_modules:/usr/src/app/node_modules:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   auth:
     build:
@@ -38,17 +38,17 @@ services:
     volumes:
       - ./apps/auth:/usr/src/app/apps/auth:z
       - ./libs/common:/usr/src/app/libs/common:z
-      - ./node_modules:/usr/src/app/node_modules:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
-  stars:
+  posts:
     build:
       context: .
-      dockerfile: ./apps/stars/Dockerfile
+      dockerfile: ./apps/posts/Dockerfile
       target: development
     ports:
       - '3009:80'
     env_file:
-      - ./apps/stars/.env
+      - ./apps/posts/.env
     depends_on:
       # - mysql
       # - mongodb-primary
@@ -57,8 +57,9 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ./:/usr/src/app/:z
-
+      - ./apps/posts:/usr/src/app/apps/posts:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./node_modules:/usr/src/app/node_modules:z
   videos:
     build:
       context: .
@@ -79,7 +80,7 @@ services:
     volumes:
       - ./apps/videos:/usr/src/app/apps/videos:z
       - ./libs/common:/usr/src/app/libs/common:z
-      - ./node_modules:/usr/src/app/node_modules:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   storage:
     build:
@@ -99,7 +100,7 @@ services:
       - ./public/video:/usr/src/app/public/video:z
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
-      - ./node_modules:/usr/src/app/node_modules:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   history:
     build:
@@ -118,7 +119,7 @@ services:
     volumes:
       - ./apps/history:/usr/src/app/apps/history:z
       - ./libs/common:/usr/src/app/libs/common:z
-      - ./node_modules:/usr/src/app/node_modules:z
+      # - ./node_modules:/usr/src/app/node_modules:z
 
   rabbitmq:
     image: rabbitmq
