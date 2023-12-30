@@ -1,5 +1,5 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { CreatePostSettingsInput } from '../inputs/create.post.settings.input';
+import { CreatePostSettingsInput } from '../utils/create.post.settings.input';
 import { PostSettings } from '../models/post.settings';
 
 import { Inject } from '@nestjs/common';

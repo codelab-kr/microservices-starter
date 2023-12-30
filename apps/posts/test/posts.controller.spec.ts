@@ -3,7 +3,7 @@ import { PostsController } from '../src/posts.controller';
 import { PostsService } from '../src/posts.service';
 import { postStub } from './stubs/post.stub';
 import { Post } from '../src/models/post';
-import { CreatePostInput } from '../src/inputs/create.post.input';
+import { CreatePostInput } from '../src/utils/create.post.input';
 
 jest.mock('../src/posts.service');
 

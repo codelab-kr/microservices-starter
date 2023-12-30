@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { PostsModule } from '../src/posts.module';
 import { PostsRepository } from '../src/repositories/posts.repository';
+import { DataSource } from 'typeorm';
 
 describe('PostsController (e2e)', () => {
   let app: INestApplication;
@@ -15,16 +16,22 @@ describe('PostsController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     postsRepository = moduleFixture.get<PostsRepository>(PostsRepository);
-
+    const dataSource = app.get(DataSource);
+    await dataSource.synchronize();
     await app.init();
+  });
+
+  afterAll(async () => {
+    const dataSource = app.get(DataSource);
+    if (dataSource) {
+      await dataSource.dropDatabase();
+      dataSource.destroy();
+    }
+    await app.close();
   });
 
   beforeEach(async () => {
     await postsRepository.clear();
-  });
-
-  afterAll(async () => {
-    await app.close();
   });
 
   describe('GET /posts', () => {

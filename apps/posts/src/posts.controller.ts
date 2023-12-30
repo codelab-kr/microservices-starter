@@ -14,7 +14,7 @@ import {
 } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { Post } from './models/post';
-import { CreatePostInput } from './inputs/create.post.input';
+import { CreatePostInput } from './utils/create.post.input';
 
 @Controller('posts')
 @ApiTags('POST API')

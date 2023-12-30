@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PostSettingsRepository } from './repositories/post.settings.repository';
 import { PostSettings } from './models/post.settings';
-import { CreatePostSettingsInput } from './inputs/create.post.settings.input';
+import { CreatePostSettingsInput } from './utils/create.post.settings.input';
 import { PostsRepository } from './repositories/posts.repository';
 
 @Injectable()

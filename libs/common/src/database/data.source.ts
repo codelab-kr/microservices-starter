@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
+// only for migration
 export const dataSource: DataSource = new DataSource({
   ...new TypeOrmConfigService(
     new ConfigService(

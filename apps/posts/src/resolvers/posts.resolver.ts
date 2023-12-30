@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
-import { CreatePostInput } from '../inputs/create.post.input';
+import { CreatePostInput } from '../utils/create.post.input';
 import { PostsService } from '../posts.service';
 import { PostSettingsService } from '../post.settings.service';
 import { Post } from '../models/post';
