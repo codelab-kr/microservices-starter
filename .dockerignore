@@ -16,7 +16,7 @@ dist
 docker-compose*.yaml
 Dockerfile
 README*.md
-migration
+migrations
 .etc
 .husky
 .logs

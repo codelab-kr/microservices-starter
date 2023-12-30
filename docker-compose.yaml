@@ -59,6 +59,7 @@ services:
     volumes:
       - ./apps/posts:/usr/src/app/apps/posts:z
       - ./libs/common:/usr/src/app/libs/common:z
+      # - ./migrations:/usr/src/app/migrations:z
       # - ./node_modules:/usr/src/app/node_modules:z
   videos:
     build:

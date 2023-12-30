@@ -31,6 +31,8 @@ rs.status()
 
 
 docker-compose up --build -V -d
+docker-compose up posts --build -V -d
+
 ```
 
 <br>
@@ -142,8 +144,7 @@ beforeEach() 로 테스트할 메소드를 실행하고 test() 에서는 해당 
 mysql
 
 docker exec -it mysql mysql -uroot -p  # testtest 입력
-use microservices
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
 
-
-ALTER USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
+docker exec -it test-mysql mysql -uroot -p  # testtest 입력
+CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';

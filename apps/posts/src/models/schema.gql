@@ -17,13 +17,13 @@ type Post {
 }
 
 type Query {
-  post(id: Int!): Post
-  posts: [Post!]
+  getPostById(id: Int!): Post
+  getPosts: [Post!]
 }
 
 type Mutation {
   createPost(createPostData: CreatePostInput!): Post!
-  createPostSetting(createPostSettingData: CreatePostSettingsInput!): PostSettings!
+  createPostSettings(createPostSettingData: CreatePostSettingsInput!): PostSettings!
 }
 
 input CreatePostInput {

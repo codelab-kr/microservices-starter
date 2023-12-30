@@ -1,9 +1,15 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { PostSettings } from './post.settings';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity()
+@Entity({ name: 'post' })
 @ObjectType()
 export class Post {
   @PrimaryGeneratedColumn()
@@ -15,7 +21,7 @@ export class Post {
   @Field()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field({ nullable: true })
   content?: string;
 
@@ -23,22 +29,8 @@ export class Post {
   @Field(() => Int)
   userId: number;
 
-  @Column('json', { nullable: true })
-  @Field()
+  @OneToOne(() => PostSettings)
+  @JoinColumn()
+  @Field({ nullable: true })
   settings?: PostSettings;
-
-  // static of(params: Partial<Post>): Post {
-  //   const post = new Post();
-  //   Object.assign(post, params);
-
-  //   return post;
-  // }
-
-  // static create(title: string, content: string, userId: number): Post {
-  //   const post = new Post();
-  //   post.title = title;
-  //   post.content = content;
-  //   post.userId = userId;
-  //   return post;
-  // }
 }

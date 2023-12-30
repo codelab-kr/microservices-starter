@@ -1,20 +1,20 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'post_settings' })
 @ObjectType()
 export class PostSettings {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   @ApiProperty({ description: 'id' })
   @Field(() => Int)
   postId: number;
 
-  @Column()
+  @Column({ default: false })
   @Field({ defaultValue: false })
   commentable: boolean;
 
-  @Column()
+  @Column({ default: false })
   @Field({ defaultValue: false })
   shareable: boolean;
 }

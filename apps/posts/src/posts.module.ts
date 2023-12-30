@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { PostsRepository } from './posts.repository';
+import { PostsRepository } from './repositories/posts.repository';
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
 import { TypeOrmExModule, DataModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { PostsResolver } from './post.resolver';
-import { PostSettingResolver } from './post.settings.resolver';
+import { PostsResolver } from './resolvers/posts.resolver';
+import { PostSettingResolver } from './resolvers/post.settings.resolver';
+import { PostSettingsRepository } from './repositories/post.settings.repository';
+import { PostSettingsService } from './post.settings.service';
 
 @Module({
   imports: [
@@ -19,10 +21,18 @@ import { PostSettingResolver } from './post.settings.resolver';
       isGlobal: true,
       envFilePath: './apps/posts/.env',
     }),
-    TypeOrmExModule.forCustomRepository([PostsRepository]),
+    TypeOrmExModule.forCustomRepository([
+      PostsRepository,
+      PostSettingsRepository,
+    ]),
     DataModule,
   ],
   controllers: [PostsController],
-  providers: [PostsService, PostsResolver, PostSettingResolver],
+  providers: [
+    PostsService,
+    PostSettingsService,
+    PostsResolver,
+    PostSettingResolver,
+  ],
 })
 export class PostsModule {}

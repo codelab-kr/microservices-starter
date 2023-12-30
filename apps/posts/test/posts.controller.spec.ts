@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostsController } from '../src/posts.controller';
 import { PostsService } from '../src/posts.service';
 import { postStub } from './stubs/post.stub';
-import { PostCreateRequestDto } from '../src/dto/post-create-request.dto';
 import { Post } from '../src/models/post';
+import { CreatePostInput } from '../src/inputs/create.post.input';
 
 jest.mock('../src/posts.service');
 
@@ -22,8 +22,8 @@ describe('PostsController', () => {
     jest.clearAllMocks();
   });
 
-  describe('findOne', () => {
-    describe('when findOne is called', () => {
+  describe('findOneBy', () => {
+    describe('when findOneBy is called', () => {
       let post: Post;
 
       beforeEach(async () => {
@@ -60,7 +60,7 @@ describe('PostsController', () => {
     describe('create', () => {
       describe('when create is called', () => {
         let post: Post;
-        let request: PostCreateRequestDto;
+        let request: CreatePostInput;
 
         beforeEach(async () => {
           request = {

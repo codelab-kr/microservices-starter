@@ -2,18 +2,30 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { PostsService } from '../src/posts.service';
-import { PostsRepository } from '../src/posts.repository';
-import { PostCreateRequestDto } from '../src/dto/post-create-request.dto';
-import { PostUpdateRequestDto } from '../src/dto/post-update-request.dto';
+import { PostsRepository } from '../src/repositories/posts.repository';
 import { Post } from '../src/models/post';
 import { postStub } from './stubs/post.stub';
+import { CreatePostInput } from '../src/inputs/create.post.input';
+import { UpdatePostInput } from '../src/inputs/update.post.ipnput';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostSettings } from '../src/models/post.settings';
+import { PostsModule } from '../src/posts.module';
 
 describe('PostsService (Stub)', () => {
   let postsService: PostsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PostsService, PostsRepository],
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'sqlite',
+          database: ':memory:',
+          entities: [Post, PostSettings],
+          autoLoadEntities: true,
+          synchronize: true,
+        }),
+        PostsModule,
+      ],
     }).compile();
     postsService = module.get<PostsService>(PostsService);
   });
@@ -23,7 +35,7 @@ describe('PostsService (Stub)', () => {
       let post: Post;
       let saveSpy: jest.SpyInstance;
 
-      const request = new PostCreateRequestDto();
+      const request = new CreatePostInput();
       request.title = postStub().title;
       request.content = postStub().content;
       request.userId = postStub().userId;
@@ -33,6 +45,7 @@ describe('PostsService (Stub)', () => {
           .spyOn(PostsRepository.prototype, 'save')
           .mockResolvedValue(postStub());
         post = await postsService.createPost(request);
+        console.log('post', post);
       });
 
       test('then it should call postRepository', async () => {
@@ -68,7 +81,7 @@ describe('PostsService (Stub)', () => {
   });
 
   describe('findById', () => {
-    describe('생성되지 않은 유저의 id가 주어진다면 유저를 찾을 수 없다는 예외를 던진다', () => {
+    describe('생성되지 않은 POST의 id가 주어진다면 POST를 찾을 수 없다는 예외를 던진다', () => {
       let findSpy: jest.SpyInstance;
       const id = 1;
 
@@ -88,116 +101,126 @@ describe('PostsService (Stub)', () => {
         try {
           await postsService.findById(id);
         } catch (error) {
-          expect(findSpy).toHaveBeenCalledWith({ where: { id } });
+          expect(findSpy).toHaveBeenCalledWith({
+            where: { id },
+            relations: ['settings'],
+          });
         }
       });
+    });
 
-      describe('생성된 유저의 id가 주어진다면 해당 id의 유저를 반환한다', () => {
-        let post: Post;
-        let findSpy: jest.SpyInstance;
-        const id = 1;
+    describe('생성된 POST의 id가 주어진다면 해당 id의 POST를 반환한다', () => {
+      let post: Post;
+      let findSpy: jest.SpyInstance;
+      const id = 1;
 
-        beforeEach(async () => {
-          findSpy = jest
-            .spyOn(PostsRepository.prototype, 'findOne')
-            .mockResolvedValue(postStub());
-          post = await postsService.findById(id);
-        });
+      beforeEach(async () => {
+        findSpy = jest
+          .spyOn(PostsRepository.prototype, 'findOne')
+          .mockResolvedValue(postStub());
+        post = await postsService.findById(id);
+      });
 
-        test('then it should call postRepository', async () => {
-          expect(findSpy).toHaveBeenCalledWith({ where: { id } });
-        });
-
-        test('then it should return a post', async () => {
-          expect(post).toEqual(postStub());
+      test('then it should call postRepository', async () => {
+        expect(findSpy).toHaveBeenCalledWith({
+          where: { id },
+          relations: ['settings'],
         });
       });
 
-      describe('updatePost', () => {
-        describe('생성되지 않은 유저의 id가 주어진다면 유저를 찾을 수 없다는 예외를 던진다', () => {
-          let findSpy: jest.SpyInstance;
-          const requestDto: PostUpdateRequestDto = {
-            id: 1,
-            userId: 1,
-          };
+      test('then it should return a post', async () => {
+        expect(post).toEqual(postStub());
+      });
+    });
+  });
 
-          beforeEach(async () => {
-            findSpy = jest
-              .spyOn(PostsRepository.prototype, 'findOne')
-              .mockResolvedValue(undefined);
-          });
+  describe('updatePost', () => {
+    describe('생성되지 않은 POST의 id가 주어진다면 POST를 찾을 수 없다는 예외를 던진다', () => {
+      let findSpy: jest.SpyInstance;
+      const requestDto: UpdatePostInput = {
+        id: 11,
+        userId: 1,
+      };
 
-          test('then it should return NotFoundException', async () => {
-            await expect(postsService.updatePost(requestDto)).rejects.toThrow(
-              NotFoundException,
-            );
-          });
+      beforeEach(async () => {
+        findSpy = jest
+          .spyOn(PostsRepository.prototype, 'findOne')
+          .mockResolvedValue(undefined);
+      });
 
-          test('then it should call postRepository', async () => {
-            try {
-              await postsService.findById(requestDto.id);
-            } catch (error) {
-              expect(findSpy).toHaveBeenCalledWith({
-                where: { id: requestDto.id },
-              });
-            }
+      test('then it should return NotFoundException', async () => {
+        await expect(postsService.updatePost(requestDto)).rejects.toThrow(
+          NotFoundException,
+        );
+      });
+
+      test('then it should call postRepository', async () => {
+        try {
+          await postsService.findById(requestDto.id);
+        } catch (error) {
+          expect(findSpy).toHaveBeenCalledWith({
+            where: { id: requestDto.id },
+            relations: ['settings'],
           });
+        }
+      });
+    });
+
+    describe('생성된 POST의 id가 주어진다면 해당 id의 POST를 수정하고 수정된 POST를 반환한다', () => {
+      let post: Post;
+      let findSpy: jest.SpyInstance;
+      let saveSpy: jest.SpyInstance;
+      const request: UpdatePostInput = {
+        id: 1,
+        userId: 1,
+      };
+
+      beforeEach(async () => {
+        findSpy = jest
+          .spyOn(PostsRepository.prototype, 'findOne')
+          .mockResolvedValue(postStub());
+        saveSpy = jest
+          .spyOn(PostsRepository.prototype, 'save')
+          .mockResolvedValue(postStub());
+        post = await postsService.updatePost(request);
+      });
+
+      test('then it should call postRepository', async () => {
+        expect(findSpy).toHaveBeenCalledWith({
+          where: { id: request.id },
+          relations: ['settings'],
         });
-
-        describe('생성된 유저의 id가 주어진다면 해당 id의 유저를 수정하고 수정된 유저를 반환한다', () => {
-          let post: Post;
-          let findSpy: jest.SpyInstance;
-          let saveSpy: jest.SpyInstance;
-          const request: PostUpdateRequestDto = {
-            id: 1,
-            userId: 1,
-          };
-
-          beforeEach(async () => {
-            findSpy = jest
-              .spyOn(PostsRepository.prototype, 'findOne')
-              .mockResolvedValue(postStub());
-            saveSpy = jest
-              .spyOn(PostsRepository.prototype, 'save')
-              .mockResolvedValue(postStub());
-            post = await postsService.updatePost(request);
-          });
-
-          test('then it should call postRepository', async () => {
-            expect(findSpy).toHaveBeenCalledWith({ where: { id } });
-            expect(saveSpy).toHaveBeenCalledWith({
-              ...postStub(),
-              ...request,
-            });
-          });
-
-          test('then it should return a post', async () => {
-            expect(post).toEqual(postStub());
-          });
+        expect(saveSpy).toHaveBeenCalledWith({
+          ...postStub(),
+          ...request,
         });
       });
 
-      describe('deletePost', () => {
-        describe('생성된 유저의 id가 주어진다면 생성된 유저를 삭제한다', () => {
-          const id = 1;
-          let deleteSpy: jest.SpyInstance;
-          let result: void;
+      test('then it should return a post', async () => {
+        expect(post).toEqual(postStub());
+      });
+    });
+  });
 
-          beforeEach(async () => {
-            deleteSpy = jest
-              .spyOn(PostsRepository.prototype, 'delete')
-              .mockResolvedValue({} as DeleteResult);
-            result = await postsService.deletePost(id);
-          });
+  describe('deletePost', () => {
+    describe('생성된 POST의 id가 주어진다면 생성된 POST를 삭제한다', () => {
+      const id = 1;
+      let deleteSpy: jest.SpyInstance;
+      let result: void;
 
-          test('then it should call postRepository', async () => {
-            expect(deleteSpy).toHaveBeenCalledWith(id);
-          });
+      beforeEach(async () => {
+        deleteSpy = jest
+          .spyOn(PostsRepository.prototype, 'delete')
+          .mockResolvedValue({} as DeleteResult);
+        result = await postsService.deletePost(id);
+      });
 
-          test('then it should return undefined', () => {
-            expect(result).toBeUndefined();
-          });
-        });
+      test('then it should call postRepository', async () => {
+        expect(deleteSpy).toHaveBeenCalledWith(id);
+      });
+
+      test('then it should return undefined', () => {
+        expect(result).toBeUndefined();
       });
     });
   });

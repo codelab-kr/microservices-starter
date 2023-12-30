@@ -1,10 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostsRepository } from '../src/posts.repository';
 import { PostsModule } from '../src/posts.module';
-import { Post } from '../src/models/post';
+import { PostsRepository } from '../src/repositories/posts.repository';
 
 describe('PostsController (e2e)', () => {
   let app: INestApplication;
@@ -12,16 +10,7 @@ describe('PostsController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          entities: [Post],
-          autoLoadEntities: true,
-          synchronize: true,
-        }),
-        PostsModule,
-      ],
+      imports: [PostsModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
