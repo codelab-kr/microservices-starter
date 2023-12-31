@@ -2,7 +2,8 @@ FROM node:alpine AS builder
 WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY ./.yarnrc.yml ./package*.json ./yarn.lock ./pnp.* ./
-RUN yarn install 
+COPY ./.yarn/ ./.yarn/
+RUN yarn install --immutable --immutable-cache
 COPY . .
 RUN yarn build auth
 
@@ -26,7 +27,8 @@ WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock ./
 COPY --from=builder /usr/src/app/.yarnrc.yml  /usr/src/app/pnp.* ./
-RUN yarn install --omit dev
+COPY ./.yarn/ ./.yarn/
+RUN yarn install --immutable --immutable-cache
 COPY --from=builder /usr/src/app/dist/ ./dist/
 
 CMD ["node", "dist/apps/auth/src/main"]

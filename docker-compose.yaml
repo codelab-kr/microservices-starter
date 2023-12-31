@@ -38,6 +38,25 @@ services:
       - ./apps/api:/usr/src/app/apps/api:z
       - ./libs/common:/usr/src/app/libs/common:z
 
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    ports:
+      - '3011:80'
+    env_file:
+      - ./apps/payment/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+      - redis
+    volumes:
+      - ./apps/payment:/usr/src/app/apps/payment:z
+      - ./libs/common:/usr/src/app/libs/common:z
+
   auth:
     build:
       context: .

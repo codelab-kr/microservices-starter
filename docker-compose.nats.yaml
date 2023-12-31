@@ -1,0 +1,41 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: development
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./apps/api:/usr/src/app/apps/api:z
+      - ./libs/common:/usr/src/app/libs/common:z
+    command: yarn start:dev api
+    env_file:
+      - ./apps/api/.env
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    volumes:
+      - ./apps/auth:/usr/src/app/apps/auth:z
+      - ./libs/common:/usr/src/app/libs/common:z
+    command: yarn start:dev auth
+
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    volumes:
+      - ./apps/payment:/usr/src/app/apps/payment/:z
+      - ./libs/common:/usr/src/app/libs/common:z
+    command: yarn start:dev payment
+
+  nats:
+    image: nats:latest
+    ports:
+      - '4222:4222'
+      - '8222:8222'
+      - '6222:6222'

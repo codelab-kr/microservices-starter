@@ -5,6 +5,7 @@ import { RmqService } from '@app/common';
 import { RmqOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
+  console.log('Videos service is starting...');
   const app = await NestFactory.create(VideosModule);
   app.useGlobalPipes(new ValidationPipe());
   const rmqService = app.get<RmqService>(RmqService);
