@@ -26,5 +26,10 @@
   "include": [
     "./src/**/*" // build 시 포함
   ],
-  "exclude": ["node_modules", "dist", "**/*.(test|spec).ts"]
+  "exclude": ["node_modules", "dist", "**/*.(test|spec).ts"],
+  "watchOptions": {
+    "watchFile": "dynamicPriorityPolling",
+    "watchDirectory": "dynamicPriorityPolling",
+    "excludeDirectories": ["**/node_modules", "dist", ".yarn", ".vscode", ".git"]
+  }
 }
