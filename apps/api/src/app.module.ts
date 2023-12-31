@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common'
-import { ClientsModule, Transport } from '@nestjs/microservices'
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -8,12 +8,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
         name: 'NATS_SERVICE',
         transport: Transport.NATS,
         options: {
-          servers: ['nats://nats']
-        }
-      }
-    ])
+          servers: ['nats://nats'],
+        },
+      },
+    ]),
   ],
   controllers: [],
-  providers: []
+  providers: [],
 })
 export class AppModule {}

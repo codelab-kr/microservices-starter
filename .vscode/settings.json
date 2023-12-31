@@ -8,7 +8,7 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "eslint.validate": [
     "typescript",
-    "javascript",
+    "javascript"
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
