@@ -3,8 +3,8 @@ import { UsersController } from '../src/users/users.controller';
 import { UsersService } from '../src/users/users.service';
 import { User } from '../src/users/schemas/user.schema';
 import { userStub } from './stubs/user.stub';
-import { CreateUserInput } from '../src/users/dto/input/create-user.input';
-import { UpdateUserInput } from '../src/users/dto/input/update-user.input';
+import { CreateUserInput } from '../src/users/dtos/input/create-user.input';
+import { UpdateUserInput } from '../src/users/dtos/input/update-user.input';
 
 jest.mock('../src/users/users.service');
 

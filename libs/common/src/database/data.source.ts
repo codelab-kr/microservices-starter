@@ -9,7 +9,7 @@ export const dataSource: DataSource = new DataSource({
   ...new TypeOrmConfigService(
     new ConfigService(
       dotenv.config({
-        path: path.resolve('../apps/posts/.env'),
+        path: path.resolve('../database/.nats.env'),
       }).parsed,
     ),
   ).dataSourceOptions,

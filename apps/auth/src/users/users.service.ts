@@ -6,10 +6,10 @@ import {
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './users.repository';
 import { User } from './schemas/user.schema';
-import { GetUsersArgs } from './dto/args/get-users.args';
-import { CreateUserInput } from './dto/input/create-user.input';
-import { UpdateUserInput } from './dto/input/update-user.input';
-import { DeleteUserInput } from './dto/input/delete-user.input';
+import { GetUsersArgs } from './dtos/args/get-users.args';
+import { CreateUserInput } from './dtos/input/create-user.input';
+import { UpdateUserInput } from './dtos/input/update-user.input';
+import { DeleteUserInput } from './dtos/input/delete-user.input';
 
 @Injectable()
 export class UsersService {

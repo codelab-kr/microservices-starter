@@ -3,14 +3,13 @@
 https://velog.io/@youngeui_hong/Docker를-사용하여-MongoDB-Replica-Set-구축하기 \
 https://blog.devgenius.io/ how-to-deploy-a-mongodb-replicaset-using-docker-compose-a538100db471
 
-
 ```bash
-openssl rand -base64 756 > ./.etc/mongodb.key
-chmod 400 ./.etc/mongodb.key
+openssl rand -base64 756 > ./database/mongodb.key
+chmod 400 ./database/mongodb.key
 
 docker-compose -f docker-compose.db.yaml up --build -V -d
 
-docker exec -it microservices-starter-mongodb-primary-1 mongosh -u root -p password123 
+docker exec -it microservices-starter-mongodb-primary-1 mongosh -u root -p password123
 
 docker-compose exec -it mongodb-primary mongosh -u root -p password123 --eval 'rs.initiate({
 	 _id: "mongoReplicaSet",
@@ -43,16 +42,13 @@ http://localhost:3000/api-docs
 http://localhost:3001/api-docs
 http://localhost:3009/api-docs
 
-
-
 # GraphQL
 
 http://localhost:3001/graphql
 
-
-
 jwt.strategy.ts
-```typescript 
+
+```typescript
 ...
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -70,6 +66,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 ```
 
 Http Headers
+
 ```bash
 {
   "Authorization": "Bearer your-token-goes-here"
@@ -77,6 +74,7 @@ Http Headers
 ```
 
 query & mutation
+
 ```bash
 # getUser
 query {
@@ -117,34 +115,31 @@ mutation {
 mutation{
   deleteUser(deleteUserData: {_id: "65531ef505d8e17bf4b10196"}){
     email
-    
+
   }
 }
 
 
 ```
 
-
-
 ```typescript
 function addTwoTodoItems() {
-  const maxId = todoItems 
+  const maxId = todoItems;
 }
 ```
 
-
 순서
-1. jest.mock() - 테스팅을 위해 모킹할 서비스 생성 <- users/__mocks__ 폴더에 서비스 목킹 생성 <- users/test/stubs/유저 스텁 생성
+
+1. jest.mock() - 테스팅을 위해 모킹할 서비스 생성 <- users/**mocks** 폴더에 서비스 목킹 생성 <- users/test/stubs/유저 스텁 생성
 2. beforeEach() - 컨트롤러 테스트를 위한 테스팅 모듈(컨트롤러, 프로바이더(서비스) 세팅 ) 생성 & 컴파일
 3. describe() - 엔드포인트 별로 테스트 케이스 생성
-beforeEach() 로 테스트할 메소드를 실행하고 test() 에서는 해당 실행결과를 기대되는 상태나 값과 비교한다.
-컨트롤러는 매칭되는 서비스를 파라미터와 함께 잘 불러오는지 확인하고 결과값이 맞는지 확인한다.
-
+   beforeEach() 로 테스트할 메소드를 실행하고 test() 에서는 해당 실행결과를 기대되는 상태나 값과 비교한다.
+   컨트롤러는 매칭되는 서비스를 파라미터와 함께 잘 불러오는지 확인하고 결과값이 맞는지 확인한다.
 
 mysql
 
-docker exec -it mysql mysql -uroot -p  # testtest 입력
+docker exec -it mysql mysql -uroot -p # testtest 입력
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
 
-docker exec -it test-mysql mysql -uroot -p  # testtest 입력
+docker exec -it test-mysql mysql -uroot -p # testtest 입력
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';

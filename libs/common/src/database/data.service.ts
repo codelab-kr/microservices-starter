@@ -20,10 +20,10 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     return {
       type: 'mysql',
       host: os.platform() === 'linux' ? this.get('DB_HOST') : 'localhost',
-      port: this.nodeEnv === 'test' ? 13306 : 3306,
+      port: parseInt(this.get('DB_PORT'), 10) ?? 3306,
       username: this.get('DB_USERNAME'),
       password: this.get('DB_PASSWORD'),
-      database: this.nodeEnv === 'test' ? 'test' : this.get('DB_NAME'),
+      database: this.get('DB_NAME'),
       entities:
         this.nodeEnv === 'test'
           ? ['./apps/**/models/*.ts']

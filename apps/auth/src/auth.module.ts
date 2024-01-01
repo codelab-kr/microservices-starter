@@ -8,22 +8,12 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    ClientsModule.register([
-      {
-        name: 'AUTH_SERVICE',
-        transport: Transport.NATS,
-        options: {
-          servers: ['nats://nats'],
-        },
-      },
-    ]),
+    UsersModule,
     DatabaseModule,
     RmqModule,
-    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({

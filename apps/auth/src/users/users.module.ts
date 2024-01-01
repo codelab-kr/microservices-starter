@@ -9,6 +9,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersResolver } from './users.resolver';
 import { AuthModule } from '../auth.module';
 import { JwtStrategy } from '../strategies/jwt.strategy';
+// import { Module } from '@nestjs/common';
+// import { UsersMicroserviceController } from './users.microservice.controller';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { JwtStrategy } from '../strategies/jwt.strategy';
     forwardRef(() => AuthModule),
   ],
   controllers: [UsersController],
+  // controllers: [UsersMicroserviceController],
   providers: [UsersService, UsersRepository, UsersResolver, JwtStrategy],
   exports: [UsersService],
 })

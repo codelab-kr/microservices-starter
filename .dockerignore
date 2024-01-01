@@ -17,7 +17,7 @@ docker-compose*.yaml
 Dockerfile
 README*.md
 migrations
-.etc
+database
 .husky
 .logs
 

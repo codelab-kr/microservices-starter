@@ -12,6 +12,8 @@ services:
     command: yarn start:dev api
     env_file:
       - ./apps/api/.env
+    depends_on:
+      - nats
 
   auth:
     build:
@@ -22,16 +24,26 @@ services:
       - ./apps/auth:/usr/src/app/apps/auth:z
       - ./libs/common:/usr/src/app/libs/common:z
     command: yarn start:dev auth
+    depends_on:
+      # - mongodb-primary
+      # - mysql
+      - nats
+      - rabbitmq
 
-  payment:
+  payments:
     build:
       context: .
-      dockerfile: ./apps/payment/Dockerfile
+      dockerfile: ./apps/payments/Dockerfile
       target: development
     volumes:
-      - ./apps/payment:/usr/src/app/apps/payment/:z
+      - ./apps/payments:/usr/src/app/apps/payments/:z
       - ./libs/common:/usr/src/app/libs/common:z
-    command: yarn start:dev payment
+    command: yarn start:dev payments
+    depends_on:
+      # - mongodb-primary
+      # - mysql
+      - nats
+      - rabbitmq
 
   nats:
     image: nats:latest
@@ -39,3 +51,8 @@ services:
       - '4222:4222'
       - '8222:8222'
       - '6222:6222'
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'

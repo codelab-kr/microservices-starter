@@ -91,13 +91,13 @@
       }
     },
 
-    "payment": {
+    "payments": {
       "type": "application",
-      "root": "apps/payment",
+      "root": "apps/payments",
       "entryFile": "main",
-      "sourceRoot": "apps/payment/src",
+      "sourceRoot": "apps/payments/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/payment/tsconfig.app.json"
+        "tsConfigPath": "apps/payments/tsconfig.app.json"
       }
     }
   }

@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Post,
+  // Post,
   Put,
   Query,
   UseGuards,
@@ -12,20 +12,32 @@ import {
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
 import { ApiTags } from '@nestjs/swagger';
-import { GetUsersArgs } from './dto/args/get-users.args';
-import { CreateUserInput } from './dto/input/create-user.input';
-import { UpdateUserInput } from './dto/input/update-user.input';
+import { GetUsersArgs } from './dtos/args/get-users.args';
+// import { CreateUserInput } from './dtos/input/create-user.input';
+import { UpdateUserInput } from './dtos/input/update-user.input';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
-
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { CreateUserDto } from './dtos/create.user.dto';
 @ApiTags('Users API')
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async createUser(@Body() request: CreateUserInput): Promise<User> {
-    return this.usersService.createUser(request);
+  @MessagePattern({ cmd: 'createUser' })
+  createUser(@Payload() data: CreateUserDto) {
+    console.log('data', data);
+    return { massege: 'User created' };
   }
+
+  @EventPattern('paymentCreated')
+  handlePaymentCreated(data: any) {
+    console.log('handlePaymentCreated', data);
+  }
+
+  // @Post()
+  // async createUser(@Body() request: CreateUserInput): Promise<User> {
+  //   return this.usersService.createUser(request);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Get(':_id')

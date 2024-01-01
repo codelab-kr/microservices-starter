@@ -25,9 +25,8 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 RUN yarn set version berry
-COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock ./
-COPY --from=builder /usr/src/app/.yarnrc.yml  /usr/src/app/pnp.* ./
-COPY ./.yarn/ ./.yarn/
+COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock /usr/src/app/.yarnrc.yml /usr/src/app/pnp.* ./
+COPY --from=builder /usr/src/app/.yarn/ ./.yarn/
 RUN yarn install --immutable --immutable-cache
 COPY --from=builder /usr/src/app/dist/ ./dist/
 

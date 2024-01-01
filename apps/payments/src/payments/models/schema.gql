@@ -1,0 +1,39 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PaymentSettings {
+  paymentId: Int!
+  commentable: Boolean!
+  shareable: Boolean!
+}
+
+type Payment {
+  id: Int!
+  title: String!
+  content: String
+  userId: Int!
+  settings: PaymentSettings
+}
+
+type Query {
+  getPaymentById(id: Int!): Payment
+  getPayments: [Payment!]
+}
+
+type Mutation {
+  createPayment(createPaymentData: CreatePaymentInput!): Payment!
+  createPaymentSettings(createPaymentSettingData: CreatePaymentSettingsInput!): PaymentSettings!
+}
+
+input CreatePaymentInput {
+  title: String!
+  content: String
+  userId: Int!
+}
+
+input CreatePaymentSettingsInput {
+  paymentId: Int!
+  commentable: Boolean = false
+  shareable: Boolean = false
+}
