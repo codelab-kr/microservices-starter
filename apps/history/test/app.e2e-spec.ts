@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { HistoryModule } from './../src/history.module';
+import { HistoryModule } from '../src/history.module';
 
 describe('HistoryController (e2e)', () => {
   let app: INestApplication;

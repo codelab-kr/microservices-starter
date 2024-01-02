@@ -8,7 +8,7 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   setupSwagger(app);
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT ?? 4000;
   await app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });

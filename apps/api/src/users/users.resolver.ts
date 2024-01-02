@@ -1,0 +1,47 @@
+import { ClientProxy } from '@nestjs/microservices';
+import {
+  Args,
+  Mutation,
+  Resolver,
+  Query,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+import { Inject } from '@nestjs/common';
+import { User } from './models/user';
+import { CreateUserDto } from './dtos/create.user.dto';
+import { Payment } from '../payments/models/payment';
+
+@Resolver(() => User)
+export class UsersResolver {
+  constructor(
+    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
+  ) {}
+
+  @Mutation(() => User)
+  CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto);
+    // event pattern
+    return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+  }
+
+  @Query(() => User, { nullable: true })
+  getUserById(@Args('id') id: string) {
+    // request-response pattern
+    return this.natsClient.send({ cmd: 'getUserById' }, { id });
+  }
+
+  @Query(() => [User], { nullable: true })
+  getUsers() {
+    // request-response pattern
+    return this.natsClient.send({ cmd: 'getUsers' }, {});
+  }
+
+  @ResolveField('payments', () => [Payment], { nullable: true })
+  getUserPayments(@Parent() user: User) {
+    // const findUser = this.getUserById(user.id);
+    console.log('user', user);
+    const { id } = user;
+    return this.natsClient.send({ cmd: 'getPaymentByUserId' }, { userId: id });
+  }
+}

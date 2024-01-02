@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { StorageModule } from './../src/storage.module';
+import { StorageModule } from '../src/storage.module';
 
 describe('StorageController (e2e)', () => {
   let app: INestApplication;

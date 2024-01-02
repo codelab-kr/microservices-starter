@@ -7,8 +7,9 @@ import {
 } from '@nestjs/swagger';
 import { PaymentsService } from './payments.service';
 import { Payment } from './models/payment';
-import { ClientProxy, EventPattern, Payload } from '@nestjs/microservices';
+import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
+import { FindPaymentDto } from './dtos/find.payment.dto';
 // import { CreatePaymentInput } from './dtos/create.payment.input';
 
 @Controller('payments')
@@ -19,11 +20,20 @@ export class PaymentsController {
     private readonly paymentService: PaymentsService,
   ) {}
 
-  @EventPattern('createPayment')
+  @MessagePattern({ cmd: 'createPayment' })
   async createPayment(@Payload() data: CreatePaymentDto) {
     console.log('CreatePaymentDto - controller', data);
     const newPayment = await this.paymentService.createPayment(data);
-    if (newPayment) this.natsClient.emit('paymentCreated', newPayment);
+    if (newPayment) {
+      this.natsClient.emit('paymentCreated', newPayment);
+      return newPayment;
+    }
+  }
+
+  @MessagePattern({ cmd: 'getPaymentByUserId' })
+  async getPaymentByUser(@Payload() data: FindPaymentDto) {
+    console.log('getPaymentByUser', data);
+    return this.paymentService.findByUserId(data.userId);
   }
 
   @Get()

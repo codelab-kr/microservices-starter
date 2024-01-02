@@ -14,5 +14,6 @@ export class Payment {
   amount: number;
 
   @ManyToOne(() => User, (user) => user.payments)
+  @Field(() => User)
   user: User;
 }

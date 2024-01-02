@@ -3,12 +3,15 @@ import { Inject } from '@nestjs/common';
 import { PaymentsService } from '../payments.service';
 import { Payment } from '../models/payment';
 import { CreatePaymentDto } from '../dtos/create.payment.dto';
+import { ClientProxy } from '@nestjs/microservices';
+import { FindPaymentDto } from '../dtos/find.payment.dto';
 
 @Resolver(() => Payment)
 export class PaymentsResolver {
   constructor(
     @Inject(PaymentsService)
     private readonly paymentsService: PaymentsService,
+    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
   ) {}
 
   @Query(() => Payment, { nullable: true })
@@ -19,6 +22,11 @@ export class PaymentsResolver {
   @Query(() => [Payment], { nullable: true })
   getPayments() {
     return this.paymentsService.findAll();
+  }
+
+  @Query(() => [Payment], { nullable: true })
+  getPaymentsByUser(@Args('findInput') findInput: FindPaymentDto) {
+    return this.paymentsService.findByUserId(findInput.userId);
   }
 
   @Mutation(() => Payment)

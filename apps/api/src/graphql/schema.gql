@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Payment {
+  id: String!
+  amount: Float!
+  user: User!
+}
+
 type User {
   id: String!
   email: String!
@@ -11,24 +17,21 @@ type User {
   payments: [Payment!]
 }
 
-type Payment {
-  id: String!
-  amount: Float!
-  user: User!
-}
-
 type Query {
-  getPaymentById(id: String!): Payment
-  getPayments: [Payment!]
-  getPaymentsByUser(findInput: FindPaymentDto!): [Payment!]
-}
-
-input FindPaymentDto {
-  userId: String!
+  getUserById(id: String!): User
+  getUsers: [User!]
 }
 
 type Mutation {
-  createPayment(createPaymentData: CreatePaymentDto!): Payment!
+  CreateUser(createUserDto: CreateUserDto!): User!
+  CreatePayment(createPaymentDto: CreatePaymentDto!): Payment!
+}
+
+input CreateUserDto {
+  email: String!
+  password: String!
+  username: String!
+  isSubscribed: Boolean!
 }
 
 input CreatePaymentDto {

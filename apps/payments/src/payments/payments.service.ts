@@ -95,6 +95,22 @@ export class PaymentsService {
   }
 
   /**
+   * PAYMENT Id에 해당하는 PAYMENT 정보를 반환한다.
+   *
+   * @param {string} id - PAYMENT Id
+   * @returns {Promise<Payment>}
+   * @private
+   */
+  async findByUserId(userId: string): Promise<Payment[]> {
+    const id = userId;
+    const payments = await this.paymentsRepository.find({
+      where: { user: { id } },
+    });
+
+    return payments;
+  }
+
+  /**
    * PAYMENT Id에 해당하는 PAYMENT 정보를 삭제한다.
    *
    * @param {string} id - PAYMENT Id
