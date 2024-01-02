@@ -3,35 +3,30 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, Observable, tap } from 'rxjs';
-import { AUTH_SERVICE } from './services';
+import { Observable, tap } from 'rxjs';
+// import { LoginUserRequest } from '../dtos/login-user.request';
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
-  constructor(@Inject(AUTH_SERVICE) private authClient: ClientProxy) {}
+export class NestAuthGuard implements CanActivate {
+  constructor(
+    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
+  ) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const authentication = this.getAuthentication(context);
-    return this.authClient
-      .send(
-        { cmd: 'validate_user' },
-        {
-          Authentication: authentication,
-        },
-      )
-      .pipe(
-        tap((res) => {
-          this.addUser(res, context);
-        }),
-        catchError(() => {
-          throw new UnauthorizedException();
-        }),
-      );
+    if (authentication) {
+      return true;
+    }
+    const authData = this.getAuthData(context);
+    return this.natsClient.send({ cmd: 'validateUser' }, authData).pipe(
+      tap((res) => {
+        this.addUser(res, context);
+      }),
+    );
   }
 
   private getAuthentication(context: ExecutionContext) {
@@ -42,12 +37,17 @@ export class JwtAuthGuard implements CanActivate {
       authentication = context.switchToHttp().getRequest().cookies
         ?.Authentication;
     }
-    if (!authentication) {
-      throw new UnauthorizedException(
-        'No value was provided for Authentication',
-      );
+    return authentication ?? '';
+  }
+
+  private getAuthData(context: ExecutionContext) {
+    let authData: any;
+    if (context.getType() === 'rpc') {
+      authData = context.switchToRpc().getData().body;
+    } else if (context.getType() === 'http') {
+      authData = context.switchToHttp().getRequest().body;
     }
-    return authentication;
+    return authData ?? {};
   }
 
   private addUser(user: any, context: ExecutionContext) {

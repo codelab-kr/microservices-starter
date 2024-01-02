@@ -1,10 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { NatsClientModule } from './nats-client/nats-client.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
+import { AuthModule, EnhancerModule } from '@app/common';
+import { AppController } from './app.controller';
+import * as cookieParser from 'cookie-parser';
 @Module({
   imports: [
     NatsClientModule,
@@ -16,10 +21,19 @@ import { NatsClientModule } from './nats-client/nats-client.module';
       isGlobal: true,
       envFilePath: './apps/api/.env',
     }),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve('public'),
+    }),
+    AuthModule,
+    EnhancerModule,
     UsersModule,
     PaymentsModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cookieParser()).forRoutes('*');
+  }
+}

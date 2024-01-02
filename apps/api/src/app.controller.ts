@@ -9,22 +9,27 @@ import {
   Body,
   UseGuards,
   Param,
+  Inject,
 } from '@nestjs/common';
-import { GatewayService } from './gateway.service';
 import { Response } from 'express';
-import { ObjectId } from 'mongodb';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CheckAuthGuard, JwtAuthGuard } from '@app/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginUserRequest } from './dto/login-user.request';
-import { CurrentUser } from 'apps/auth/src/decorators/current-user.decorator';
-import { User } from 'apps/auth/src/users/models/user.schema';
+import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
+import { User } from './users/models/user';
+import { ClientProxy } from '@nestjs/microservices';
+import { CheckAuthGuard } from './users/auth/check-auth.guard';
+import { CurrentUser } from './users/auth/current-user.decorator';
+import { lastValueFrom } from 'rxjs';
+import { JwtAuthGuard } from './users/auth/jwt-auth.guard';
+import { NestAuthGuard } from './users/auth/nest-auth.guard';
 
 @Controller()
-@ApiTags('Gateway API')
-export class GatewayController {
-  constructor(private readonly gatewayService: GatewayService) {}
+@ApiTags('API')
+export class AppController {
+  constructor(
+    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
+  ) {}
 
   @UseGuards(CheckAuthGuard)
   @Get()
@@ -41,15 +46,22 @@ export class GatewayController {
     res.render('login', {});
   }
 
+  @UseGuards(NestAuthGuard)
   @Post('login')
-  async loginSubmit(@Body() data: LoginUserRequest, @Res() res: Response) {
+  async loginSubmit(
+    @CurrentUser() user: User,
+    @Res({ passthrough: true }) res: Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Body() _data: LoginUserRequest,
+  ) {
     try {
-      const response = await axios({
-        method: 'POST',
-        url: 'http://auth/login',
-        data,
+      const cookie = await lastValueFrom(
+        this.natsClient.send({ cmd: 'getCookie' }, user.id),
+      );
+      res.cookie('Authentication', cookie.token, {
+        maxAge: cookie.maxAge,
       });
-      res.setHeader('set-cookie', response.headers['set-cookie'].toString());
+      user.password = undefined;
       res.redirect('/videos');
     } catch (error) {
       res.render('login', { error: error.response.data.message });
@@ -67,8 +79,8 @@ export class GatewayController {
   @Get('videos')
   async videoList(@Res() res: Response, @CurrentUser() user: User) {
     try {
-      const videos = (await axios.get('http://videos/')).data;
-      res.render('video-list', { user, videos });
+      // const videos = (await axios.get('http://videos/')).data;
+      res.render('video-list', { user, videos: [] });
     } catch (error) {
       res.render('video-list', { error: error.response.data.message });
     }
@@ -108,13 +120,13 @@ export class GatewayController {
     @Req() req: Request,
     @Res() res: Response,
     @UploadedFile() file: Express.Multer.File,
-    @CurrentUser() user: User,
+    // @CurrentUser() user: User,
   ) {
     const data = file?.buffer ?? req;
     const fileName = file?.originalname ?? (req.headers['file-name'] as string);
     const contentType =
       file?.mimetype ?? (req.headers['content-type'] as string);
-    const path = new ObjectId().toString();
+    // const path = new ObjectId().toString();
     const response = await axios({
       method: 'POST',
       url: 'http://storage/upload',
@@ -123,17 +135,17 @@ export class GatewayController {
       headers: {
         'file-name': fileName,
         'content-type': contentType,
-        path,
+        // path,
       },
     });
     await response.data.pipe(res);
-    await this.gatewayService.createVideo({
-      title: fileName,
-      type: contentType,
-      path,
-      description: 'test',
-      user_id: user._id as ObjectId,
-    });
+    // await this.gatewayService.createVideo({
+    //   title: fileName,
+    //   type: contentType,
+    //   path,
+    //   description: 'test',
+    //   user_id: user._id as ObjectId,
+    // });
   }
 
   @UseGuards(JwtAuthGuard)

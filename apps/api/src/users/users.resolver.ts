@@ -20,7 +20,6 @@ export class UsersResolver {
 
   @Mutation(() => User)
   CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {
-    console.log('createUserDto', createUserDto);
     // event pattern
     return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
   }
@@ -40,7 +39,6 @@ export class UsersResolver {
   @ResolveField('payments', () => [Payment], { nullable: true })
   getUserPayments(@Parent() user: User) {
     // const findUser = this.getUserById(user.id);
-    console.log('user', user);
     const { id } = user;
     return this.natsClient.send({ cmd: 'getPaymentByUserId' }, { userId: id });
   }

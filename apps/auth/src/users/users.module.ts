@@ -4,11 +4,31 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { JwtStrategy } from '../strategies/jwt.strategy';
 import { DataModule, TypeOrmExModule } from '@app/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PaymentsRepository } from './repositories/payments.repository';
+import { NestStrategy } from '../strategies/nest.strategy';
+import { JwtModule } from '@nestjs/jwt';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION: Joi.string().required(),
+      }),
+      envFilePath: './apps/auth/.env',
+    }),
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: `${configService.get('JWT_EXPIRATION')}s`,
+        },
+      }),
+      inject: [ConfigService],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: './apps/auth/.env',
@@ -17,7 +37,7 @@ import { PaymentsRepository } from './repositories/payments.repository';
     DataModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtStrategy],
+  providers: [UsersService, JwtStrategy, NestStrategy],
   exports: [UsersService],
 })
 export class UsersModule {}

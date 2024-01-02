@@ -22,14 +22,12 @@ export class PaymentsService {
    * @returns {Promise<Payment>}
    */
   async createPayment(createPaymentDto: CreatePaymentDto) {
-    console.log('createPaymentDto - service', createPaymentDto);
     const user = await lastValueFrom(
       this.natsClient.send(
         { cmd: 'getUserById' },
         { id: createPaymentDto.userId },
       ),
     );
-    console.log('user', user);
     if (user) {
       const payment = await this.paymentsRepository.save({
         ...createPaymentDto,

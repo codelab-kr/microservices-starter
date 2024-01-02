@@ -10,7 +10,6 @@ export class PaymentsController {
 
   @Post()
   CreatePayment(@Body() createPaymentDto: CreatePaymentDto) {
-    console.log('createPaymentDto', createPaymentDto);
     return this.natsClient.send({ cmd: 'createPayment' }, createPaymentDto);
   }
 }

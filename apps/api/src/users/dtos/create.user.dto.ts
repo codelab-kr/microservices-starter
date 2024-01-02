@@ -7,6 +7,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+
 @InputType()
 export class CreateUserDto {
   @Field()

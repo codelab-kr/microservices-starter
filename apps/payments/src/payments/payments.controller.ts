@@ -22,7 +22,6 @@ export class PaymentsController {
 
   @MessagePattern({ cmd: 'createPayment' })
   async createPayment(@Payload() data: CreatePaymentDto) {
-    console.log('CreatePaymentDto - controller', data);
     const newPayment = await this.paymentService.createPayment(data);
     if (newPayment) {
       this.natsClient.emit('paymentCreated', newPayment);
@@ -32,7 +31,6 @@ export class PaymentsController {
 
   @MessagePattern({ cmd: 'getPaymentByUserId' })
   async getPaymentByUser(@Payload() data: FindPaymentDto) {
-    console.log('getPaymentByUser', data);
     return this.paymentService.findByUserId(data.userId);
   }
 
