@@ -30,7 +30,7 @@ export class UsersController {
   }
 
   @MessagePattern({ cmd: 'getUserById' })
-  getUserById(@Payload() data) {
+  getUserById(@Payload() data: any) {
     const { id } = data;
     console.log('getUserById', id);
     return this.usersService.getUserById(id);
