@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { NatsClientModule } from '../nats-client/nats-client.module';
-import { paymentsController } from './payments.controller';
+import { PaymentsController } from './payments.controller';
 
 @Module({
   imports: [NatsClientModule],
-  controllers: [paymentsController],
+  controllers: [PaymentsController],
   providers: [],
 })
-export class paymentsModule {}
+export class PaymentsModule {}

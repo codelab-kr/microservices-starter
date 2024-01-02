@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { User } from './users/schemas/user.schema';
+import { User } from './users/models/user';
 
 export interface TokenPayload {
   userId: string;
@@ -17,7 +17,7 @@ export class AuthService {
 
   async getCookie(user: User) {
     const tokenPayload: TokenPayload = {
-      userId: user._id.toString(),
+      userId: user.id.toString(),
     };
 
     const maxAge = parseInt(this.confisgService.get('JWT_EXPIRATION')) * 1000;

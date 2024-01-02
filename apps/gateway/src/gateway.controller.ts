@@ -18,7 +18,7 @@ import { CheckAuthGuard, JwtAuthGuard } from '@app/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './dto/login-user.request';
 import { CurrentUser } from 'apps/auth/src/current-user.decorator';
-import { User } from 'apps/auth/src/users/schemas/user.schema';
+import { User } from 'apps/auth/src/users/models/user.schema';
 import axios from 'axios';
 
 @Controller()

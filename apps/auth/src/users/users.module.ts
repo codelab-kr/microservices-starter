@@ -1,29 +1,23 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
+import { Module } from '@nestjs/common';
+import { UsersRepository } from './repositories/users.repository';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schemas/user.schema';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UsersResolver } from './users.resolver';
-import { AuthModule } from '../auth.module';
 import { JwtStrategy } from '../strategies/jwt.strategy';
-// import { Module } from '@nestjs/common';
-// import { UsersMicroserviceController } from './users.microservice.controller';
+import { DataModule, TypeOrmExModule } from '@app/common';
+import { ConfigModule } from '@nestjs/config';
+import { PaymentsRepository } from './repositories/payments.repository';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: './apps/auth/.env',
     }),
-    forwardRef(() => AuthModule),
+    TypeOrmExModule.forCustomRepository([UsersRepository, PaymentsRepository]),
+    DataModule,
   ],
   controllers: [UsersController],
-  // controllers: [UsersMicroserviceController],
-  providers: [UsersService, UsersRepository, UsersResolver, JwtStrategy],
+  providers: [UsersService, JwtStrategy],
   exports: [UsersService],
 })
 export class UsersModule {}

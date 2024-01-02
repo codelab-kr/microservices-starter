@@ -7,10 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PaymentsResolver } from './resolvers/payments.resolver';
-import { PaymentSettingResolver } from './resolvers/payment.settings.resolver';
-import { PaymentSettingsRepository } from './repositories/payment.settings.repository';
-import { PaymentSettingsService } from './payment.settings.service';
 import { NatsClientModule } from '../nats-client/nats-client.module';
+import { UsersRepository } from './repositories/users.repository';
 
 @Module({
   imports: [
@@ -23,18 +21,10 @@ import { NatsClientModule } from '../nats-client/nats-client.module';
       isGlobal: true,
       envFilePath: './apps/payments/.env',
     }),
-    TypeOrmExModule.forCustomRepository([
-      PaymentsRepository,
-      PaymentSettingsRepository,
-    ]),
+    TypeOrmExModule.forCustomRepository([PaymentsRepository, UsersRepository]),
     DataModule,
   ],
   controllers: [PaymentsController],
-  providers: [
-    PaymentsService,
-    PaymentSettingsService,
-    PaymentsResolver,
-    PaymentSettingResolver,
-  ],
+  providers: [PaymentsService, PaymentsResolver],
 })
 export class PaymentsModule {}

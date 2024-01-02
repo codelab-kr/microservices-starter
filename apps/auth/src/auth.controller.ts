@@ -12,9 +12,9 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from './users/schemas/user.schema';
-import { LoginUserRequest } from './users/dtos/input/login-user.input';
+import { LoginUserRequest } from './users/dtos/login.user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from './users/models/user';
 
 @ApiTags('Auth API')
 @Controller()

@@ -2581,6 +2581,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bcrypt@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@types/bcrypt@npm:5.0.2"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: dd7f05e183b9b1fc08ec499069febf197ab8e9c720766b5bbb5628395082e248f9a444c60882fe7788361fcadc302e21e055ab9c26a300f100e08791c353e6aa
+  languageName: node
+  linkType: hard
+
 "@types/body-parser@npm:*":
   version: 1.19.5
   resolution: "@types/body-parser@npm:1.19.5"
@@ -2810,6 +2819,15 @@ __metadata:
   dependencies:
     "@types/express": "npm:*"
   checksum: ace8e9f5ac7d2d7f6e0c35b790504f582a2f82a84cc06a7b90315527599b95256595bc0bb5bba60220c20a558554f0c21b96b94848b885987ab69512a3a9865e
+  languageName: node
+  linkType: hard
+
+"@types/nanoid@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/nanoid@npm:3.0.0"
+  dependencies:
+    nanoid: "npm:*"
+  checksum: 6c6ab046f134046b684e3f969e783f00a8a68fdcd61762b7b3a34bd0484f6d13503eff88c05f2cac1dc39eb8cd692a24a144b5c0699d190207a3316a9ca158f0
   languageName: node
   linkType: hard
 
@@ -8233,6 +8251,7 @@ __metadata:
     "@nestjs/terminus": "npm:^10.2.0"
     "@nestjs/testing": "npm:^10.3.0"
     "@nestjs/typeorm": "npm:^10.0.1"
+    "@types/bcrypt": "npm:^5.0.2"
     "@types/cache-manager": "npm:^4.0.6"
     "@types/cache-manager-redis-store": "npm:^2.0.4"
     "@types/cookie-parser": "npm:^1.4.6"
@@ -8241,6 +8260,7 @@ __metadata:
     "@types/jest": "npm:29.5.11"
     "@types/joi": "npm:^17.2.3"
     "@types/multer": "npm:^1.4.11"
+    "@types/nanoid": "npm:^3.0.0"
     "@types/node": "npm:20.10.6"
     "@types/supertest": "npm:^6.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^6.16.0"
@@ -8274,6 +8294,7 @@ __metadata:
     mongoose: "npm:^8.0.3"
     multer: "npm:^2.0.0-rc.4"
     mysql2: "npm:^3.6.5"
+    nanoid: "npm:^5.0.4"
     nats: "npm:^2.19.0"
     nodemailer: "npm:^6.9.8"
     nodemon: "npm:^3.0.2"
@@ -8740,6 +8761,15 @@ __metadata:
   dependencies:
     lru-cache: "npm:^7.14.1"
   checksum: cd83b4bbdf358b2285e3c51260fac2039c9d0546632b8a856b3eeabd3bfb3d5b597507ab319b97c281a4a70d748f38bc66fa218a61cb44f55ad997ad5d9c9935
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:*, nanoid@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "nanoid@npm:5.0.4"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 28c22d3ff96ea9e6abc059813b8483890c1f52de0f185d8347b0ea205c5966530205c374f1f77492bb53dc5d649de5d36d6eade16645055eb9220dc62080c1b1
   languageName: node
   linkType: hard
 

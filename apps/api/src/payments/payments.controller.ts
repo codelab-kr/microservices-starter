@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 
 @Controller('payments')
-export class paymentsController {
+export class PaymentsController {
   constructor(
     @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
   ) {}

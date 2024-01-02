@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Body,
-  Param,
-  Delete,
-  Post,
-  Inject,
-} from '@nestjs/common';
+import { Controller, Get, Param, Delete, Inject } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -17,7 +9,7 @@ import { PaymentsService } from './payments.service';
 import { Payment } from './models/payment';
 import { ClientProxy, EventPattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
-import { CreatePaymentInput } from './utils/create.payment.input';
+// import { CreatePaymentInput } from './dtos/create.payment.input';
 
 @Controller('payments')
 @ApiTags('PAYMENT API')
@@ -28,9 +20,10 @@ export class PaymentsController {
   ) {}
 
   @EventPattern('createPayment')
-  createPayment(@Payload() data: CreatePaymentDto) {
-    console.log('CreatePaymentDto', data);
-    this.natsClient.emit('paymentCreated', data);
+  async createPayment(@Payload() data: CreatePaymentDto) {
+    console.log('CreatePaymentDto - controller', data);
+    const newPayment = await this.paymentService.createPayment(data);
+    if (newPayment) this.natsClient.emit('paymentCreated', newPayment);
   }
 
   @Get()
@@ -43,19 +36,19 @@ export class PaymentsController {
   @Get('/:id')
   @ApiOperation({ summary: 'PAYMENT 조회 API' })
   @ApiOkResponse({ description: 'PAYMENT을 조회한다.', type: Payment })
-  async findOne(@Param('id') id: number) {
-    return await this.paymentService.findById(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.paymentService.findById(id);
   }
 
-  @Post()
-  @ApiOperation({
-    summary: 'PAYMENT 생성 API',
-    description: 'PAYMENT를 생성한다.',
-  })
-  @ApiCreatedResponse({ description: 'PAYMENT를 생성한다.', type: Payment })
-  async create(@Body() requestDto: CreatePaymentInput) {
-    return await this.paymentService.createPayment(requestDto);
-  }
+  // @Post()
+  // @ApiOperation({
+  //   summary: 'PAYMENT 생성 API',
+  //   description: 'PAYMENT를 생성한다.',
+  // })
+  // @ApiCreatedResponse({ description: 'PAYMENT를 생성한다.', type: Payment })
+  // async create(@Body() requestDto: CreatePaymentInput) {
+  //   return await this.paymentService.createPayment(requestDto);
+  // }
 
   @Delete('/:id')
   @ApiOperation({
@@ -63,7 +56,7 @@ export class PaymentsController {
     description: 'PAYMENT을 삭제한다.',
   })
   @ApiCreatedResponse({ description: 'PAYMENT를 생성한다.', type: Payment })
-  async delete(@Param('id') id: number) {
-    return await this.paymentService.deletePayment(+id);
+  delete(@Param('id') id: number) {
+    return this.paymentService.deletePayment(+id);
   }
 }

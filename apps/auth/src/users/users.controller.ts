@@ -4,29 +4,24 @@ import {
   Delete,
   Get,
   Param,
-  // Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './schemas/user.schema';
-import { ApiTags } from '@nestjs/swagger';
-import { GetUsersArgs } from './dtos/args/get-users.args';
-// import { CreateUserInput } from './dtos/input/create-user.input';
-import { UpdateUserInput } from './dtos/input/update-user.input';
+import { UpdateUserDto } from './dtos/update.user.dto';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create.user.dto';
-@ApiTags('Users API')
+import { User } from './models/user';
+
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @MessagePattern({ cmd: 'createUser' })
-  createUser(@Payload() data: CreateUserDto) {
+  async createUser(@Payload() data: CreateUserDto) {
     console.log('data', data);
-    return { massege: 'User created' };
+    return await this.usersService.createUser(data);
   }
 
   @EventPattern('paymentCreated')
@@ -34,32 +29,34 @@ export class UsersController {
     console.log('handlePaymentCreated', data);
   }
 
-  // @Post()
-  // async createUser(@Body() request: CreateUserInput): Promise<User> {
-  //   return this.usersService.createUser(request);
-  // }
+  @MessagePattern({ cmd: 'getUserById' })
+  getUserById(@Payload() data) {
+    const { id } = data;
+    console.log('getUserById', id);
+    return this.usersService.getUserById(id);
+  }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':_id')
-  async getUser(@Param('_id') _id: string): Promise<User> {
-    return this.usersService.getUser(_id);
+  @Get(':id')
+  async getUser(@Param('id') id: string): Promise<User> {
+    return this.usersService.getUserById(id);
   }
 
-  @Get()
-  async getUsers(@Query() getUsersArgs?: GetUsersArgs): Promise<User[]> {
-    return this.usersService.getUsers(getUsersArgs);
+  @MessagePattern({ cmd: 'getUsers' })
+  async getUsers(): Promise<User[]> {
+    return await this.usersService.getUsers();
   }
 
-  @Put(':_id')
-  async updateUser(
-    @Param('_id') _id: string,
-    @Body() request: UpdateUserInput,
-  ): Promise<User> {
-    return this.usersService.updateUser({ ...request, _id });
+  @Put(':id')
+  updateUser(
+    @Param('id') id: string,
+    @Body() request: UpdateUserDto,
+  ): Promise<any> {
+    return this.usersService.updateUser({ ...request, id });
   }
 
-  @Delete(':_id')
-  async deleteUser(@Param('_id') _id: string): Promise<User> {
-    return this.usersService.deleteUser({ _id });
+  @Delete(':id')
+  deleteUser(@Param('id') id: string): Promise<any> {
+    return this.usersService.deleteUser({ id });
   }
 }

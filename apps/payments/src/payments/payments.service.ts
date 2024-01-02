@@ -1,14 +1,19 @@
-import { NotFoundException, Injectable } from '@nestjs/common';
+import { NotFoundException, Injectable, Inject } from '@nestjs/common';
 import { isEmpty } from '@app/common';
 import { PaymentsMessage } from './payments.message';
-import { CreatePaymentInput } from './utils/create.payment.input';
-import { UpdatePaymentInput } from './utils/update.payment.ipnput';
+import { UpdatePaymentInput } from './dtos/update.payment.input';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { Payment } from './models/payment';
+import { ClientProxy } from '@nestjs/microservices';
+import { CreatePaymentDto } from './dtos/create.payment.dto';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class PaymentsService {
-  constructor(private readonly paymentsRepository: PaymentsRepository) {}
+  constructor(
+    private readonly paymentsRepository: PaymentsRepository,
+    @Inject('NATS_SERVICE') private natsClient: ClientProxy,
+  ) {}
 
   /**
    * PAYMENT를 생성한다.
@@ -16,8 +21,24 @@ export class PaymentsService {
    * @param {PaymentCreateRequestDto} requestDto - PAYMENT 생성 Dto
    * @returns {Promise<Payment>}
    */
-  createPayment(requestDto: CreatePaymentInput): Promise<Payment> {
-    return this.paymentsRepository.save(requestDto);
+  async createPayment(createPaymentDto: CreatePaymentDto) {
+    console.log('createPaymentDto - service', createPaymentDto);
+    const user = await lastValueFrom(
+      this.natsClient.send(
+        { cmd: 'getUserById' },
+        { id: createPaymentDto.userId },
+      ),
+    );
+    console.log('user', user);
+    if (user) {
+      const payment = await this.paymentsRepository.save({
+        ...createPaymentDto,
+        user,
+      });
+      this.natsClient.emit('paymentCreated', payment);
+      return payment;
+    }
+    return null;
   }
 
   /**
@@ -32,24 +53,24 @@ export class PaymentsService {
   /**
    * PAYMENT Id에 해당하는 PAYMENT 정보를 조회한다.
    *
-   * @param {number} id - PAYMENT Id
+   * @param {string} id - PAYMENT Id
    * @returns {Promise<PaymentResponseDto>}
    */
-  findById(id: number): Promise<Payment> {
+  findById(id: string): Promise<Payment> {
     return this.findPaymentById(id);
   }
 
   /**
    * PAYMENT Id에 해당하는 PAYMENT 정보를 수정한다.
    *
-   * @param {number} id - PAYMENT Id
+   * @param {string} id - PAYMENT Id
    * @param {PaymentUpdateRequestDto} requestDto - PAYMENT 수정 Dto
    * @returns {Promise<Payment>}
    */
   async updatePayment(requestDto: UpdatePaymentInput): Promise<Payment> {
     const payment = await this.findPaymentById(requestDto.id);
-    const { userId } = requestDto;
-    const updatePayment = { ...payment, userId };
+    const { amount } = requestDto;
+    const updatePayment = { ...payment, amount };
     return this.paymentsRepository.save(updatePayment);
   }
 
@@ -60,7 +81,7 @@ export class PaymentsService {
    * @returns {Promise<Payment>}
    * @private
    */
-  private async findPaymentById(id: number): Promise<Payment> {
+  private async findPaymentById(id: string): Promise<Payment> {
     const payment = await this.paymentsRepository.findOne({
       where: { id },
       relations: ['settings'],
@@ -76,7 +97,7 @@ export class PaymentsService {
   /**
    * PAYMENT Id에 해당하는 PAYMENT 정보를 삭제한다.
    *
-   * @param {number} id - PAYMENT Id
+   * @param {string} id - PAYMENT Id
    * @returns {Promise<void>}
    */
   deletePayment(id: number): void {

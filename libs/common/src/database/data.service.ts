@@ -32,6 +32,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         this.nodeEnv === 'production'
           ? ['error']
           : ['error', 'query', 'schema'],
+      synchronize: this.nodeEnv === 'production' ? false : true,
     };
   }
 

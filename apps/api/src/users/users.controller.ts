@@ -1,4 +1,4 @@
-import { Controller, Post, Inject, Body } from '@nestjs/common';
+import { Controller, Post, Inject, Body, Get } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create.user.dto';
 
@@ -13,5 +13,11 @@ export class UsersController {
     console.log('createUserDto', createUserDto);
     // request-response pattern
     return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+  }
+
+  @Get()
+  getUsers() {
+    // request-response pattern
+    return this.natsClient.send({ cmd: 'getUsers' }, {});
   }
 }

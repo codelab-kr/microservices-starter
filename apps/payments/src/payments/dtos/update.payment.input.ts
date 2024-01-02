@@ -2,8 +2,11 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
-export class DeleteUserInput {
-  @Field(() => String)
+export class UpdatePaymentInput {
   @IsNotEmpty()
-  _id: string;
+  @Field()
+  id: string;
+
+  @Field({ nullable: true })
+  amount?: number;
 }
