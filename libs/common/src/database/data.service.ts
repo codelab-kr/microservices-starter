@@ -23,20 +23,21 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       port: parseInt(this.get('DB_PORT'), 10) ?? 3306,
       username: this.get('DB_USERNAME'),
       password: this.get('DB_PASSWORD'),
-      database: this.get('DB_NAME'),
+      database: this.nodeEnv === 'test' ? 'test' : this.get('DB_NAME'),
       entities:
         this.nodeEnv === 'test'
-          ? ['./apps/**/models/*.ts']
+          ? [`./apps/${this.get('SERVICE_NAME')}/src/models/*.ts`]
           : ['./dist/apps/**/models/*.js'],
       logging:
         this.nodeEnv === 'production'
           ? ['error']
           : ['error', 'query', 'schema'],
-      synchronize: this.nodeEnv === 'production' ? false : true,
+      synchronize: this.nodeEnv !== 'production',
     };
   }
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log('this.dataSourceOptions', this.dataSourceOptions);
     return this.dataSourceOptions;
   }
 }

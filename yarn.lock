@@ -2642,6 +2642,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cron@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@types/cron@npm:2.4.0"
+  dependencies:
+    cron: "npm:*"
+  checksum: a0deb757122deb6b1395ef328e93d98c8ceb5e9fc37dfce0c1afa13122a1f0e070364cef691f08ffd0e2e817e7b6b8c3160832afa91410302b2c6f8304bca262
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.3":
   version: 3.7.7
   resolution: "@types/eslint-scope@npm:3.7.7"
@@ -4797,6 +4806,16 @@ __metadata:
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
   checksum: 157cbc59b2430ae9a90034a5f3a1b398b6738bf510f713edc4d4e45e169bc514d3d99dd34d8d01ca7ae7830b5b8b537e46ae8f3c8f932371b0875c0151d7ec91
+  languageName: node
+  linkType: hard
+
+"cron@npm:*, cron@npm:^3.1.6":
+  version: 3.1.6
+  resolution: "cron@npm:3.1.6"
+  dependencies:
+    "@types/luxon": "npm:~3.3.0"
+    luxon: "npm:~3.4.0"
+  checksum: f8328ce1052531bc14372acbfbddb38db33b30b29ac878d574b317779160b2947c9315c81dccb8a33724418cd86440a92269055037c96a2e917c867d57274009
   languageName: node
   linkType: hard
 
@@ -8296,6 +8315,7 @@ __metadata:
     "@types/cache-manager": "npm:^4.0.6"
     "@types/cache-manager-redis-store": "npm:^2.0.4"
     "@types/cookie-parser": "npm:^1.4.6"
+    "@types/cron": "npm:^2.4.0"
     "@types/express": "npm:^4.17.21"
     "@types/hbs": "npm:^4.0.4"
     "@types/jest": "npm:29.5.11"
@@ -8319,6 +8339,7 @@ __metadata:
     class-validator: "npm:^0.14.0"
     cookie-parser: "npm:^1.4.6"
     copyfiles: "npm:^2.4.1"
+    cron: "npm:^3.1.6"
     dotenv: "npm:^16.3.1"
     eslint: "npm:^8.56.0"
     eslint-config-prettier: "npm:^9.1.0"

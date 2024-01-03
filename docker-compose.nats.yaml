@@ -28,8 +28,7 @@ services:
       # - mongodb-primary
       # - mysql
       - nats
-      - rabbitmq
-
+      
   payments:
     build:
       context: .
@@ -43,7 +42,26 @@ services:
       # - mongodb-primary
       # - mysql
       - nats
-      - rabbitmq
+
+  posts:
+    build:
+      context: .
+      dockerfile: ./apps/posts/Dockerfile
+      target: development
+    ports:
+      - '3009:80'
+    env_file:
+      - ./apps/posts/.env
+    depends_on:
+      # - mysql
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - nats
+    volumes:
+      - ./apps/posts:/usr/src/app/apps/posts:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./migrations:/usr/src/app/migrations:z
 
   nats:
     image: nats:latest
@@ -52,7 +70,3 @@ services:
       - '8222:8222'
       - '6222:6222'
 
-  rabbitmq:
-    image: rabbitmq
-    ports:
-      - '5672:5672'

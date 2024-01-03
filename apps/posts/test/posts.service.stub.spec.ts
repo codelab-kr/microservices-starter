@@ -1,33 +1,53 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotFoundException } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { INestApplication, NotFoundException } from '@nestjs/common';
+import { DataSource, DeleteResult } from 'typeorm';
 import { PostsService } from '../src/posts.service';
 import { PostsRepository } from '../src/repositories/posts.repository';
 import { Post } from '../src/models/post';
 import { postStub } from './stubs/post.stub';
 import { CreatePostInput } from '../src/utils/create.post.input';
 import { UpdatePostInput } from '../src/utils/update.post.ipnput';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostSettings } from '../src/models/post.settings';
+// import { TypeOrmModule } from '@nestjs/typeorm';
+// import { PostSettings } from '../src/models/post.settings';
 import { PostsModule } from '../src/posts.module';
+// import { DataModule } from '../../../libs/common/src';
+
+// TODO: 종료 후에도 자원이 해제되지 않음
 
 describe('PostsService (Stub)', () => {
+  let app: INestApplication;
   let postsService: PostsService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          entities: [Post, PostSettings],
-          autoLoadEntities: true,
-          synchronize: true,
-        }),
-        PostsModule,
-      ],
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      // imports: [
+      //   TypeOrmModule.forRoot({
+      //     type: 'sqlite',
+      //     database: ':memory:',
+      //     entities: [Post, PostSettings],
+      //     autoLoadEntities: true,
+      //     synchronize: true,
+      //   }),
+      //   PostsModule,
+      // ],
+      imports: [PostsModule],
     }).compile();
-    postsService = module.get<PostsService>(PostsService);
+
+    postsService = moduleRef.get<PostsService>(PostsService);
+    app = moduleRef.createNestApplication();
+    const dataSource = app.get(DataSource);
+    await dataSource.synchronize();
+    await app.init();
+  });
+
+  afterAll(async () => {
+    const dataSource = app.get(DataSource);
+    if (dataSource) {
+      await dataSource.dropDatabase();
+      dataSource.destroy();
+    }
+    await app.close();
+    console.log('afterAll');
   });
 
   describe('createPost', () => {
@@ -45,6 +65,7 @@ describe('PostsService (Stub)', () => {
           .spyOn(PostsRepository.prototype, 'save')
           .mockResolvedValue(postStub());
         post = await postsService.createPost(request);
+        console.log('post', post);
       });
 
       test('then it should call postRepository', async () => {
@@ -211,7 +232,7 @@ describe('PostsService (Stub)', () => {
         deleteSpy = jest
           .spyOn(PostsRepository.prototype, 'delete')
           .mockResolvedValue({} as DeleteResult);
-        result = await postsService.deletePost(id);
+        result = postsService.deletePost(id);
       });
 
       test('then it should call postRepository', async () => {

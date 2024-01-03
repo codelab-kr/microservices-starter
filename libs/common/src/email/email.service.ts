@@ -74,7 +74,7 @@ export class EmailService {
 
       () => this.transporter.sendMail(emailOptions),
     );
-    this.schedulerRegistry.addCronJob(cronJobName, job);
+    this.schedulerRegistry.addCronJob(cronJobName, job as any);
   }
 
   async sendIcs(emailOptions: EmailOptions, event: ics.EventAttributes) {
