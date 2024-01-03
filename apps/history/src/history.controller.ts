@@ -1,19 +1,15 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { HistoryService } from './history.service';
-import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { JwtAuthGuard, RmqService } from '@app/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
+// import { JwtAuthGuard } from '@app/common';
 
 @Controller()
 export class HistoryController {
-  constructor(
-    private readonly historyService: HistoryService,
-    private readonly rmqService: RmqService,
-  ) {}
+  constructor(private readonly historyService: HistoryService) {}
 
   @EventPattern('video_viewed')
-  @UseGuards(JwtAuthGuard)
-  async handleVideoCreated(@Payload() data: any, @Ctx() context: RmqContext) {
+  // @UseGuards(JwtAuthGuard)
+  async handleVideoCreated(@Payload() data: any) {
     this.historyService.create(data);
-    this.rmqService.ack(context);
   }
 }

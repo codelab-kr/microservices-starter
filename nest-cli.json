@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/videos/src",
+  "sourceRoot": "apps/api/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": false,
-    "tsConfigPath": "apps/videos/tsconfig.app.json"
+    "tsConfigPath": "apps/videapios/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/videos",
+  "root": "apps/api",
 
   "projects": {
     "common": {
@@ -25,7 +25,7 @@
       "type": "application",
       "root": "apps/videos",
       "entryFile": "main",
-      "sourceRoot": "app/videos/src",
+      "sourceRoot": "apps/videos/src",
       "compilerOptions": {
         "tsConfigPath": "apps/videos/tsconfig.app.json"
       }
@@ -68,16 +68,6 @@
       "sourceRoot": "apps/storage/src",
       "compilerOptions": {
         "tsConfigPath": "apps/storage/tsconfig.app.json"
-      }
-    },
-    
-    "gateway": {
-      "type": "application",
-      "root": "apps/gateway",
-      "entryFile": "main",
-      "sourceRoot": "apps/gateway/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/gateway/tsconfig.app.json"
       }
     },
 

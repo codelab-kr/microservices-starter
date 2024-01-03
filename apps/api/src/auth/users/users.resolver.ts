@@ -10,7 +10,7 @@ import {
 import { Inject } from '@nestjs/common';
 import { User } from './models/user';
 import { CreateUserDto } from './dtos/create.user.dto';
-import { Payment } from '../payments/models/payment';
+import { Payment } from '../../payments/models/payment';
 
 @Resolver(() => User)
 export class UsersResolver {

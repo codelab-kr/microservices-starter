@@ -28,7 +28,7 @@ services:
       # - mongodb-primary
       # - mysql
       - nats
-      
+
   payments:
     build:
       context: .
@@ -48,8 +48,6 @@ services:
       context: .
       dockerfile: ./apps/posts/Dockerfile
       target: development
-    ports:
-      - '3009:80'
     env_file:
       - ./apps/posts/.env
     depends_on:
@@ -63,10 +61,66 @@ services:
       - ./libs/common:/usr/src/app/libs/common:z
       # - ./migrations:/usr/src/app/migrations:z
 
+  videos:
+    build:
+      context: .
+      dockerfile: ./apps/videos/Dockerfile
+      target: development
+    env_file:
+      - ./apps/videos/.env
+    command: yarn start:dev videos
+    depends_on:
+      # - mysql
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - nats
+    volumes:
+      - ./apps/videos:/usr/src/app/apps/videos:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./migrations:/usr/src/app/migrations:z
+
+  history:
+    build:
+      context: .
+      dockerfile: ./apps/history/Dockerfile
+      target: development
+    env_file:
+      - ./apps/history/.env
+    command: yarn start:dev history
+    depends_on:
+      # - mysql
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - nats
+    volumes:
+      - ./apps/history:/usr/src/app/apps/history:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./migrations:/usr/src/app/migrations:z
+
+  storage:
+    build:
+      context: .
+      dockerfile: ./apps/storage/Dockerfile
+      target: development
+    env_file:
+      - ./apps/storage/.env
+    command: yarn start:dev storage
+    depends_on:
+      # - mysql
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - nats
+    volumes:
+      - ./apps/storage:/usr/src/app/apps/storage:z
+      - ./libs/common:/usr/src/app/libs/common:z
+      # - ./migrations:/usr/src/app/migrations:z
+
   nats:
     image: nats:latest
     ports:
       - '4222:4222'
       - '8222:8222'
       - '6222:6222'
-

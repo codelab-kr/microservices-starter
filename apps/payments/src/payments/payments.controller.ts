@@ -10,7 +10,6 @@ import { Payment } from './models/payment';
 import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { FindPaymentDto } from './dtos/find.payment.dto';
-// import { CreatePaymentInput } from './dtos/create.payment.input';
 
 @Controller('payments')
 @ApiTags('PAYMENT API')
@@ -47,16 +46,6 @@ export class PaymentsController {
   async findOne(@Param('id') id: string) {
     return await this.paymentService.findById(id);
   }
-
-  // @Post()
-  // @ApiOperation({
-  //   summary: 'PAYMENT 생성 API',
-  //   description: 'PAYMENT를 생성한다.',
-  // })
-  // @ApiCreatedResponse({ description: 'PAYMENT를 생성한다.', type: Payment })
-  // async create(@Body() requestDto: CreatePaymentInput) {
-  //   return await this.paymentService.createPayment(requestDto);
-  // }
 
   @Delete('/:id')
   @ApiOperation({

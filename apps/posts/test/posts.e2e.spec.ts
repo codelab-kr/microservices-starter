@@ -5,26 +5,19 @@ import { PostsModule } from '../src/posts.module';
 import { DataSource } from 'typeorm';
 import { print } from 'graphql';
 import { createPostMutation, getPostsQuery } from '../src/utils/queries';
-import { DataModule, TypeOrmExModule } from '../../../libs/common/src';
 import { PostsRepository } from '../src/repositories/posts.repository';
-import { PostSettingsRepository } from '../src/repositories/post.settings.repository';
 
 describe('Graphql Server Posts (e2e)', () => {
   let app: INestApplication;
+  let postsRepository: PostsRepository;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        PostsModule,
-        DataModule,
-        TypeOrmExModule.forCustomRepository([
-          PostsRepository,
-          PostSettingsRepository,
-        ]),
-      ],
+      imports: [PostsModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    postsRepository = moduleFixture.get<PostsRepository>(PostsRepository);
     const dataSource = app.get(DataSource);
     await dataSource.synchronize();
     await app.init();
@@ -38,6 +31,10 @@ describe('Graphql Server Posts (e2e)', () => {
     }
     await app.close();
   });
+
+  // beforeEach(async () => {
+  //   await postsRepository.clear();
+  // });
 
   describe('getPosts', () => {
     it('should query getPosts and return 0 posts', () => {

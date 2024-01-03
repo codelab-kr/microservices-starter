@@ -1,42 +1,29 @@
 import {
   Controller,
   Get,
-  UseGuards,
   Query,
   Param,
   // UseInterceptors,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
-import { JwtAuthGuard, RmqService } from '@app/common';
+// import { JwtAuthGuard, RmqService } from '@app/common';
 // import { CacheInterceptor } from '@nestjs/cache-manager';
-import {
-  Ctx,
-  MessagePattern,
-  Payload,
-  RmqContext,
-} from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateVideoRequest } from './dto/create-video.request';
 // @UseInterceptors(CacheInterceptor)
 @Controller()
 export class VideosController {
-  constructor(
-    private readonly videosService: VideosService,
-    private readonly rmqService: RmqService,
-  ) {}
+  constructor(private readonly videosService: VideosService) {}
 
-  @MessagePattern('create-video')
-  async createVideo(
-    @Payload() data: CreateVideoRequest,
-    @Ctx() context: RmqContext,
-  ) {
-    await this.videosService.createVideo(data);
-    this.rmqService.ack(context);
+  @MessagePattern({ cmd: 'create-video' })
+  async createVideo(@Payload() data: CreateVideoRequest) {
+    return await this.videosService.createVideo(data);
   }
 
   @Get(':_id')
   // @UseGuards(JwtAuthGuard)
   async getVideo(@Param('_id') _id: string) {
-    return this.videosService.getVideo({ _id });
+    return this.videosService.getVideo(_id);
   }
 
   @Get()
@@ -47,13 +34,13 @@ export class VideosController {
 
   // test: /videos/get?url=https://jsonplaceholder.typicode.com/todos/1
   @Get('get')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async get(@Query('url') url: string): Promise<any[]> {
     return this.videosService.get(url);
   }
 
   @Get('error')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async error(): Promise<any> {
     return this.videosService.error();
   }

@@ -12,10 +12,7 @@ FROM node:alpine AS development
 WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY --from=builder /usr/src/app/ ./
-CMD npx wait-port mongodb-primary:27017 && \
-  npx wait-port rabbitmq:5672 &&  \
-  npx wait-port redis:6379 && \
-  yarn start:dev api
+CMD yarn start:dev api
 
 
 FROM node:alpine AS production

@@ -18,12 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config jest-e2e.json",
-    "migration:generate": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:generate -d ../libs/common/src/database/data.source.ts",
-    "migration:run": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:run -d ../libs/common/src/database/data.source.ts",
-    "migration:revert": "cd migrations && NODE_ENV=migration ts-node ../node_modules/typeorm/cli.js migration:revert -d ../libs/common/src/database/data.source.ts"
+    "migration:generate": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:generate -d ../../libs/common/src/database/data.source.ts",
+    "migration:run": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:run -d ../../libs/common/src/database/data.source.ts",
+    "migration:revert": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:revert -d ../../libs/common/src/database/data.source.ts"
   },
   "dependencies": {
-    "@apollo/server": "^4.9.5",
+    "@apollo/server": "^4.10.0",
     "@mercuriusjs/federation": "^2.0.0",
     "@mercuriusjs/gateway": "^2.2.0",
     "@nestjs/apollo": "^12.0.11",
@@ -82,7 +82,7 @@
     "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.6",
-    "typeorm": "^0.3.17",
+    "typeorm": "^0.3.18",
     "winston": "^3.11.0"
   },
   "devDependencies": {
@@ -101,11 +101,11 @@
     "@types/multer": "^1.4.11",
     "@types/nanoid": "^3.0.0",
     "@types/node": "20.10.6",
-    "@types/passport-jwt": "^3.0.13",
+    "@types/passport-jwt": "^4.0.0",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",

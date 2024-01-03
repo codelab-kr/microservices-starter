@@ -17,6 +17,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
+        SERVICE_NAME: Joi.string().required(),
       }),
       envFilePath: './apps/auth/.env',
     }),
@@ -28,10 +29,6 @@ import * as Joi from 'joi';
         },
       }),
       inject: [ConfigService],
-    }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: './apps/auth/.env',
     }),
     TypeOrmExModule.forCustomRepository([UsersRepository, PaymentsRepository]),
     DataModule,

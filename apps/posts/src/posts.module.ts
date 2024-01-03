@@ -10,6 +10,7 @@ import { PostsResolver } from './resolvers/posts.resolver';
 import { PostSettingResolver } from './resolvers/post.settings.resolver';
 import { PostSettingsRepository } from './repositories/post.settings.repository';
 import { PostSettingsService } from './post.settings.service';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { PostSettingsService } from './post.settings.service';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        SERVICE_NAME: Joi.string().required(),
+      }),
       envFilePath: './apps/posts/.env',
     }),
     TypeOrmExModule.forCustomRepository([

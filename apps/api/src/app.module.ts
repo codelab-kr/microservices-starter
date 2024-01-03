@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './auth/users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -10,6 +10,7 @@ import * as path from 'path';
 import { AuthModule, EnhancerModule } from '@app/common';
 import { AppController } from './app.controller';
 import * as cookieParser from 'cookie-parser';
+import * as Joi from 'joi';
 @Module({
   imports: [
     NatsClientModule,
@@ -19,6 +20,9 @@ import * as cookieParser from 'cookie-parser';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        SERVICE_NAME: Joi.string().required(),
+      }),
       envFilePath: './apps/api/.env',
     }),
     ServeStaticModule.forRoot({

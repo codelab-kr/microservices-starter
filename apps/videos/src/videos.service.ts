@@ -10,10 +10,10 @@ export class VideosService {
   constructor(private readonly videosRepository: VideosRepository) {}
 
   async createVideo(data: CreateVideoRequest) {
-    await this.videosRepository.create(data);
+    return await this.videosRepository.create(data);
   }
 
-  async getVideo({ _id }) {
+  async getVideo(_id: string) {
     const video = await this.videosRepository.find({ _id });
     if (video?.length === 0) {
       throw new UnprocessableEntityException(VideosMessage.NOT_FOUND_VIDEO);

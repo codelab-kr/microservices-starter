@@ -1,13 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { setupSwagger } from '@app/common';
 import { PostsModule } from './posts.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(PostsModule);
+  console.log('Posts service is starting...');
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    PostsModule,
+    {
+      transport: Transport.NATS,
+      options: {
+        servers: ['nats://nats'],
+      },
+    },
+  );
   app.useGlobalPipes(new ValidationPipe());
-  setupSwagger(app);
-  await app.startAllMicroservices();
-  await app.listen(80);
+  await app.listen();
 }
 bootstrap();

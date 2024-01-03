@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { StorageController } from './storage.controller';
 import { StorageService } from './storage.service';
-import { AuthModule, RmqModule } from '@app/common';
+import { AuthModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
@@ -9,12 +9,8 @@ import * as Joi from 'joi';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: Joi.object({
-        RABBIT_MQ_URI: Joi.string().required(),
-        RABBIT_MQ_STORAGE_QUEUE: Joi.string().required(),
-      }),
+      validationSchema: Joi.object({}),
     }),
-    RmqModule,
     AuthModule,
   ],
   controllers: [StorageController],

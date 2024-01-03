@@ -27,4 +27,4 @@ COPY --from=builder /usr/src/app/.yarn/ ./.yarn/
 RUN yarn install --immutable --immutable-cache
 COPY --from=builder /usr/src/app/dist/ ./dist/
 
-CMD ["node", "dist/apps/pai/src/main"]
+CMD ["node", "dist/apps/posts/src/main"]

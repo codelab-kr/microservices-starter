@@ -9,6 +9,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PaymentsResolver } from './resolvers/payments.resolver';
 import { NatsClientModule } from '../nats-client/nats-client.module';
 import { UsersRepository } from './repositories/users.repository';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { UsersRepository } from './repositories/users.repository';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        SERVICE_NAME: Joi.string().required(),
+      }),
       envFilePath: './apps/payments/.env',
     }),
     TypeOrmExModule.forCustomRepository([PaymentsRepository, UsersRepository]),

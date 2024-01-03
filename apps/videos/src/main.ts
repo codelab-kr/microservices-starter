@@ -1,17 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { VideosModule } from './videos.module';
 import { ValidationPipe } from '@nestjs/common';
-import { RmqService } from '@app/common';
-import { RmqOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   console.log('Videos service is starting...');
-  const app = await NestFactory.create(VideosModule);
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    VideosModule,
+    {
+      transport: Transport.NATS,
+      options: {
+        servers: ['nats://nats'],
+      },
+    },
+  );
   app.useGlobalPipes(new ValidationPipe());
-  const rmqService = app.get<RmqService>(RmqService);
-  app.connectMicroservice<RmqOptions>(rmqService.getOptions('VIDEOS', true));
-  app.enableCors();
-  await app.startAllMicroservices();
-  await app.listen(80);
+  await app.listen();
 }
 bootstrap();

@@ -13,7 +13,7 @@ export const dataSource: DataSource = new DataSource({
       }).parsed,
     ),
   ).dataSourceOptions,
-  entities: ['../apps/**/models/*.ts'],
+  entities: ['../../apps/**/models/*.ts'],
   migrationsTableName: 'migrations',
   migrations: ['./*.ts'],
 });

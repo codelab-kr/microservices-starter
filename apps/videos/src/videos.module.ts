@@ -7,7 +7,6 @@ import {
   DatabaseModule,
   EnhancerModule,
   HttpModule,
-  RmqModule,
 } from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
@@ -20,15 +19,13 @@ import * as Joi from 'joi';
       isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
-        RABBIT_MQ_URI: Joi.string().required(),
-        RABBIT_MQ_VIDEOS_QUEUE: Joi.string().required(),
+        SERVICE_NAME: Joi.string().required(),
       }),
       envFilePath: './apps/videos/.env',
     }),
     EnhancerModule,
     DatabaseModule,
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
-    RmqModule,
     AuthModule,
     HttpModule,
   ],

@@ -1,13 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { StorageModule } from './storage.module';
-import { RmqService } from '@app/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(StorageModule);
-  const rmqService = app.get<RmqService>(RmqService);
-  app.connectMicroservice(rmqService.getOptions('STORAGE'));
-
-  await app.startAllMicroservices();
-  await app.listen(80);
+  console.log('Storage service is starting...');
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    StorageModule,
+    {
+      transport: Transport.NATS,
+      options: {
+        servers: ['nats://nats'],
+      },
+    },
+  );
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen();
 }
 bootstrap();

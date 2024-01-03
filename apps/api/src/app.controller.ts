@@ -14,15 +14,15 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginUserRequest } from './users/dtos/login-user.request';
+import { LoginUserRequest } from './auth/users/dtos/login-user.request';
 import axios from 'axios';
-import { User } from './users/models/user';
+import { User } from './auth/users/models/user';
 import { ClientProxy } from '@nestjs/microservices';
-import { CheckAuthGuard } from './users/auth/check-auth.guard';
-import { CurrentUser } from './users/auth/current-user.decorator';
+import { CheckAuthGuard } from './auth/guards/check-auth.guard';
+import { CurrentUser } from './auth/decorators/current-user.decorator';
 import { lastValueFrom } from 'rxjs';
-import { JwtAuthGuard } from './users/auth/jwt-auth.guard';
-import { NestAuthGuard } from './users/auth/nest-auth.guard';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { NestAuthGuard } from './auth/guards/nest-auth.guard';
 
 @Controller()
 @ApiTags('API')

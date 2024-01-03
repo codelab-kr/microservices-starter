@@ -17,7 +17,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   }
 
   get dataSourceOptions(): DataSourceOptions {
-    return {
+    const dataSourceOptions: DataSourceOptions = {
       type: 'mysql',
       host: os.platform() === 'linux' ? this.get('DB_HOST') : 'localhost',
       port: parseInt(this.get('DB_PORT'), 10) ?? 3306,
@@ -26,18 +26,18 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.nodeEnv === 'test' ? 'test' : this.get('DB_NAME'),
       entities:
         this.nodeEnv === 'test'
-          ? [`./apps/${this.get('SERVICE_NAME')}/src/models/*.ts`]
-          : ['./dist/apps/**/models/*.js'],
+          ? [`./apps/${this.get('SERVICE_NAME')}/src/**/models/*.ts`]
+          : [`./dist/apps/${this.get('SERVICE_NAME')}/src/**/models/*.js`],
       logging:
         this.nodeEnv === 'production'
           ? ['error']
           : ['error', 'query', 'schema'],
       synchronize: this.nodeEnv !== 'production',
     };
+    return dataSourceOptions;
   }
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.log('this.dataSourceOptions', this.dataSourceOptions);
     return this.dataSourceOptions;
   }
 }
