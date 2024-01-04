@@ -10,12 +10,13 @@ import { Payment } from './models/payment';
 import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { FindPaymentDto } from './dtos/find.payment.dto';
+import { NATS_SERVICE } from '@app/common';
 
 @Controller('payments')
 @ApiTags('PAYMENT API')
 export class PaymentsController {
   constructor(
-    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly natsClient: ClientProxy,
     private readonly paymentService: PaymentsService,
   ) {}
 

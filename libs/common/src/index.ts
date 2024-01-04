@@ -4,8 +4,9 @@ export * from './database/abstract.schema';
 export * from './rmq/rmq.service';
 export * from './rmq/rmq.module';
 export * from './auth/auth.module';
-export * from './auth/jwt-auth.guard';
-export * from './auth/check-auth.guard';
+export * from './auth/guards/jwt-auth.guard';
+export * from './auth/guards/check-auth.guard';
+export * from './auth/guards/nest-auth.guard';
 export * from './http/http.service';
 export * from './http/http.module';
 export * from './enhancer/enhancer.module';
@@ -19,6 +20,9 @@ export * from './typeorm-ex/typeorm-ex.decorator';
 export * from './database/data.module';
 export * from './database/data.service';
 export * from './database/database.module';
+export * from './nats-client/nats-client.module';
+export * from './nats-client/nats-client.service';
+export * from './constant/services';
 
 // massage
 export * from './message/users.message';

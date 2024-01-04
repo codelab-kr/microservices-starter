@@ -10,13 +10,12 @@ import {
 import { Inject } from '@nestjs/common';
 import { User } from './models/user';
 import { CreateUserDto } from './dtos/create.user.dto';
-import { Payment } from '../../payments/models/payment';
+import { Payment } from '../payments/models/payment';
+import { NATS_SERVICE } from '@app/common';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(
-    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
-  ) {}
+  constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
 
   @Mutation(() => User)
   CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {

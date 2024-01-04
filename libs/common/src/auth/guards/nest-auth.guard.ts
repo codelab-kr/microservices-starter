@@ -6,29 +6,25 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable, tap } from 'rxjs';
-import { AUTH_SERVICE } from './services';
+import { AUTH_SERVICE } from '../../constant/services';
 
 @Injectable()
-export class CheckAuthGuard implements CanActivate {
+export class NestAuthGuard implements CanActivate {
   constructor(@Inject(AUTH_SERVICE) private authClient: ClientProxy) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const authentication = this.getAuthentication(context);
-    if (!authentication) {
+    if (authentication) {
       return true;
-    } else {
-      return this.authClient
-        .send('validate_user', {
-          Authentication: authentication,
-        })
-        .pipe(
-          tap((res) => {
-            this.addUser(res, context);
-          }),
-        );
     }
+    const authData = this.getAuthData(context);
+    return this.authClient.send({ cmd: 'validateUser' }, authData).pipe(
+      tap((res) => {
+        this.addUser(res, context);
+      }),
+    );
   }
 
   private getAuthentication(context: ExecutionContext) {
@@ -40,6 +36,16 @@ export class CheckAuthGuard implements CanActivate {
         ?.Authentication;
     }
     return authentication ?? '';
+  }
+
+  private getAuthData(context: ExecutionContext) {
+    let authData: any;
+    if (context.getType() === 'rpc') {
+      authData = context.switchToRpc().getData().body;
+    } else if (context.getType() === 'http') {
+      authData = context.switchToHttp().getRequest().body;
+    }
+    return authData ?? {};
   }
 
   private addUser(user: any, context: ExecutionContext) {

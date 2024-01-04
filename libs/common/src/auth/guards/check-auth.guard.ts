@@ -3,35 +3,36 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, Observable, tap } from 'rxjs';
-import { AUTH_SERVICE } from './services';
+import { Observable, tap } from 'rxjs';
+import { AUTH_SERVICE } from '../../constant/services';
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
+export class CheckAuthGuard implements CanActivate {
   constructor(@Inject(AUTH_SERVICE) private authClient: ClientProxy) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const authentication = this.getAuthentication(context);
-    return this.authClient
-      .send(
-        { cmd: 'validate_user' },
-        {
-          Authentication: authentication,
-        },
-      )
-      .pipe(
-        tap((res) => {
-          this.addUser(res, context);
-        }),
-        catchError(() => {
-          throw new UnauthorizedException();
-        }),
-      );
+    console.log('authentication', authentication);
+    if (!authentication) {
+      return true;
+    } else {
+      return this.authClient
+        .send(
+          { cmd: 'validate_user' },
+          {
+            Authentication: authentication,
+          },
+        )
+        .pipe(
+          tap((res) => {
+            this.addUser(res, context);
+          }),
+        );
+    }
   }
 
   private getAuthentication(context: ExecutionContext) {
@@ -42,12 +43,7 @@ export class JwtAuthGuard implements CanActivate {
       authentication = context.switchToHttp().getRequest().cookies
         ?.Authentication;
     }
-    if (!authentication) {
-      throw new UnauthorizedException(
-        'No value was provided for Authentication',
-      );
-    }
-    return authentication;
+    return authentication ?? '';
   }
 
   private addUser(user: any, context: ExecutionContext) {

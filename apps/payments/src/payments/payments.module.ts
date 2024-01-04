@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PaymentsResolver } from './resolvers/payments.resolver';
-import { NatsClientModule } from '../nats-client/nats-client.module';
+import { NatsClientModule } from '@app/common';
 import { UsersRepository } from './repositories/users.repository';
 import * as Joi from 'joi';
 

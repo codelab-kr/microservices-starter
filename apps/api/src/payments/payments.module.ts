@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { NatsClientModule } from '../nats-client/nats-client.module';
 import { PaymentsController } from './payments.controller';
 import { PaymentsResolver } from './payments.resolver';
+import { NatsClientModule } from '@app/common';
 
 @Module({
   imports: [NatsClientModule],

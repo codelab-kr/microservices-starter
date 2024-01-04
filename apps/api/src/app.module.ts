@@ -1,19 +1,18 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { UsersModule } from './auth/users/users.module';
+import { UsersModule } from './users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
-import { NatsClientModule } from './nats-client/nats-client.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { AuthModule, EnhancerModule } from '@app/common';
 import { AppController } from './app.controller';
 import * as cookieParser from 'cookie-parser';
 import * as Joi from 'joi';
+
 @Module({
   imports: [
-    NatsClientModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: './apps/api/src/graphql/schema.gql',
@@ -34,7 +33,6 @@ import * as Joi from 'joi';
     PaymentsModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

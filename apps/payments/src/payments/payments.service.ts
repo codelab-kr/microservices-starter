@@ -7,12 +7,13 @@ import { Payment } from './models/payment';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { lastValueFrom } from 'rxjs';
+import { NATS_SERVICE } from '@app/common';
 
 @Injectable()
 export class PaymentsService {
   constructor(
     private readonly paymentsRepository: PaymentsRepository,
-    @Inject('NATS_SERVICE') private natsClient: ClientProxy,
+    @Inject(NATS_SERVICE) private natsClient: ClientProxy,
   ) {}
 
   /**

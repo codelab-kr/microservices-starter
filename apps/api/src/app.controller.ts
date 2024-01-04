@@ -14,22 +14,23 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginUserRequest } from './auth/users/dtos/login-user.request';
+import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
-import { User } from './auth/users/models/user';
+import { User } from './users/models/user';
 import { ClientProxy } from '@nestjs/microservices';
-import { CheckAuthGuard } from './auth/guards/check-auth.guard';
-import { CurrentUser } from './auth/decorators/current-user.decorator';
+import {
+  AUTH_SERVICE,
+  CheckAuthGuard,
+  JwtAuthGuard,
+  NestAuthGuard,
+} from '@app/common';
 import { lastValueFrom } from 'rxjs';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { NestAuthGuard } from './auth/guards/nest-auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller()
 @ApiTags('API')
 export class AppController {
-  constructor(
-    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
-  ) {}
+  constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy) {}
 
   @UseGuards(CheckAuthGuard)
   @Get()
@@ -56,7 +57,7 @@ export class AppController {
   ) {
     try {
       const cookie = await lastValueFrom(
-        this.natsClient.send({ cmd: 'getCookie' }, user.id),
+        this.authClient.send({ cmd: 'getCookie' }, user.id),
       );
       res.cookie('Authentication', cookie.token, {
         maxAge: cookie.maxAge,
