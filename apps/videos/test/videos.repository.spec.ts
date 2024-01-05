@@ -4,7 +4,7 @@ import { FilterQuery, Connection } from 'mongoose';
 import { videoStub } from './stubs/video.stub';
 import { VideoModel } from './support/video.model';
 import { VideosRepository } from '../src/videos.repository';
-import { Video } from '../src/schemas/video.schema';
+import { Video } from '../src/models/video';
 
 describe('VideosRepository', () => {
   let videosRepository: VideosRepository;

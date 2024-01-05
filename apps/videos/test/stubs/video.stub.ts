@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Video } from '../../src/schemas/video.schema';
+import { Video } from '../../src/models/video';
 
 export const videoStub = (): Video => {
   return {

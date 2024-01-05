@@ -9,7 +9,7 @@ import {
   MongoModule,
 } from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Video, VideoSchema } from './schemas/video.schema';
+import { Video, VideoSchema } from './models/video';
 import { VideosRepository } from './videos.repository';
 import * as Joi from 'joi';
 

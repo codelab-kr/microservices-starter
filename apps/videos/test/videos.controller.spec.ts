@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { videoStub } from './stubs/video.stub';
 import { VideosController } from '../src/videos.controller';
 import { VideosService } from '../src/videos.service';
-import { Video } from '../src/schemas/video.schema';
+import { Video } from '../src/models/video';
 import { CreateVideoInput } from '../src/dto/input/create-video.input';
 // import { UpdateVideoInput } from '../src/dto/input/update-video.input';
 

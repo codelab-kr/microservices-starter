@@ -8,6 +8,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "dev": "ts-node",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -18,9 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config jest-e2e.json",
-    "migration:generate": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:generate -d ../../libs/common/src/database/mysql/mayql.data.source.ts",
-    "migration:run": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:run -d ../../libs/common/src/database/mysql/mayql.data.source.ts",
-    "migration:revert": "cd database/migrations && NODE_ENV=migration ts-node ../../node_modules/typeorm/cli.js migration:revert -d ../../libs/common/src/database/mysql/mayql.data.source.ts"
+    "migration:generate": "cd database/mysql/ && NODE_ENV=migration ts-node ../../../node_modules/typeorm/cli.js migration:generate -d ../../../libs/common/src/database/mysql/mayql.data.source.ts",
+    "migration:run": "cd database/mysql/migrations && NODE_ENV=migration ts-node ../../../node_modules/typeorm/cli.js migration:run -d ../../../libs/common/src/database/mysql/mayql.data.source.ts",
+    "migration:revert": "cd database/mysql/migrations && NODE_ENV=migration ts-node ../../../node_modules/typeorm/cli.js migration:revert -d ../../../libs/common/src/database/mysql/mayql.data.source.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
@@ -66,6 +67,7 @@
     "ics": "^3.7.2",
     "install": "^0.13.0",
     "joi": "^17.11.0",
+    "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "multer": "^2.0.0-rc.4",
     "mysql2": "^3.6.5",

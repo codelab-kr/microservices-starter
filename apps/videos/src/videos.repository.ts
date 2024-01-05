@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { AbstractRepository } from '@app/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { Video } from './schemas/video.schema';
+import { Video } from './models/video';
 
 @Injectable()
 export class VideosRepository extends AbstractRepository<Video> {
