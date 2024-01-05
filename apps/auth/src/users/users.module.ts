@@ -3,12 +3,13 @@ import { UsersRepository } from './repositories/users.repository';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { JwtStrategy } from '../strategies/jwt.strategy';
-import { DataModule, TypeOrmExModule } from '@app/common';
+import { MysqlModule, TypeOrmExModule } from '@app/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { NestStrategy } from '../strategies/nest.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import * as Joi from 'joi';
+import { LocalStrategy } from '../strategies/local.strategy';
 
 @Module({
   imports: [
@@ -31,10 +32,10 @@ import * as Joi from 'joi';
       inject: [ConfigService],
     }),
     TypeOrmExModule.forCustomRepository([UsersRepository, PaymentsRepository]),
-    DataModule,
+    MysqlModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtStrategy, NestStrategy],
+  providers: [UsersService, LocalStrategy, JwtStrategy, NestStrategy],
   exports: [UsersService],
 })
 export class UsersModule {}

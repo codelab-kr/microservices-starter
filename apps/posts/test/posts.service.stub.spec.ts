@@ -7,10 +7,7 @@ import { Post } from '../src/models/post';
 import { postStub } from './stubs/post.stub';
 import { CreatePostInput } from '../src/utils/create.post.input';
 import { UpdatePostInput } from '../src/utils/update.post.ipnput';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { PostSettings } from '../src/models/post.settings';
 import { PostsModule } from '../src/posts.module';
-// import { DataModule } from '../../../libs/common/src';
 
 // TODO: 종료 후에도 자원이 해제되지 않음
 
@@ -20,16 +17,6 @@ describe('PostsService (Stub)', () => {
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
-      // imports: [
-      //   TypeOrmModule.forRoot({
-      //     type: 'sqlite',
-      //     database: ':memory:',
-      //     entities: [Post, PostSettings],
-      //     autoLoadEntities: true,
-      //     synchronize: true,
-      //   }),
-      //   PostsModule,
-      // ],
       imports: [PostsModule],
     }).compile();
 

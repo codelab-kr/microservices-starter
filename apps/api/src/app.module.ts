@@ -15,7 +15,7 @@ import * as Joi from 'joi';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: './apps/api/src/graphql/schema.gql',
+      autoSchemaFile: './apps/api/src/schema.gql',
     }),
     ConfigModule.forRoot({
       isGlobal: true,

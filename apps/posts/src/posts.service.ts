@@ -1,7 +1,7 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
 import { Post } from './models/post';
 import { isEmpty } from '@app/common';
-import { PostsMessage } from './posts.message';
+import { PostsMessage } from '@app/common';
 import { CreatePostInput } from './utils/create.post.input';
 import { UpdatePostInput } from './utils/update.post.ipnput';
 import { PostsRepository } from './repositories/posts.repository';

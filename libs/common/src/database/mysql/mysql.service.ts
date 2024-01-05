@@ -27,7 +27,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities:
         this.nodeEnv === 'test'
           ? [`./apps/${this.get('SERVICE_NAME')}/src/**/models/*.ts`]
-          : [`./dist/apps/${this.get('SERVICE_NAME')}/src/**/models/*.js`],
+          : [`./dist/apps/${this.get('SERVICE_NAME')}/src/models/*.js`],
       logging:
         this.nodeEnv === 'production'
           ? ['error']

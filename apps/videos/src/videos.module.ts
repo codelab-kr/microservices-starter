@@ -4,9 +4,9 @@ import { VideosService } from './videos.service';
 import { ConfigModule } from '@nestjs/config';
 import {
   AuthModule,
-  DatabaseModule,
   EnhancerModule,
   HttpModule,
+  MongoModule,
 } from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
@@ -24,9 +24,9 @@ import * as Joi from 'joi';
       envFilePath: './apps/videos/.env',
     }),
     EnhancerModule,
-    DatabaseModule,
-    MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
     AuthModule,
+    MongoModule,
+    MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
     HttpModule,
   ],
   controllers: [VideosController],

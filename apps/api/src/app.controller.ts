@@ -25,7 +25,7 @@ import {
   NestAuthGuard,
 } from '@app/common';
 import { lastValueFrom } from 'rxjs';
-import { CurrentUser } from './decorators/current-user.decorator';
+import { CurrentUser } from './users/decorators/current-user.decorator';
 
 @Controller()
 @ApiTags('API')

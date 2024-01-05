@@ -2,7 +2,7 @@ import MailemailConfig = require('nodemailer/lib/mailer');
 import * as nodemailer from 'nodemailer';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { emailConfig, testEmailConfig } from '../config/emailConfig';
+import { emailConfig, testEmailConfig } from './emailConfig';
 import { HealthIndicatorResult } from '@nestjs/terminus';
 import { EmailOptions } from './email.options';
 import { CronJob } from 'cron';

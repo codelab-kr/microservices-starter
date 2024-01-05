@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostsRepository } from './repositories/posts.repository';
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
-import { TypeOrmExModule, DataModule } from '@app/common';
+import { TypeOrmExModule, MysqlModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -29,7 +29,7 @@ import * as Joi from 'joi';
       PostsRepository,
       PostSettingsRepository,
     ]),
-    DataModule,
+    MysqlModule,
   ],
   controllers: [PostsController],
   providers: [

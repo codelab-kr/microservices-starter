@@ -12,7 +12,7 @@ import { UpdateUserDto } from './dtos/update.user.dto';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create.user.dto';
-import { User } from './models/user';
+import { User } from '../models/user';
 import { LoginUserRequest } from './dtos/login.user.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';

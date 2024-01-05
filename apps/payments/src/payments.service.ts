@@ -1,6 +1,6 @@
 import { NotFoundException, Injectable, Inject } from '@nestjs/common';
 import { isEmpty } from '@app/common';
-import { PaymentsMessage } from './payments.message';
+import { PaymentsMessage } from '../../../libs/common/src/message/payments.message';
 import { UpdatePaymentInput } from './dtos/update.payment.input';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { Payment } from './models/payment';
