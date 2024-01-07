@@ -15,15 +15,15 @@ services:
     depends_on:
       - nats
 
-  auth:
+  users:
     build:
       context: .
-      dockerfile: ./apps/auth/Dockerfile
+      dockerfile: ./apps/users/Dockerfile
       target: development
     volumes:
-      - ./apps/auth:/usr/src/app/apps/auth:z
+      - ./apps/users:/usr/src/app/apps/users:z
       - ./libs/common:/usr/src/app/libs/common:z
-    command: yarn start:dev auth
+    command: yarn start:dev users
     depends_on:
       # - mongodb-primary
       # - mysql

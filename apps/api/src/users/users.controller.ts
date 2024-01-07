@@ -1,6 +1,6 @@
 import { Controller, Post, Inject, Body, Get } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateUserDto } from './dtos/create.user.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
 import { NATS_SERVICE } from '@app/common';
 
 @Controller('users')

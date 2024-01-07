@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
 import { User } from './models/user';
-import { CreateUserDto } from './dtos/create.user.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
 import { Payment } from '../payments/models/payment';
 import { NATS_SERVICE } from '@app/common';
 

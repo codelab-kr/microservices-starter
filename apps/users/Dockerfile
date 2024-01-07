@@ -5,14 +5,14 @@ COPY ./.yarnrc.yml ./package*.json ./yarn.lock ./pnp.* ./
 COPY ./.yarn/ ./.yarn/
 RUN yarn install --immutable --immutable-cache
 COPY . .
-RUN yarn build auth
+RUN yarn build users
 
 
 FROM node:alpine AS development
 WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY --from=builder /usr/src/app/ ./
-CMD yarn start:dev auth
+CMD yarn start:dev users
 
 
 FROM node:alpine AS production
@@ -27,4 +27,4 @@ COPY --from=builder /usr/src/app/.yarn/ ./.yarn/
 RUN yarn install --immutable --immutable-cache
 COPY --from=builder /usr/src/app/dist/ ./dist/
 
-CMD ["node", "dist/apps/auth/src/main"]
+CMD ["node", "dist/apps/users/src/main"]

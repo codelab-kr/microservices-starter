@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './repositories/users.repository';
 import { UpdateUserDto } from './dtos/update.user.dto';
 import { DeleteUserDto } from './dtos/delete.user.dto';
-import { User } from '../models/user';
+import { User } from './models/user';
 import { CreateUserDto } from './dtos/create.user.dto';
 
 @Injectable()
@@ -25,6 +25,10 @@ export class UsersService {
 
   async getUserById(id: string) {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  async getUserByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
   }
 
   async getUsers() {

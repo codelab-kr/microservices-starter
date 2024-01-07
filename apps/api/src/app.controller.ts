@@ -9,28 +9,24 @@ import {
   Body,
   UseGuards,
   Param,
-  Inject,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
 import { User } from './users/models/user';
-import { ClientProxy } from '@nestjs/microservices';
 import {
-  AUTH_SERVICE,
+  AuthenticatedGuard,
   CheckAuthGuard,
-  JwtAuthGuard,
-  NestAuthGuard,
+  LocalAuthGuard,
+  CurrentUser,
 } from '@app/common';
-import { lastValueFrom } from 'rxjs';
-import { CurrentUser } from './users/decorators/current-user.decorator';
 
 @Controller()
 @ApiTags('API')
 export class AppController {
-  constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy) {}
+  constructor() {}
 
   @UseGuards(CheckAuthGuard)
   @Get()
@@ -47,7 +43,7 @@ export class AppController {
     res.render('login', {});
   }
 
-  @UseGuards(NestAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async loginSubmit(
     @CurrentUser() user: User,
@@ -56,27 +52,26 @@ export class AppController {
     @Body() _data: LoginUserRequest,
   ) {
     try {
-      const cookie = await lastValueFrom(
-        this.authClient.send({ cmd: 'getCookie' }, user.id),
-      );
-      res.cookie('Authentication', cookie.token, {
-        maxAge: cookie.maxAge,
-      });
-      user.password = undefined;
+      console.log('user', user);
       res.redirect('/videos');
     } catch (error) {
       res.render('login', { error: error.response.data.message });
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('logout')
-  async logout(@Res() res: Response) {
-    res.clearCookie('Authentication');
-    res.redirect('/');
+  async logout(@Req() req: Request, @Res() res: Response) {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.send('Logout error');
+      }
+      res.clearCookie('connect.sid');
+      res.render('login', {});
+    });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('videos')
   async videoList(@Res() res: Response, @CurrentUser() user: User) {
     try {
@@ -87,7 +82,7 @@ export class AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('videos/:_id')
   async video(
     @Res() res: Response,
@@ -102,7 +97,7 @@ export class AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('upload')
   upload(@Res() res: Response, @CurrentUser() user: User) {
     res.render('upload-video', { user });
@@ -114,7 +109,7 @@ export class AppController {
    * - @UploadedFile() file: Express.Multer.File,
    * - file?.buffer, file?.originalname, file?.mimetype
    */
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
@@ -149,7 +144,7 @@ export class AppController {
     // });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('history')
   history(@Res() res: Response, @CurrentUser() user: User) {
     res.render('history', { user });

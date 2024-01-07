@@ -1,14 +1,21 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import * as path from 'path';
-import { AuthModule, EnhancerModule } from '@app/common';
+import {
+  AuthModule,
+  AuthenticatedGuard,
+  EnhancerModule,
+  LocalAuthGuard,
+  SessionSerializer,
+  LocalStrategy,
+} from '@app/common';
 import { AppController } from './app.controller';
-import * as cookieParser from 'cookie-parser';
+import { PassportModule } from '@nestjs/passport';
+import * as path from 'path';
 import * as Joi from 'joi';
 
 @Module({
@@ -23,6 +30,8 @@ import * as Joi from 'joi';
         SERVICE_NAME: Joi.string().required(),
       }),
       envFilePath: './apps/api/.env',
+      cache: true,
+      expandVariables: true,
     }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve('public'),
@@ -31,11 +40,14 @@ import * as Joi from 'joi';
     EnhancerModule,
     UsersModule,
     PaymentsModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
+  providers: [
+    LocalAuthGuard,
+    AuthenticatedGuard,
+    LocalStrategy,
+    SessionSerializer,
+  ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(cookieParser()).forRoutes('*');
-  }
-}
+export class AppModule {}
