@@ -16,7 +16,6 @@ export class CheckAuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const authentication = this.getAuthentication(context);
-    console.log('authentication', authentication);
     if (!authentication) {
       return true;
     } else {

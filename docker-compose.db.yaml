@@ -86,6 +86,14 @@ services:
         '--bind_ip_all',
       ]
 
+  redis:
+    image: redis:latest
+    container_name: redis-db
+    ports:
+      - 16379:6379
+    volumes:
+      - redis:/data
+
 volumes:
   mysql_data:
     driver: local
@@ -94,4 +102,6 @@ volumes:
   mongodb_secondary_data:
     driver: local
   mongodb_arbiter_data:
+    driver: local
+  redis:
     driver: local

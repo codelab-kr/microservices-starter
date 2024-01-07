@@ -7,8 +7,8 @@ import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './repositories/users.repository';
 import { UpdateUserDto } from './dtos/update.user.dto';
 import { DeleteUserDto } from './dtos/delete.user.dto';
-import { User } from './models/user';
 import { CreateUserDto } from './dtos/create.user.dto';
+import { User } from './models/user';
 
 @Injectable()
 export class UsersService {

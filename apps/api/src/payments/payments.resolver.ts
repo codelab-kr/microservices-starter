@@ -11,7 +11,6 @@ export class PaymentsResolver {
 
   @Mutation(() => Payment)
   CreatePayment(@Args('createPaymentDto') createPaymentDto: CreatePaymentDto) {
-    console.log('createPaymentDto', createPaymentDto);
     return this.natsClient.send({ cmd: 'createPayment' }, createPaymentDto);
   }
 }

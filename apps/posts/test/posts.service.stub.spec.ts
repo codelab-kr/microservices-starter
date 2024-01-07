@@ -34,7 +34,6 @@ describe('PostsService (Stub)', () => {
       dataSource.destroy();
     }
     await app.close();
-    console.log('afterAll');
   });
 
   describe('createPost', () => {
@@ -52,7 +51,6 @@ describe('PostsService (Stub)', () => {
           .spyOn(PostsRepository.prototype, 'save')
           .mockResolvedValue(postStub());
         post = await postsService.createPost(request);
-        console.log('post', post);
       });
 
       test('then it should call postRepository', async () => {

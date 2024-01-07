@@ -34,6 +34,7 @@ export class UsersController {
 
   @MessagePattern({ cmd: 'validateUser' })
   validateUser(@Payload() data: LoginUserRequest) {
+    console.log('validateUser', data);
     const { email, password } = data;
     return this.usersService.validateUser(email, password);
   }

@@ -18,7 +18,6 @@ export class SessionSerializer extends PassportSerializer {
     payload: any,
     done: (err: Error, payload: any) => void,
   ): Promise<any> {
-    console.log('deserializeUser - payload', payload);
     const user = await lastValueFrom(
       this.authService.send({ cmd: 'getUserByEmail' }, payload),
     );

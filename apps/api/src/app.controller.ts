@@ -47,15 +47,17 @@ export class AppController {
   @Post('login')
   async loginSubmit(
     @CurrentUser() user: User,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Body() _data: LoginUserRequest,
   ) {
     try {
-      console.log('user', user);
       res.redirect('/videos');
     } catch (error) {
-      res.render('login', { error: error.response.data.message });
+      res.render('login', {
+        error: error.massage ?? error.response.data.message,
+      });
     }
   }
 

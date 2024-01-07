@@ -143,3 +143,7 @@ CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtes
 
 docker exec -it test-mysql mysql -uroot -p # testtest 입력
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
+
+
+# 레디스
+https://medium.com/@aashisingh640/securing-your-express-typescript-apps-using-sessions-and-redis-f3818e0c1e17

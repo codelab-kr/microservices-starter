@@ -29,9 +29,6 @@ describe('VideosController', () => {
 
       beforeEach(async () => {
         video = await videosController.getVideo(videoStub()._id.toString());
-
-        console.log('videoStub()._id.toString()', videoStub()._id.toString());
-        console.log('video', video);
       });
 
       test('then it should call videosService', () => {
