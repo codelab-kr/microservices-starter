@@ -6,12 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
-import {
-  JwtAuthModule,
-  SessionAuthModule,
-  EnhancerModule,
-  // AuthServiceFactory,
-} from '@app/common';
+import { JwtAuthModule, SessionAuthModule, EnhancerModule } from '@app/common';
 import * as path from 'path';
 import * as Joi from 'joi';
 
@@ -53,13 +48,11 @@ export class AppModule {
     }
     imports.push(AuthModule);
     const controllers = [AppController];
-    // const providers = [AuthServiceFactory];
 
     return {
       module,
       imports,
       controllers,
-      // providers,
     };
   }
 }

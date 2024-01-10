@@ -150,11 +150,15 @@ CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtes
 https://medium.com/@aashisingh640/securing-your-express-typescript-apps-using-sessions-and-redis-f3818e0c1e17
 
 (+) passport 추가
-(+) 인증, 인가 방식 선택 기능 추가 (.env 파일 SESSION true, false로 설정)
+(+) 인증 방식 선택 기능 추가 (.env 파일 'SESSION' true(A) 또는 false(B)로 설정)
+    Allows to choose authentication method between Redis Session and JWT Cookie
   - A: redis + express session + passport
-  - B: jwt(js web token) + passport (with cookie)
+  - B: jwt + cookie + passport
   참고: .env 파일 변경사항 적용 시 재빌드해야 함
   docker-compose -f docker-compose.yaml up api  --build -V -d 
+
+
+
 
 
 

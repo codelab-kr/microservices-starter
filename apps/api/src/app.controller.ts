@@ -16,22 +16,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
 import { User } from './users/models/user';
-import {
-  CurrentUser,
-  LocalAuthGuard,
-  AuthGuard,
-  // AuthServiceFactory,
-} from '@app/common';
+import { CurrentUser, LocalAuthGuard, AuthGuard } from '@app/common';
 import { ConfigService } from '@nestjs/config';
-// import { lastValueFrom } from 'rxjs';
 @Controller()
 @ApiTags('API')
 export class AppController {
   session: boolean;
-  constructor(
-    private readonly configService: ConfigService,
-    // private readonly authServiceFactory: AuthServiceFactory,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.session = configService.get('SESSION'); // boolean type
   }
   @Get()
@@ -60,10 +51,7 @@ export class AppController {
   ) {
     try {
       if (!this.session) {
-        // const authService = this.authServiceFactory.create();
-        // const { id: userId } = user;
-        // const token = await authService.login({ userId });
-        res.cookie('Authentication', user.access_token, {
+        res.cookie('Authentication', user?.access_token, {
           maxAge: 60 * 60 * 1000,
         });
       }
