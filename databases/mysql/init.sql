@@ -80,7 +80,7 @@ GRANT ALL ON test.* to test@'%';
 --   `category` enum('SAVE','USE','USE_CANCLE') COLLATE utf8mb4_unicode_ci NOT NULL,
 --   `amount` int NOT NULL,
 --   `breakdown` varchar(255) COLLATE utf8mb4_unicode_ci,
---   `expiration_date` date NOT NULL DEFAULT (date_format((now() + interval 1 year),_utf8mb4'%Y-%m-%d')),
+--   `expiresin_date` date NOT NULL DEFAULT (date_format((now() + interval 1 year),_utf8mb4'%Y-%m-%d')),
 --   `user_id` int NOT NULL,
 --   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 --   PRIMARY KEY (`id`),
@@ -105,13 +105,13 @@ GRANT ALL ON test.* to test@'%';
 -- INSERT INTO test.`user` (id, email, password, username, leave_reason, leave_reason_detail, created_at, deleted_at) VALUES(2, 'wishty2@gmail.com', '$2b$10$agzWXPCbC.rhR1ATKcEm2uch0AfgK2A6wVqHG/YIjjOjggFvNNd5S', 'wishty2', NULL, NULL, '2022-12-28 21:48:40.217217', NULL);
 -- INSERT INTO test.`user` (id, email, password, username, leave_reason, leave_reason_detail, created_at, deleted_at) VALUES(3, 'wishty3@gmail.com', '$2b$10$NQP4JW36d5.96U7JQgKiL.qBcQqjvF8OZLFAR3JMrGdTRUK06zQx2', 'wishty3', NULL, NULL, '2022-12-28 22:20:26.448070', NULL);
 
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(1, 'SAVE', 10000, '가입축하 적립',  '2022-12-19', 1, '2021-12-19 01:16:00.841971');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(2, 'SAVE', 5000, '추천인 적립',  '2023-12-19', 1, '2022-12-19 01:45:45.611627');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(3, 'SAVE', 10000, '가입축하 적립',  '2023-12-19', 2,  '2022-12-19 02:41:16.054394');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(4, 'SAVE', 5000, '추천인 적립',  '2023-12-19', 2, '2022-12-19 01:16:00.841971');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(5, 'SAVE', 50000, '당첨적립',  '2023-12-19', 3, '2022-12-19 02:59:54.923237');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(6, 'SAVE', 3000, '깜짝 적립',  '2023-12-19', 1, '2022-12-19 03:32:34.015535');
--- INSERT INTO test.`point` (id, category, amount, breakdown, expiration_date, user_id, created_at) VALUES(7, 'USE', -7000, '적립금 사용', '2023-12-19', 1, '2022-12-19 03:32:34.015535');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(1, 'SAVE', 10000, '가입축하 적립',  '2022-12-19', 1, '2021-12-19 01:16:00.841971');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(2, 'SAVE', 5000, '추천인 적립',  '2023-12-19', 1, '2022-12-19 01:45:45.611627');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(3, 'SAVE', 10000, '가입축하 적립',  '2023-12-19', 2,  '2022-12-19 02:41:16.054394');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(4, 'SAVE', 5000, '추천인 적립',  '2023-12-19', 2, '2022-12-19 01:16:00.841971');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(5, 'SAVE', 50000, '당첨적립',  '2023-12-19', 3, '2022-12-19 02:59:54.923237');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(6, 'SAVE', 3000, '깜짝 적립',  '2023-12-19', 1, '2022-12-19 03:32:34.015535');
+-- INSERT INTO test.`point` (id, category, amount, breakdown, expiresin_date, user_id, created_at) VALUES(7, 'USE', -7000, '적립금 사용', '2023-12-19', 1, '2022-12-19 03:32:34.015535');
 
 -- INSERT INTO test.`point_use` (id, point_id_use, point_id, amount, created_at) VALUES(1, 7, 2, 5000, CURRENT_TIMESTAMP(6));
 -- INSERT INTO test.`point_use` (id, point_id_use, point_id, amount, created_at) VALUES(2, 7, 6, 2000, CURRENT_TIMESTAMP(6));

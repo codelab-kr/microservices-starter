@@ -24,9 +24,9 @@ export class UsersResolver {
   }
 
   @Query(() => User, { nullable: true })
-  getUserById(@Args('id') id: string) {
+  getUser(@Args('id') id: string) {
     // request-response pattern
-    return this.natsClient.send({ cmd: 'getUserById' }, { id });
+    return this.natsClient.send({ cmd: 'getUser' }, { id });
   }
 
   @Query(() => [User], { nullable: true })

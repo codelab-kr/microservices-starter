@@ -6,6 +6,10 @@ import { CreateUserDto } from './dtos/create.user.dto';
 import { User } from './models/user';
 import { LoginUserRequest } from './dtos/login.user.dto';
 
+export interface TokenPayload {
+  userId: string;
+}
+
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -20,23 +24,19 @@ export class UsersController {
     console.log('handlePaymentCreated', data);
   }
 
-  @MessagePattern({ cmd: 'getUserById' })
-  getUserById(@Payload() data: any) {
-    const { id } = data;
-    return this.usersService.getUserById(id);
+  @MessagePattern({ cmd: 'validateUser' })
+  validateUser(@Payload() data: LoginUserRequest | TokenPayload) {
+    return this.usersService.validateUser(data);
+  }
+
+  @MessagePattern({ cmd: 'getUser' })
+  getUser(@Payload() data: any) {
+    return this.usersService.getUser(data);
   }
 
   @MessagePattern({ cmd: 'getUserByEmail' })
-  getUserByEmail(@Payload() data: any) {
-    const { email } = data;
+  getUserByEmail(@Payload() email: string) {
     return this.usersService.getUserByEmail(email);
-  }
-
-  @MessagePattern({ cmd: 'validateUser' })
-  validateUser(@Payload() data: LoginUserRequest) {
-    console.log('validateUser', data);
-    const { email, password } = data;
-    return this.usersService.validateUser(email, password);
   }
 
   @MessagePattern({ cmd: 'getUsers' })

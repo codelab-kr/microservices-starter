@@ -9,6 +9,7 @@ import { PostsRepository } from '../src/repositories/posts.repository';
 
 describe('Graphql Server Posts (e2e)', () => {
   let app: INestApplication;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let postsRepository: PostsRepository;
 
   beforeAll(async () => {

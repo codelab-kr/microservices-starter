@@ -1,19 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { getRequestByContext } from '../utils/get.request.by.context';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
-  async canActivate(context: any): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const result = (await super.canActivate(context)) as boolean;
-    let request: any;
-    if (context.getType() === 'rpc') {
-      request = context.switchToRpc().getData();
-    } else if (context.getType() === 'http') {
-      request = context.switchToHttp().getRequest();
+    const session = new ConfigService().get('SESSION') === 'true';
+    if (session) {
+      const request = getRequestByContext(context);
+      await super.logIn(request); // save user to session
     }
-    await super.logIn(request);
-    const { email, id: userId } = request.user;
-    request.session.user = { email, userId };
     return result;
   }
 }

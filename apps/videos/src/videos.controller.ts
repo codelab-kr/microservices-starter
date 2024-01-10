@@ -3,14 +3,13 @@ import {
   Get,
   Query,
   Param,
-  UseGuards,
   // UseInterceptors,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 // import { CacheInterceptor } from '@nestjs/cache-manager';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateVideoRequest } from './dto/create-video.request';
-import { AuthenticatedGuard } from '@app/common';
+// import { } from '@app/common';
 // @UseInterceptors(CacheInterceptor)
 @Controller()
 export class VideosController {
@@ -22,26 +21,26 @@ export class VideosController {
   }
 
   @Get(':_id')
-  @UseGuards(AuthenticatedGuard)
+  // @UseGuards(AuthenticatedGuard)
   async getVideo(@Param('_id') _id: string) {
     return this.videosService.getVideo(_id);
   }
 
   @Get()
-  @UseGuards(AuthenticatedGuard)
+  // @UseGuards(AuthenticatedGuard)
   async getVideos() {
     return this.videosService.getVideos();
   }
 
   // test: /videos/get?url=https://jsonplaceholder.typicode.com/todos/1
   @Get('get')
-  @UseGuards(AuthenticatedGuard)
+  // @UseGuards(AuthenticatedGuard)
   async get(@Query('url') url: string): Promise<any[]> {
     return this.videosService.get(url);
   }
 
   @Get('error')
-  @UseGuards(AuthenticatedGuard)
+  // @UseGuards(AuthenticatedGuard)
   async error(): Promise<any> {
     return this.videosService.error();
   }

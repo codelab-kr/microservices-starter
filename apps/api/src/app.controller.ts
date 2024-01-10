@@ -17,24 +17,30 @@ import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
 import { User } from './users/models/user';
 import {
-  AuthenticatedGuard,
-  CheckAuthGuard,
-  LocalAuthGuard,
   CurrentUser,
+  LocalAuthGuard,
+  AuthGuard,
+  // AuthServiceFactory,
 } from '@app/common';
-
+import { ConfigService } from '@nestjs/config';
+// import { lastValueFrom } from 'rxjs';
 @Controller()
 @ApiTags('API')
 export class AppController {
-  constructor() {}
-
-  @UseGuards(CheckAuthGuard)
+  session: boolean;
+  constructor(
+    private readonly configService: ConfigService,
+    // private readonly authServiceFactory: AuthServiceFactory,
+  ) {
+    this.session = configService.get('SESSION'); // boolean type
+  }
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
+    console.log('user', user);
     if (user) {
       res.redirect('/videos');
     } else {
-      res.render('login', {});
+      res.redirect('/login');
     }
   }
 
@@ -46,45 +52,53 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async loginSubmit(
-    @CurrentUser() user: User,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Body() _data: LoginUserRequest,
+    @CurrentUser() user: any,
   ) {
     try {
+      if (!this.session) {
+        // const authService = this.authServiceFactory.create();
+        // const { id: userId } = user;
+        // const token = await authService.login({ userId });
+        res.cookie('Authentication', user.access_token, {
+          maxAge: 60 * 60 * 1000,
+        });
+      }
       res.redirect('/videos');
     } catch (error) {
       res.render('login', {
-        error: error.massage ?? error.response.data.message,
+        error: error,
       });
     }
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Get('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
-    req.session.destroy((err) => {
+    req.session?.destroy((err) => {
       if (err) {
         return res.send('Logout error');
       }
       res.clearCookie('connect.sid');
-      res.render('login', {});
     });
+    res.clearCookie('Authentication');
+    res.render('login', {});
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Get('videos')
   async videoList(@Res() res: Response, @CurrentUser() user: User) {
     try {
-      // const videos = (await axios.get('http://videos/')).data;
       res.render('video-list', { user, videos: [] });
     } catch (error) {
       res.render('video-list', { error: error.response.data.message });
     }
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Get('videos/:_id')
   async video(
     @Res() res: Response,
@@ -99,7 +113,7 @@ export class AppController {
     }
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Get('upload')
   upload(@Res() res: Response, @CurrentUser() user: User) {
     res.render('upload-video', { user });
@@ -111,7 +125,7 @@ export class AppController {
    * - @UploadedFile() file: Express.Multer.File,
    * - file?.buffer, file?.originalname, file?.mimetype
    */
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
@@ -146,7 +160,7 @@ export class AppController {
     // });
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthGuard)
   @Get('history')
   history(@Res() res: Response, @CurrentUser() user: User) {
     res.render('history', { user });

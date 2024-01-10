@@ -58,7 +58,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('JWT_SECRET'),
+      secretOrKey: configService.get('SECRET'),
     });
   }
 	...
@@ -144,6 +144,18 @@ CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtes
 docker exec -it test-mysql mysql -uroot -p # testtest 입력
 CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
 
+# redis + express session + passport
 
-# 레디스
+아래 redis + express session 참고
 https://medium.com/@aashisingh640/securing-your-express-typescript-apps-using-sessions-and-redis-f3818e0c1e17
+
+(+) passport 추가
+(+) 인증, 인가 방식 선택 기능 추가 (.env 파일 SESSION true, false로 설정)
+  - A: redis + express session + passport
+  - B: jwt(js web token) + passport (with cookie)
+  참고: .env 파일 변경사항 적용 시 재빌드해야 함
+  docker-compose -f docker-compose.yaml up api  --build -V -d 
+
+
+
+

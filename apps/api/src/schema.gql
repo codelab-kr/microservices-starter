@@ -18,7 +18,7 @@ type User {
 }
 
 type Query {
-  getUserById(id: String!): User
+  getUser(id: String!): User
   getUsers: [User!]
 }
 

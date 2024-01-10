@@ -3,7 +3,7 @@ import { VideosController } from './videos.controller';
 import { VideosService } from './videos.service';
 import { ConfigModule } from '@nestjs/config';
 import {
-  AuthModule,
+  // AuthModule,
   EnhancerModule,
   HttpModule,
   MongoModule,
@@ -24,7 +24,7 @@ import * as Joi from 'joi';
       envFilePath: './apps/videos/.env',
     }),
     EnhancerModule,
-    AuthModule,
+    // AuthModule,
     MongoModule,
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
     HttpModule,

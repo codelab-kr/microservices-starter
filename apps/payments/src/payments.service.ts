@@ -24,10 +24,7 @@ export class PaymentsService {
    */
   async createPayment(createPaymentDto: CreatePaymentDto) {
     const user = await lastValueFrom(
-      this.natsClient.send(
-        { cmd: 'getUserById' },
-        { id: createPaymentDto.userId },
-      ),
+      this.natsClient.send({ cmd: 'getUser' }, { id: createPaymentDto.userId }),
     );
     if (user) {
       const payment = await this.paymentsRepository.save({
