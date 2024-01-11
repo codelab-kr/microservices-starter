@@ -16,11 +16,11 @@ export class CreateUserDto {
   @ApiProperty({ example: 'test@test.com' })
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNotEmpty()
   @IsString()
   @ApiProperty({ example: 'abcd1234' })
-  password: string;
+  password?: string;
 
   @Field()
   @IsNotEmpty()
@@ -29,8 +29,23 @@ export class CreateUserDto {
   @ApiProperty({ example: 'test' })
   username: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @ApiProperty({ example: true })
   isSubscribed?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ example: 'google-oauth2|1234567890' })
+  providerId?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example:
+      'https://lh3.googleusercontent.com/a-/AOh14GjKQG9vq1X0w6ZvP8e8vX4Z9v2l9iJXOZtQXw7D=s96-c',
+  })
+  photo?: string;
 }

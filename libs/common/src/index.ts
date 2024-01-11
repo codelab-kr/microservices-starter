@@ -1,11 +1,10 @@
 export * from './auth/guards/local-auth.guard';
 export * from './auth/guards/auth.guard';
+export * from './auth/guards/google.guard';
 export * from './auth/session.auth.module';
 export * from './auth/session/setupSession';
 export * from './auth/utils/current-user';
 export * from './auth/jwt.auth.module';
-// export * from './auth/session/session.serializer';
-// export * from './auth/strategies/local.strategy';
 
 export * from './database/mongo/mongo.module';
 export * from './database/mongo/abstract.repository';

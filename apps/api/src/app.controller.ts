@@ -16,18 +16,24 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './users/dtos/login-user.request';
 import axios from 'axios';
 import { User } from './users/models/user';
-import { CurrentUser, LocalAuthGuard, AuthGuard } from '@app/common';
+import {
+  CurrentUser,
+  LocalAuthGuard,
+  AuthGuard,
+  GoogleGuard,
+} from '@app/common';
 import { ConfigService } from '@nestjs/config';
 @Controller()
 @ApiTags('API')
 export class AppController {
   session: boolean;
+  google: boolean;
   constructor(private readonly configService: ConfigService) {
     this.session = configService.get('SESSION'); // boolean type
+    this.google = configService.get('GOOGLE'); // boolean type
   }
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
-    console.log('user', user);
     if (user) {
       res.redirect('/videos');
     } else {
@@ -37,13 +43,12 @@ export class AppController {
 
   @Get('login')
   login(@Res() res: Response) {
-    res.render('login', {});
+    res.render('login', { google: this.google });
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @UseGuards(LocalAuthGuard)
   async loginSubmit(
-    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Body() _data: LoginUserRequest,
@@ -61,6 +66,16 @@ export class AppController {
         error: error,
       });
     }
+  }
+
+  @Get('google-auth')
+  @UseGuards(GoogleGuard)
+  googleAuth() {}
+
+  @Get('google')
+  @UseGuards(GoogleGuard)
+  async googleAuthRedirect(@Res() res: Response, @CurrentUser() user: any) {
+    if (user) res.redirect('/videos');
   }
 
   @UseGuards(AuthGuard)

@@ -6,7 +6,7 @@ import { TypeOrmExModule, MysqlModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { PaymentsResolver } from './resolvers/payments.resolver';
+import { PaymentsResolver } from './payments.resolver';
 import { NatsClientModule } from '@app/common';
 import { UsersRepository } from './repositories/users.repository';
 import * as Joi from 'joi';

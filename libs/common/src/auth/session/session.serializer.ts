@@ -23,15 +23,14 @@ export class SessionSerializer extends PassportSerializer {
     let user: any;
     try {
       user = await lastValueFrom(
-        this.natsService.send({ cmd: 'getUserByEmail' }, payload),
+        this.natsService.send({ cmd: 'getUser' }, { email: payload.email }),
       );
     } catch (error) {
       console.log('deserializeUser error', error);
     }
 
     if (!user) {
-      done(new Error('No User'), null);
-      return;
+      return done(null, null);
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userInfo } = user;

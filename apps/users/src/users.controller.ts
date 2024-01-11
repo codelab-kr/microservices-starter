@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Param, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update.user.dto';
-import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { User } from './models/user';
 import { LoginUserRequest } from './dtos/login.user.dto';
@@ -19,11 +19,6 @@ export class UsersController {
     return await this.usersService.createUser(data);
   }
 
-  @EventPattern('paymentCreated')
-  handlePaymentCreated(data: any) {
-    console.log('handlePaymentCreated', data);
-  }
-
   @MessagePattern({ cmd: 'validateUser' })
   validateUser(@Payload() data: LoginUserRequest | TokenPayload) {
     return this.usersService.validateUser(data);
@@ -34,14 +29,14 @@ export class UsersController {
     return this.usersService.getUser(data);
   }
 
-  @MessagePattern({ cmd: 'getUserByEmail' })
-  getUserByEmail(@Payload() email: string) {
-    return this.usersService.getUserByEmail(email);
-  }
-
   @MessagePattern({ cmd: 'getUsers' })
   async getUsers(): Promise<User[]> {
     return await this.usersService.getUsers();
+  }
+
+  @MessagePattern({ cmd: 'getOrSaveUser' })
+  async getOrSaveUser(@Payload() data: CreateUserDto) {
+    return await this.usersService.getOrSaveUser(data);
   }
 
   @Put(':id')

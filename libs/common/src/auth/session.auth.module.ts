@@ -8,6 +8,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LocalStrategy } from './strategies/local.strategy';
 import * as cookieParser from 'cookie-parser';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { GoogleGuard } from './guards/google.guard';
 
 @Module({
   imports: [NatsClientModule, PassportModule.register({ session: true })],
@@ -18,10 +20,18 @@ import * as cookieParser from 'cookie-parser';
     },
     LocalAuthGuard,
     AuthGuard,
+    GoogleGuard,
     LocalStrategy,
+    GoogleStrategy,
     SessionSerializer,
   ],
-  exports: [NATS_SERVICE, LocalAuthGuard, AuthGuard, SessionSerializer],
+  exports: [
+    NATS_SERVICE,
+    LocalAuthGuard,
+    AuthGuard,
+    GoogleGuard,
+    SessionSerializer,
+  ],
 })
 export class SessionAuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

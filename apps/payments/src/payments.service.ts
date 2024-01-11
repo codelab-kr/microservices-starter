@@ -31,7 +31,7 @@ export class PaymentsService {
         ...createPaymentDto,
         user,
       });
-      this.natsClient.emit('paymentCreated', payment);
+      // this.natsClient.emit('paymentCreated', payment);
       return payment;
     }
     return null;

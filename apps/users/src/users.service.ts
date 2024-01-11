@@ -42,10 +42,6 @@ export class UsersService {
     return this.usersRepository.findOneBy(data);
   }
 
-  async getUserByEmail(email: string) {
-    return this.usersRepository.findOneBy({ email });
-  }
-
   async getUsers() {
     return this.usersRepository.find({ relations: ['payments'] });
   }
@@ -63,7 +59,7 @@ export class UsersService {
   }
 
   async deleteUser(request: DeleteUserDto) {
-    return this.usersRepository.delete({ id: request.id });
+    return this.usersRepository.softDelete({ id: request.id });
   }
 
   async validateUser(data: any) {
@@ -79,6 +75,18 @@ export class UsersService {
       return userInfo;
     }
 
+    // // for passport-google-oauth20 strategy to validate user
+    // if (data.providerId) {
+    //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    //   const { password, ...userInfo } = await this.usersRepository.findOneBy({
+    //     id: data.providerId,
+    //   });
+    //   if (!userInfo) {
+    //     return null;
+    //   }
+    //   return userInfo;
+    // }
+
     // for passport-local strategy to validate user
     const { email, password } = data;
     const { password: hashedPassword, ...userInfo } =
@@ -91,5 +99,13 @@ export class UsersService {
       return null;
     }
     return userInfo;
+  }
+
+  async getOrSaveUser(data: CreateUserDto) {
+    const foundUser = await this.getUser({ email: data.email });
+    if (foundUser) {
+      return foundUser;
+    }
+    return this.usersRepository.save(data);
   }
 }

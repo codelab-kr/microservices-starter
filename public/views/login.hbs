@@ -33,6 +33,10 @@
                 </form>
             </div>
         </div>
+        {{#if google}}
+        <div class="m-4">
+           <img src="images/google_web_dark_sq_ctn@1x.png" onclick="window.open('/google-auth', '_self')" />
+        {{/if}}
         {{#if error}}
         <div class="m-4">
             <div class="m-4">

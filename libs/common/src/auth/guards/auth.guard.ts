@@ -7,6 +7,7 @@ let AuthGuard: any;
 const session = new ConfigService().get('SESSION') === 'true';
 
 @Injectable()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class SessionAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = getRequestByContext(context);
@@ -23,10 +24,6 @@ class JwtAuthGuard extends ForJwtAuthGaurd('jwt') {
   }
 }
 
-if (session) {
-  AuthGuard = SessionAuthGuard;
-} else {
-  AuthGuard = JwtAuthGuard;
-}
-
+if (session) AuthGuard = SessionAuthGuard;
+else AuthGuard = JwtAuthGuard;
 export { AuthGuard };

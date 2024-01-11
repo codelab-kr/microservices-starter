@@ -12,4 +12,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   isSubscribed?: boolean;
+
+  @IsOptional()
+  photo?: string;
 }

@@ -19,7 +19,7 @@ export class UsersResolver {
 
   @Mutation(() => User)
   CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {
-    // event pattern
+    // request-response pattern
     return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
   }
 

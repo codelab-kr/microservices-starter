@@ -7,26 +7,19 @@ import {
 } from '@nestjs/swagger';
 import { PaymentsService } from './payments.service';
 import { Payment } from './models/payment';
-import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { FindPaymentDto } from './dtos/find.payment.dto';
-import { NATS_SERVICE } from '@app/common';
 
 @Controller('payments')
 @ApiTags('PAYMENT API')
 export class PaymentsController {
-  constructor(
-    @Inject(NATS_SERVICE) private readonly natsClient: ClientProxy,
-    private readonly paymentService: PaymentsService,
-  ) {}
+  constructor(private readonly paymentService: PaymentsService) {}
 
   @MessagePattern({ cmd: 'createPayment' })
   async createPayment(@Payload() data: CreatePaymentDto) {
     const newPayment = await this.paymentService.createPayment(data);
-    if (newPayment) {
-      this.natsClient.emit('paymentCreated', newPayment);
-      return newPayment;
-    }
+    return newPayment;
   }
 
   @MessagePattern({ cmd: 'getPaymentByUserId' })

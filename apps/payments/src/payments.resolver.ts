@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
-import { PaymentsService } from '../payments.service';
-import { Payment } from '../models/payment';
-import { CreatePaymentDto } from '../dtos/create.payment.dto';
-import { FindPaymentDto } from '../dtos/find.payment.dto';
+import { PaymentsService } from './payments.service';
+import { Payment } from './models/payment';
+import { CreatePaymentDto } from './dtos/create.payment.dto';
+import { FindPaymentDto } from './dtos/find.payment.dto';
 // import { ClientProxy } from '@nestjs/microservices';
 // import { NATS_SERVICE } from '@app/common';
 
