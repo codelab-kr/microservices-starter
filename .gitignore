@@ -51,4 +51,4 @@ lerna-debug.log*
 .pnp.*
 
 
-**/.env
+apps/api/.env
