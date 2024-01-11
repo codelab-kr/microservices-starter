@@ -9,13 +9,16 @@ export class UsersController {
 
   @Post()
   CreateUser(@Body() createUserDto: CreateUserDto) {
-    // request-response pattern
     return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
   }
 
   @Get()
   getUsers() {
-    // request-response pattern
     return this.natsClient.send({ cmd: 'getUsers' }, {});
+  }
+
+  @Get()
+  getUser(data: any) {
+    return this.natsClient.send({ cmd: 'getUser' }, data);
   }
 }

@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes } from 'mongoose';
 import { Column, Entity } from 'typeorm';
 import { AbstractDocument } from '@app/common';
 
@@ -23,7 +22,7 @@ export class Video extends AbstractDocument {
   description: string;
 
   @Column()
-  @Prop({ type: SchemaTypes.ObjectId })
+  @Prop()
   userId: string;
 }
 

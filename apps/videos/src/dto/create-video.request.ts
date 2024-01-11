@@ -1,6 +1,4 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Types } from 'mongoose';
-
 export class CreateVideoRequest {
   @IsString()
   @IsNotEmpty()
@@ -16,5 +14,5 @@ export class CreateVideoRequest {
   description: string;
 
   @IsNotEmpty()
-  user_id: Types.ObjectId;
+  userId: string;
 }

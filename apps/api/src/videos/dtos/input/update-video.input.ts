@@ -1,32 +1,37 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 import { IsNotEmpty } from 'class-validator';
-import { SchemaTypes } from 'mongoose';
 
 @InputType()
-export class CreateVideoInput {
+export class UpdateVideoInput {
+  @Field({ nullable: true })
+  @IsOptional()
+  @ApiProperty({ example: '655235bd083e3149d3a77777' })
+  _id: string;
+
   @Field(() => String)
   @IsNotEmpty()
-  @ApiProperty({ example: 'test@test.com' })
+  @ApiProperty({ example: 'test' })
   title: string;
 
   @Field(() => String)
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ example: 'test' })
   type: string;
 
   @Field(() => String)
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ example: 'test' })
   path: string;
 
   @Field(() => String)
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ example: 'test' })
   description: string;
 
-  @Field(() => SchemaTypes.ObjectId)
-  @IsNotEmpty()
-  @ApiProperty({ example: 'test' })
+  @Field(() => String)
+  @IsOptional()
+  @ApiProperty({ example: '655235bd083e3149d3a77777' })
   userId: string;
 }

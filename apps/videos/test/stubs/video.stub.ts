@@ -8,6 +8,6 @@ export const videoStub = (): Video => {
     type: 'type',
     path: 'url',
     description: 'thumbnail',
-    user_id: '654a46e254fec769d7f5754e' as unknown as Types.ObjectId,
+    userId: 'userId',
   };
 };

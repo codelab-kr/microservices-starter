@@ -9,6 +9,9 @@ import { AppController } from './app.controller';
 import { JwtAuthModule, SessionAuthModule, EnhancerModule } from '@app/common';
 import * as path from 'path';
 import * as Joi from 'joi';
+import { AppService } from './app.service';
+import { VideosModule } from './videos/videos.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({})
 export class AppModule {
@@ -36,6 +39,8 @@ export class AppModule {
       }),
       EnhancerModule,
       UsersModule,
+      VideosModule,
+      StorageModule,
       PaymentsModule,
     ];
     let AuthModule: any;
@@ -48,11 +53,13 @@ export class AppModule {
     }
     imports.push(AuthModule);
     const controllers = [AppController];
+    const providers = [AppService];
 
     return {
       module,
       imports,
       controllers,
+      providers,
     };
   }
 }

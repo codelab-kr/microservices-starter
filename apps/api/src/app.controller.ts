@@ -4,17 +4,12 @@ import {
   Post,
   Res,
   Req,
-  UseInterceptors,
-  UploadedFile,
   Body,
   UseGuards,
-  Param,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './users/dtos/login-user.request';
-import axios from 'axios';
 import { User } from './users/models/user';
 import {
   CurrentUser,
@@ -23,15 +18,18 @@ import {
   GoogleGuard,
 } from '@app/common';
 import { ConfigService } from '@nestjs/config';
+
 @Controller()
 @ApiTags('API')
 export class AppController {
   session: boolean;
   google: boolean;
-  constructor(private readonly configService: ConfigService) {
+  constructor(configService: ConfigService) {
     this.session = configService.get('SESSION'); // boolean type
     this.google = configService.get('GOOGLE'); // boolean type
   }
+
+  // TODO: use @Render('upload-video') instead of @Res() res: Response
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
     if (user) {
@@ -102,65 +100,9 @@ export class AppController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('videos/:_id')
-  async video(
-    @Res() res: Response,
-    @CurrentUser() user: User,
-    @Param('_id') _id: string,
-  ) {
-    try {
-      const video = (await axios.get(`http://videos/${_id}`)).data[0];
-      res.render('play-video', { user, video });
-    } catch (error) {
-      res.render('play-video', { error: error.response.data.message });
-    }
-  }
-
-  @UseGuards(AuthGuard)
   @Get('upload')
   upload(@Res() res: Response, @CurrentUser() user: User) {
     res.render('upload-video', { user });
-  }
-
-  /*
-   * Added for postman test
-   * - @UseInterceptors(FileInterceptor('file'))
-   * - @UploadedFile() file: Express.Multer.File,
-   * - file?.buffer, file?.originalname, file?.mimetype
-   */
-  @UseGuards(AuthGuard)
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
-    @Req() req: Request,
-    @Res() res: Response,
-    @UploadedFile() file: Express.Multer.File,
-    // @CurrentUser() user: User,
-  ) {
-    const data = file?.buffer ?? req;
-    const fileName = file?.originalname ?? (req.headers['file-name'] as string);
-    const contentType =
-      file?.mimetype ?? (req.headers['content-type'] as string);
-    // const path = new ObjectId().toString();
-    const response = await axios({
-      method: 'POST',
-      url: 'http://storage/upload',
-      data,
-      responseType: 'stream',
-      headers: {
-        'file-name': fileName,
-        'content-type': contentType,
-        // path,
-      },
-    });
-    await response.data.pipe(res);
-    // await this.gatewayService.createVideo({
-    //   title: fileName,
-    //   type: contentType,
-    //   path,
-    //   description: 'test',
-    //   user_id: user._id as ObjectId,
-    // });
   }
 
   @UseGuards(AuthGuard)

@@ -2,7 +2,6 @@ import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { IsNotEmpty } from 'class-validator';
-import { SchemaTypes, Types } from 'mongoose';
 
 @InputType()
 export class UpdateVideoInput {
@@ -31,8 +30,8 @@ export class UpdateVideoInput {
   @ApiProperty({ example: 'test' })
   description: string;
 
-  @Field(() => SchemaTypes.ObjectId)
+  @Field(() => String)
   @IsOptional()
-  @ApiProperty({ example: '655235bd083e3149d3a77777' })
-  user_id: Types.ObjectId;
+  @ApiProperty({ example: 'test' })
+  userId: string;
 }

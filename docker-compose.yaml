@@ -108,15 +108,18 @@ services:
     env_file:
       - ./apps/storage/.env
     command: yarn start:dev storage
-    depends_on:
-      # - mysql
-      # - mongodb-primary
-      # - mongodb-secondary
-      # - mongodb-arbiter
-      - nats
+    ports:
+      - '4001:80'
+    # depends_on:
+    # - mysql
+    # - mongodb-primary
+    # - mongodb-secondary
+    # - mongodb-arbiter
+    # - nats
     volumes:
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
+      - ./public:/usr/src/app/public:z
       # - ./migrations:/usr/src/app/migrations:z
 
   nats:

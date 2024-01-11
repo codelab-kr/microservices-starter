@@ -19,19 +19,16 @@ export class UsersResolver {
 
   @Mutation(() => User)
   CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {
-    // request-response pattern
     return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
   }
 
   @Query(() => User, { nullable: true })
   getUser(@Args('id') id: string) {
-    // request-response pattern
     return this.natsClient.send({ cmd: 'getUser' }, { id });
   }
 
   @Query(() => [User], { nullable: true })
   getUsers() {
-    // request-response pattern
     return this.natsClient.send({ cmd: 'getUsers' }, {});
   }
 

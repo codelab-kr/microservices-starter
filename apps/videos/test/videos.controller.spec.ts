@@ -72,7 +72,7 @@ describe('VideosController', () => {
           type: videoStub().type,
           path: videoStub().path,
           description: videoStub().description,
-          user_id: videoStub().user_id,
+          userId: videoStub().userId,
         };
         video = await videosController.createVideo(request);
       });
