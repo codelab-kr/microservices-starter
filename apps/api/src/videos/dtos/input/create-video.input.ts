@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateVideoInput {
@@ -17,12 +17,12 @@ export class CreateVideoInput {
   @Field(() => String)
   @IsNotEmpty()
   @ApiProperty({ example: 'test' })
-  path: string;
+  path?: string;
 
   @Field(() => String)
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ example: 'test' })
-  description: string;
+  description?: string;
 
   @Field(() => String)
   @IsNotEmpty()

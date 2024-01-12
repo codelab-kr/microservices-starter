@@ -1,16 +1,15 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { VideosRepository } from './videos.repository';
-
 import { VideosMessage } from '@app/common';
-import { CreateVideoRequest } from './dto/create-video.request';
 
 @Injectable()
 export class VideosService {
   httpService: any;
   constructor(private readonly videosRepository: VideosRepository) {}
 
-  async createVideo(data: CreateVideoRequest) {
-    return await this.videosRepository.create(data);
+  async createVideo(data: any) {
+    const result = await this.videosRepository.create(data);
+    return result;
   }
 
   async getVideo(_id: string) {

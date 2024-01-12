@@ -22,7 +22,7 @@ export class PaymentsService {
    * @param {PaymentCreateRequestDto} requestDto - PAYMENT 생성 Dto
    * @returns {Promise<Payment>}
    */
-  async createPayment(createPaymentDto: CreatePaymentDto) {
+  async createPayment(createPaymentDto: CreatePaymentDto): Promise<Payment> {
     const user = await lastValueFrom(
       this.natsClient.send({ cmd: 'getUser' }, { id: createPaymentDto.userId }),
     );

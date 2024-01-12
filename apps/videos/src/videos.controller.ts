@@ -8,15 +8,15 @@ import {
 import { VideosService } from './videos.service';
 // import { CacheInterceptor } from '@nestjs/cache-manager';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CreateVideoRequest } from './dto/create-video.request';
+import { CreateVideoInput } from './dto/input/create-video.input';
 // @UseInterceptors(CacheInterceptor)
 
-@Controller()
+@Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
   @MessagePattern({ cmd: 'createVideo' })
-  async createVideo(@Payload() data: CreateVideoRequest) {
+  async createVideo(@Payload() data: CreateVideoInput) {
     return await this.videosService.createVideo(data);
   }
 

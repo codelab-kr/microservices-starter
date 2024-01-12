@@ -4,15 +4,12 @@ import { PaymentsService } from './payments.service';
 import { Payment } from './models/payment';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { FindPaymentDto } from './dtos/find.payment.dto';
-// import { ClientProxy } from '@nestjs/microservices';
-// import { NATS_SERVICE } from '@app/common';
 
 @Resolver(() => Payment)
 export class PaymentsResolver {
   constructor(
     @Inject(PaymentsService)
     private readonly paymentsService: PaymentsService,
-    // @Inject(NATS_SERVICE) private readonly natsClient: ClientProxy,
   ) {}
 
   @Query(() => Payment, { nullable: true })

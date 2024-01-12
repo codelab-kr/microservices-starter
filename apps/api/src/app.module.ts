@@ -11,7 +11,6 @@ import * as path from 'path';
 import * as Joi from 'joi';
 import { AppService } from './app.service';
 import { VideosModule } from './videos/videos.module';
-import { StorageModule } from './storage/storage.module';
 
 @Module({})
 export class AppModule {
@@ -40,7 +39,7 @@ export class AppModule {
       EnhancerModule,
       UsersModule,
       VideosModule,
-      StorageModule,
+      // StorageModule,
       PaymentsModule,
     ];
     let AuthModule: any;

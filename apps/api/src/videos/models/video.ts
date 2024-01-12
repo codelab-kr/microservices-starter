@@ -17,9 +17,9 @@ export class Video extends AbstractDocument {
   @Prop()
   path: string;
 
-  @Column()
-  @Prop()
-  description: string;
+  @Column({ nullable: true })
+  @Prop({ nullable: true })
+  description?: string;
 
   @Column()
   @Prop()

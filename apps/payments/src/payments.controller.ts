@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Param, Delete } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,

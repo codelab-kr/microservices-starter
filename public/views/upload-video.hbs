@@ -40,15 +40,15 @@
         <div class="m-4">
             <h1>Upload videos</h1>
             <div class="m-4">
-                <form action="/upload" method="post" enctype="multipart/form-data" >
+                <form action="/videos/upload" method="post" enctype="multipart/form-data" >
                     <input type="file" name="file" accept="video/*"  />
                     <input type="hidden" name="userId" value="{{ user.id }}" />
                     <input type="hidden" name="email" value="{{ user.email }}" />
                     <input type="submit" value="Upload"  />
                 </form>
-                {{#if uploadedFile}}
+                {{#if videoCreate}}
                 <div id="result" class="mt-4">
-                    <div>Uploaded: {{ uploadedFile.filename }}</div>
+                    <div>Uploaded: {{ videoCreate.title }}</div>
                 </div>
                 {{/if}}
             </div>

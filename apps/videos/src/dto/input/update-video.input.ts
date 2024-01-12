@@ -13,25 +13,20 @@ export class UpdateVideoInput {
   @Field(() => String)
   @IsNotEmpty()
   @ApiProperty({ example: 'test' })
-  title: string;
+  title?: string;
 
   @Field(() => String)
   @IsOptional()
   @ApiProperty({ example: 'test' })
-  type: string;
+  type?: string;
 
   @Field(() => String)
   @IsOptional()
   @ApiProperty({ example: 'test' })
-  path: string;
+  path?: string;
 
   @Field(() => String)
   @IsOptional()
   @ApiProperty({ example: 'test' })
-  description: string;
-
-  @Field(() => String)
-  @IsOptional()
-  @ApiProperty({ example: 'test' })
-  userId: string;
+  description?: string;
 }
