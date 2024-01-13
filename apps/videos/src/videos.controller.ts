@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Query,
-  Param,
+  Body,
   // UseInterceptors,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
@@ -20,12 +20,12 @@ export class VideosController {
     return await this.videosService.createVideo(data);
   }
 
-  @Get(':_id')
-  async getVideo(@Param('_id') _id: string) {
-    return this.videosService.getVideo(_id);
+  @MessagePattern({ cmd: 'getVideo' })
+  async getVideo(@Body() data: any) {
+    return this.videosService.getVideo(data);
   }
 
-  @Get()
+  @MessagePattern({ cmd: 'getVideos' })
   async getVideos() {
     return this.videosService.getVideos();
   }

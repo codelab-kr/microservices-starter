@@ -2,7 +2,7 @@
   <head>
     <meta charset='utf-8' />
 
-    <title>FlixTube: Home</title>
+    <title>FlixTube: Vidos</title>
 
     <link rel='stylesheet' href='css/tailwind.min.css' />
     <link rel='stylesheet' href='css/app.css' />
@@ -40,11 +40,22 @@
         <h1>Videos</h1>
         <div id='video-list' class='m-4'>
           {{#if videos}}
-            {{#each videos}}
-              <div class='mt-1'>
-                <a href='/videos/{{this._id}}'>{{this.title}}</a>
-              </div>
-            {{/each}}
+            <table>
+              <tr>
+                <th class='border-2 p-1 pl-2 pr-2'>Title</th>
+                <th class='border-2 p-1 pl-2 pr-2'>Disc</th>
+              </tr>
+              {{#each videos}}
+                <tr class='mt-1'>
+                  <td class='border-2 p-1 pl-2 pr-2'>
+                    <a href='/videos/{{this._id}}'>{{this.title}}</a>
+                  </td>
+                  <td class='border-2 p-1 pl-2 pr-2'>
+                    {{this.description}}
+                  </td>
+                </tr>
+              {{/each}}
+            </table>
           {{else}}
             No videos uploaded yet.
           {{/if}}

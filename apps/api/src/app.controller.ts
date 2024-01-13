@@ -6,6 +6,7 @@ import {
   Req,
   Body,
   UseGuards,
+  Render,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
@@ -29,19 +30,18 @@ export class AppController {
     this.google = configService.get('GOOGLE'); // boolean type
   }
 
-  // TODO: use @Render('upload-video') instead of @Res() res: Response
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
     if (user) {
       res.redirect('/videos');
-    } else {
-      res.redirect('/login');
     }
+    res.redirect('/login');
   }
 
   @Get('login')
-  login(@Res() res: Response) {
-    res.render('login', { google: this.google });
+  @Render('login')
+  login() {
+    return { google: this.google };
   }
 
   @Post('login')
@@ -58,11 +58,9 @@ export class AppController {
           maxAge: 60 * 60 * 1000,
         });
       }
-      res.redirect('/videos');
+      return res.redirect('/videos');
     } catch (error) {
-      res.render('login', {
-        error: error,
-      });
+      console.log(error);
     }
   }
 
@@ -76,8 +74,8 @@ export class AppController {
     if (user) res.redirect('/videos');
   }
 
-  @UseGuards(AuthGuard)
   @Get('logout')
+  @UseGuards(AuthGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
     req.session?.destroy((err) => {
       if (err) {
@@ -86,28 +84,30 @@ export class AppController {
       res.clearCookie('connect.sid');
     });
     res.clearCookie('Authentication');
-    res.render('login', {});
+    res.redirect('/login');
   }
 
+  @Get('video')
   @UseGuards(AuthGuard)
-  @Get('videos')
-  async videoList(@Res() res: Response, @CurrentUser() user: User) {
+  async videoList(@Res() res: Response) {
     try {
-      res.render('video-list', { user, videos: [] });
+      res.redirect('/videos');
     } catch (error) {
-      res.render('video-list', { error: error.response.data.message });
+      console.log(error);
     }
   }
 
-  @UseGuards(AuthGuard)
   @Get('upload')
-  upload(@Res() res: Response, @CurrentUser() user: User) {
-    res.render('upload-video', { user });
+  @UseGuards(AuthGuard)
+  @Render('upload-video')
+  upload(@CurrentUser() user: User) {
+    return { user };
   }
 
-  @UseGuards(AuthGuard)
   @Get('history')
-  history(@Res() res: Response, @CurrentUser() user: User) {
-    res.render('history', { user });
+  @UseGuards(AuthGuard)
+  @Render('history')
+  history(@CurrentUser() user: User) {
+    return { user };
   }
 }

@@ -13,19 +13,26 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { VideosService } from './videos.service';
 import { ObjectId } from 'mongodb';
 import { lastValueFrom } from 'rxjs';
+import { CurrentUser } from '@app/common';
 
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
   @Get()
-  getVideos() {
-    return this.videosService.getVideos();
+  @Render('video-list')
+  async list(@CurrentUser() user: any) {
+    const videos = await lastValueFrom(this.videosService.getVideos());
+    return { videos, user };
   }
 
   @Get(':_id')
-  getVideo(@Param('_id') _id: string) {
-    return this.videosService.getVideo(_id);
+  @Render('play-video')
+  async playVideo(@Param('_id') _id: string, @CurrentUser() user: any) {
+    const video = (await lastValueFrom(this.videosService.getVideo(_id)))[0];
+    const baseUrl = global[Symbol.for('BaseUrl')];
+    video.path = `${baseUrl}/uploads/videos/${video.path}`;
+    return { video, user };
   }
 
   @Post('upload')

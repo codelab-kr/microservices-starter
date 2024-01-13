@@ -12,8 +12,8 @@ export class VideosService {
     return result;
   }
 
-  async getVideo(_id: string) {
-    const video = await this.videosRepository.find({ _id });
+  async getVideo(data: any) {
+    const video = await this.videosRepository.find(data);
     if (video?.length === 0) {
       throw new UnprocessableEntityException(VideosMessage.NOT_FOUND_VIDEO);
     }

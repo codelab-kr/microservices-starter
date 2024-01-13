@@ -6,22 +6,32 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
 
+const BaseUrl = Symbol.for('BaseUrl');
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule.register(),
   );
+
   const configService = app.get(ConfigService);
+  const port = configService.get('PORT') ?? 4000;
+  const session = configService.get('SESSION'); // boolean type
+
+  global[BaseUrl] =
+    configService.get('NODE_ENV') === 'production'
+      ? configService.get('BASE_URL')
+      : `http://localhost:${port}`;
+
+  if (session) setupSession(app);
+  setupSwagger(app);
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.setBaseViewsDir(path.resolve('public/views'));
   app.setViewEngine('hbs');
-  const session = configService.get('SESSION'); // boolean type
-  if (session) setupSession(app);
-  setupSwagger(app);
-  const PORT = configService.get('port') ?? 4000;
-  await app.listen(PORT, () => {
+
+  await app.listen(port, async () => {
     console.log(
-      `Listening on port ${PORT} 🚀 \nRedis Session Set is ${session} `,
+      `Listening on ${global[BaseUrl]} 🚀 \nRedis Session Set is ${session} `,
     );
   });
 }
