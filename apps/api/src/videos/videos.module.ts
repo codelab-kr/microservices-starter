@@ -3,6 +3,7 @@ import { VideosController } from './videos.controller';
 import { VideosResolver } from './videos.resolver';
 import { NATS_SERVICE, NatsClientService } from '@app/common';
 import { VideosService } from './videos.service';
+import { HistoryService } from '../history/history.service';
 
 @Module({
   controllers: [VideosController],
@@ -13,6 +14,7 @@ import { VideosService } from './videos.service';
       useClass: NatsClientService,
     },
     VideosService,
+    HistoryService,
   ],
 })
 export class VideosModule {}

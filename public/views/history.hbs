@@ -41,16 +41,16 @@
         <div class='m-4'>
           <table>
             <tr>
-              <th class='border-2 p-1 pl-2 pr-2'>Video id</th>
-              <th class='border-2 p-1 pl-2 pr-2'>Date watched</th>
+              <th class='border-2 p-1 pl-2 pr-2'>Title</th>
+              <th class='border-2 p-1 pl-2 pr-2'>Watched</th>
             </tr>
-            {{#each videos}}
+            {{#each history}}
               <tr class='mt-1'>
                 <td class='border-2 p-1 pl-2 pr-2'>
-                  <a href='/video?id={{this.videoId}}'>{{this.videoId}}</a>
+                  <a href='/videos/{{this.videoId}}'>{{this.title}}</a>
                 </td>
                 <td class='border-2 p-1 pl-2 pr-2'>
-                  {{this.watched}}
+                  {{this.updatedAt}}
                 </td>
               </tr>
             {{/each}}

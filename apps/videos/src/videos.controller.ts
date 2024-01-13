@@ -1,7 +1,5 @@
 import {
   Controller,
-  Get,
-  Query,
   Body,
   // UseInterceptors,
 } from '@nestjs/common';
@@ -11,7 +9,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateVideoInput } from './dto/input/create-video.input';
 // @UseInterceptors(CacheInterceptor)
 
-@Controller('videos')
+@Controller()
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
@@ -31,13 +29,13 @@ export class VideosController {
   }
 
   // test: /videos/get?url=https://jsonplaceholder.typicode.com/todos/1
-  @Get('get')
-  async get(@Query('url') url: string): Promise<any[]> {
-    return this.videosService.get(url);
-  }
+  // @Get('get')
+  // async get(@Query('url') url: string): Promise<any[]> {
+  //   return this.videosService.get(url);
+  // }
 
-  @Get('error')
-  async error(): Promise<any> {
-    return this.videosService.error();
-  }
+  // @Get('error')
+  // async error(): Promise<any> {
+  //   return this.videosService.error();
+  // }
 }

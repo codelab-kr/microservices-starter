@@ -4,7 +4,7 @@ import { VideosMessage } from '@app/common';
 
 @Injectable()
 export class VideosService {
-  httpService: any;
+  // httpService: any;
   constructor(private readonly videosRepository: VideosRepository) {}
 
   async createVideo(data: any) {
@@ -25,15 +25,14 @@ export class VideosService {
     return videos;
   }
 
-  async get(url: string) {
-    return this.httpService.get(url);
-  }
+  // async get(url: string) {
+  //   return this.httpService.get(url);
+  // }
 
-  async error() {
-    throw new Error('Invalid credentials.');
-    // throw new RpcException('Invalid credentials.');
-    // throw new HttpException('Not Found.', 404);
-    // throw new HttpVersionNotSupportedException();
-    // throw new NotFoundException();
-  }
+  // async error() {
+  //   throw new Error('Invalid credentials.');
+  // throw new RpcException('Invalid credentials.');
+  // throw new HttpException('Not Found.', 404);
+  // throw new HttpVersionNotSupportedException();
+  // throw new NotFoundException();
 }

@@ -23,6 +23,5 @@ import * as Joi from 'joi';
   ],
   controllers: [VideosController],
   providers: [VideosService, VideosRepository],
-  exports: [VideosService, VideosRepository],
 })
 export class VideosModule {}

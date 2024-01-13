@@ -7,10 +7,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
 import { JwtAuthModule, SessionAuthModule, EnhancerModule } from '@app/common';
-import * as path from 'path';
-import * as Joi from 'joi';
 import { AppService } from './app.service';
 import { VideosModule } from './videos/videos.module';
+import { HistoryModule } from './history/history.module';
+import * as path from 'path';
+import * as Joi from 'joi';
 
 @Module({})
 export class AppModule {
@@ -39,7 +40,7 @@ export class AppModule {
       EnhancerModule,
       UsersModule,
       VideosModule,
-      // StorageModule,
+      HistoryModule,
       PaymentsModule,
     ];
     let AuthModule: any;

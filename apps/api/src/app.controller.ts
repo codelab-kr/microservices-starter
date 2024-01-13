@@ -103,11 +103,4 @@ export class AppController {
   upload(@CurrentUser() user: User) {
     return { user };
   }
-
-  @Get('history')
-  @UseGuards(AuthGuard)
-  @Render('history')
-  history(@CurrentUser() user: User) {
-    return { user };
-  }
 }

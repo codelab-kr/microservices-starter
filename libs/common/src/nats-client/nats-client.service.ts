@@ -14,4 +14,8 @@ export class NatsClientService {
   send(pattern: any, data: any) {
     return this.client.send(pattern, data);
   }
+
+  emit(pattern: any, data: any) {
+    return this.client.emit(pattern, data);
+  }
 }

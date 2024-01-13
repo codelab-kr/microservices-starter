@@ -14,10 +14,16 @@ import { VideosService } from './videos.service';
 import { ObjectId } from 'mongodb';
 import { lastValueFrom } from 'rxjs';
 import { CurrentUser } from '@app/common';
+import { Video } from './models/video';
+import { CreateHistoryInput } from '../history/dtos/input/create-history.input';
+import { HistoryService } from '../history/history.service';
 
 @Controller('videos')
 export class VideosController {
-  constructor(private readonly videosService: VideosService) {}
+  constructor(
+    private readonly videosService: VideosService,
+    private readonly histotyService: HistoryService,
+  ) {}
 
   @Get()
   @Render('video-list')
@@ -32,7 +38,17 @@ export class VideosController {
     const video = (await lastValueFrom(this.videosService.getVideo(_id)))[0];
     const baseUrl = global[Symbol.for('BaseUrl')];
     video.path = `${baseUrl}/uploads/videos/${video.path}`;
+    this.updateHistory(video, user.id);
     return { video, user };
+  }
+
+  async updateHistory(video: Video, userId: string) {
+    const createHistoryInput: CreateHistoryInput = {
+      videoId: video._id.toString(),
+      title: video.title,
+      userId,
+    };
+    await lastValueFrom(this.histotyService.createHistory(createHistoryInput));
   }
 
   @Post('upload')
