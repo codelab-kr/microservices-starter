@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import * as sqlFormatter from 'sql-formatter';
 
 @Injectable()
-export class SqlLogger implements Logger {
+export class SqlFormatterLogger implements Logger {
   log(
     level: 'log' | 'info' | 'warn',
     message: any,

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { SqlLogger } from '../../logger/sql.logger';
+import { SqlLogger } from '../../logger/sql.formatter.logger';
 import * as os from 'os';
 
 @Injectable()
