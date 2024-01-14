@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { SqlLogger } from '../../logger/sql.formatter.logger';
+import { SqlFormatterLogger } from '../../logger/sql.formatter.logger';
 import * as os from 'os';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           : ['error', 'query', 'schema'],
       synchronize: this.nodeEnv !== 'production',
       maxQueryExecutionTime: 1000,
-      logger: new SqlLogger(),
+      logger: new SqlFormatterLogger(),
     };
     return dataSourceOptions;
   }
