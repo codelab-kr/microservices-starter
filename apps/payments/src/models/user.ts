@@ -42,18 +42,17 @@ export class User {
   @Field({ nullable: true })
   photo?: string;
 
-  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP(6)' })
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  paymentId?: string;
+
+  @CreateDateColumn()
   createdAt?: Date;
 
-  @UpdateDateColumn({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-    select: false,
-  })
+  @UpdateDateColumn()
   updatedAt?: Date;
 
-  @DeleteDateColumn({ type: 'datetime', nullable: true })
+  @DeleteDateColumn()
   deletedAt?: Date;
 
   @OneToMany(() => Payment, (payment) => payment.user)

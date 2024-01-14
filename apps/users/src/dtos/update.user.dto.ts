@@ -15,4 +15,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   photo?: string;
+
+  @IsOptional()
+  paymentId?: string;
 }

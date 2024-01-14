@@ -9,7 +9,6 @@ import { PaymentsService } from './payments.service';
 import { Payment } from './models/payment';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
-import { FindPaymentDto } from './dtos/find.payment.dto';
 
 @Controller('payments')
 @ApiTags('PAYMENT API')
@@ -22,8 +21,8 @@ export class PaymentsController {
     return newPayment;
   }
 
-  @MessagePattern({ cmd: 'getPaymentByUserId' })
-  async getPaymentByUser(@Payload() data: FindPaymentDto) {
+  @MessagePattern({ cmd: 'getPayments' })
+  async getPaymentByUser(@Payload() data: any) {
     return this.paymentService.findByUserId(data.userId);
   }
 

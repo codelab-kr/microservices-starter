@@ -4,9 +4,9 @@ import {
   Body,
   Get,
   Param,
-  Render,
   UploadedFile,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { CreateVideoInput } from './dtos/input/create-video.input';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -15,8 +15,9 @@ import { ObjectId } from 'mongodb';
 import { lastValueFrom } from 'rxjs';
 import { CurrentUser } from '@app/common';
 import { Video } from './models/video';
-import { CreateHistoryInput } from '../history/dtos/input/create-history.input';
+import { CreateHistoryInput } from '../history/dtos/create-history.input';
 import { HistoryService } from '../history/history.service';
+import { Response } from 'express';
 
 @Controller('videos')
 export class VideosController {
@@ -26,20 +27,25 @@ export class VideosController {
   ) {}
 
   @Get()
-  @Render('video-list')
-  async list(@CurrentUser() user: any) {
+  async list(@Res() res: Response, @CurrentUser() user?: any) {
+    if (!user) {
+      return res.redirect('/');
+    }
     const videos = await lastValueFrom(this.videosService.getVideos());
-    return { videos, user };
+    return res.render('video-list', { isVideos: true, videos, user });
   }
 
   @Get(':_id')
-  @Render('play-video')
-  async playVideo(@Param('_id') _id: string, @CurrentUser() user: any) {
+  async playVideo(
+    @Res() res: Response,
+    @Param('_id') _id: string,
+    @CurrentUser() user: any,
+  ) {
     const video = (await lastValueFrom(this.videosService.getVideo(_id)))[0];
     const baseUrl = global[Symbol.for('BaseUrl')];
     video.path = `${baseUrl}/uploads/videos/${video.path}`;
     this.updateHistory(video, user.id);
-    return { video, user };
+    res.render('play-video', { isVideos: true, video, user });
   }
 
   async updateHistory(video: Video, userId: string) {
@@ -52,9 +58,9 @@ export class VideosController {
   }
 
   @Post('upload')
-  @Render('upload-video')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
+    @Res() res: Response,
     @UploadedFile() file: Express.Multer.File,
     @Body() user: any,
   ) {
@@ -75,7 +81,7 @@ export class VideosController {
       const videoCreate = await lastValueFrom(
         this.videosService.createVideo(createVideoInput),
       );
-      return { user, videoCreate };
+      res.render('upload-video', { isUpload: true, user, videoCreate });
     }
   }
 }

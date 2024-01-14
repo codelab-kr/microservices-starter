@@ -1,0 +1,35 @@
+<div class='flex flex-col'>
+  {{> nav}}
+  <div class='m-4'>
+    <h1>Payments</h1>
+    <div id='payment-list' class='m-4'>
+      {{#if payments}}
+        <table>
+          <tr>
+            <th class='border-2 p-1 pl-2 pr-2'>Amount</th>
+            <th class='border-2 p-1 pl-2 pr-2'>Paid</th>
+          </tr>
+          {{#each payments}}
+          <tr class='mt-1'>
+            <td class='border-2 p-1 pl-2 pr-2'>
+              {{this.amount}}
+            </td>
+            <td class='border-2 p-1 pl-2 pr-2'>
+              {{this.updatedAt}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{else}}
+        No payments uploaded yet.
+        <br/>
+        <br/>
+        <form action="/payments" method="post">
+          <button id='payment' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+            Update Payment & Start now!
+          </button>
+        </form>
+      {{/if}}
+    </div>
+  </div>
+</div>

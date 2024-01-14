@@ -1,56 +1,19 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-
-    <title>FlixTube: Upload video</title>
-
-    <link rel="stylesheet" href="/css/tailwind.min.css">
-    <link rel="stylesheet" href="/css/app.css">
-</head>
-
-<body>
-    <div class="flex flex-col">
-        <div class="border-b-2 bg-gray-100">
-            <div class="nav flex flex-row items-center mt-1 p-2">
-                <div class="text-xl font-bold">
-                    <a href='/videos'>FlixTube</a>
-                </div>
-                <div class="ml-16">
-                    <a href="/videos">Videos</a>
-                </div>
-                <div class="ml-4 border-b-2 border-blue-600">
-                    <a href="/upload">Upload</a>
-                </div>
-                <div class="ml-4">
-                    <a href="/history">History</a>
-                </div>
-                <div class="ml-16">
-                    {{#if user}}
-                    [ {{ user.email }} ] <a href="/logout"> logout</a>
-                    {{else}}
-                    <a href="/login">login</a>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-        <div class="m-4">
-            <h1>Upload videos</h1>
-            <div class="m-4">
-                <form action="/videos/upload" method="post" enctype="multipart/form-data" >
-                    <input type="file" name="file" accept="video/*"  />
-                    <input type="hidden" name="userId" value="{{ user.id }}" />
-                    <input type="hidden" name="email" value="{{ user.email }}" />
-                    <input type="submit" value="Upload"  />
-                </form>
-                {{#if videoCreate}}
-                <div id="result" class="mt-4">
-                    <div>Uploaded: {{ videoCreate.title }}</div>
-                </div>
-                {{/if}}
-            </div>
-        </div>
-</body>
-
-</html>
+<div class='flex flex-col'>
+  {{> nav}}
+  <div class='m-4'>
+    <h1>Upload videos</h1>
+    <div class='m-4'>
+      <form action='/videos/upload' method='post' enctype='multipart/form-data'>
+        <input type='file' name='file' accept='video/*' />
+        <input type='hidden' name='userId' value='{{user.id}}' />
+        <input type='hidden' name='email' value='{{user.email}}' />
+        <input type='submit' value='Upload' />
+      </form>
+      {{#if videoCreate}}
+      <div id='result' class='mt-4'>
+        <div>Uploaded: {{videoCreate.title}}</div>
+       </div>
+       {{/if}}
+    </div>
+  </div>
+</div>

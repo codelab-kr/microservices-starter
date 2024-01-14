@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { NATS_SERVICE } from '@app/common';
-import { CreateHistoryInput } from './dtos/input/create-history.input';
+import { CreateHistoryInput } from './dtos/create-history.input';
 
 @Injectable()
 export class HistoryService {

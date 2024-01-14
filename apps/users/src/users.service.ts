@@ -42,6 +42,13 @@ export class UsersService {
     return this.usersRepository.findOneBy(data);
   }
 
+  async getUserById(id: string) {
+    return this.usersRepository.find({
+      where: { id },
+      relations: ['payments'],
+    });
+  }
+
   async getUsers() {
     return this.usersRepository.find({ relations: ['payments'] });
   }
@@ -52,7 +59,7 @@ export class UsersService {
       updateRequst.password = await bcrypt.hash(updateRequst.password, 10);
     }
     const updatedUser = await this.usersRepository.update(
-      request.id,
+      updateRequst.id,
       updateRequst,
     );
     return updatedUser;
@@ -74,18 +81,6 @@ export class UsersService {
       }
       return userInfo;
     }
-
-    // // for passport-google-oauth20 strategy to validate user
-    // if (data.providerId) {
-    //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //   const { password, ...userInfo } = await this.usersRepository.findOneBy({
-    //     id: data.providerId,
-    //   });
-    //   if (!userInfo) {
-    //     return null;
-    //   }
-    //   return userInfo;
-    // }
 
     // for passport-local strategy to validate user
     const { email, password } = data;

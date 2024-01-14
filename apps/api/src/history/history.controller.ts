@@ -1,19 +1,22 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { HistoryService } from './history.service';
 
 import { lastValueFrom } from 'rxjs';
 import { CurrentUser } from '@app/common';
+import { Response } from 'express';
 
 @Controller('history')
 export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
 
   @Get()
-  @Render('history')
-  async list(@CurrentUser() user: any) {
+  async list(@Res() res: Response, @CurrentUser() user?: any) {
+    if (!user) {
+      return res.redirect('/login');
+    }
     const history = await lastValueFrom(
       this.historyService.getHistory(user.id),
     );
-    return { history, user };
+    res.render('history', { isHistory: true, history, user });
   }
 }

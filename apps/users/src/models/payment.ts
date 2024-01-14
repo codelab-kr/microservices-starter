@@ -1,17 +1,30 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { User } from './user';
 
 @Entity({ name: 'payment' })
-@ObjectType()
 export class Payment {
   @PrimaryGeneratedColumn('uuid')
-  @Field()
   id: string;
 
   @Column()
-  @Field(() => Int)
   amount: number;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   @ManyToOne(() => User, (user) => user.payments)
   user: User;

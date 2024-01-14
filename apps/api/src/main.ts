@@ -5,6 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
+import { engine } from 'express-handlebars';
+import * as hbs from 'handlebars';
 
 const BaseUrl = Symbol.for('BaseUrl');
 
@@ -26,8 +28,19 @@ async function bootstrap() {
   setupSwagger(app);
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
-  app.setBaseViewsDir(path.resolve('public/views'));
-  app.setViewEngine('hbs');
+  app.engine(
+    'hbs',
+    engine({
+      extname: 'hbs',
+      defaultLayout: 'main',
+      layoutsDir: path.resolve('public/views/layouts'),
+      partialsDir: path.resolve('public/views/partials'),
+    }),
+  );
+  app.set('view engine', 'hbs');
+  app.set('views', path.resolve('public/views'));
+
+  hbs.registerHelper('or', (a, b) => a || b);
 
   await app.listen(port, async () => {
     console.log(

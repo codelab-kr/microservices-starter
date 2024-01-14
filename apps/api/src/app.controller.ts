@@ -6,18 +6,12 @@ import {
   Req,
   Body,
   UseGuards,
-  Render,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginUserRequest } from './users/dtos/login-user.request';
 import { User } from './users/models/user';
-import {
-  CurrentUser,
-  LocalAuthGuard,
-  AuthGuard,
-  GoogleGuard,
-} from '@app/common';
+import { CurrentUser, LocalAuthGuard, GoogleGuard } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 
 @Controller()
@@ -33,15 +27,14 @@ export class AppController {
   @Get()
   async index(@Res() res: Response, @CurrentUser() user?: User) {
     if (user) {
-      res.redirect('/videos');
+      return res.redirect('/videos');
     }
     res.redirect('/login');
   }
 
   @Get('login')
-  @Render('login')
-  login() {
-    return { google: this.google };
+  login(@Res() res: Response) {
+    res.render('login', { google: this.google });
   }
 
   @Post('login')
@@ -58,9 +51,10 @@ export class AppController {
           maxAge: 60 * 60 * 1000,
         });
       }
-      return res.redirect('/videos');
+      res.redirect('/videos');
     } catch (error) {
       console.log(error);
+      res.redirect('/');
     }
   }
 
@@ -75,32 +69,21 @@ export class AppController {
   }
 
   @Get('logout')
-  @UseGuards(AuthGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
-    req.session?.destroy((err) => {
-      if (err) {
-        return res.send('Logout error');
+    req.session?.destroy((error) => {
+      if (error) {
+        console.log(error);
       }
-      res.clearCookie('connect.sid');
+      res.redirect('/');
     });
     res.clearCookie('Authentication');
-    res.redirect('/login');
-  }
-
-  @Get('video')
-  @UseGuards(AuthGuard)
-  async videoList(@Res() res: Response) {
-    try {
-      res.redirect('/videos');
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   @Get('upload')
-  @UseGuards(AuthGuard)
-  @Render('upload-video')
-  upload(@CurrentUser() user: User) {
-    return { user };
+  upload(@Res() res: Response, @CurrentUser() user?: any) {
+    if (!user) {
+      return res.redirect('/');
+    }
+    res.render('upload-video', { isUpload: true, user });
   }
 }

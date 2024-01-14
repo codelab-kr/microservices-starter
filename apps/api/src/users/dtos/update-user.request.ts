@@ -35,4 +35,10 @@ export class UpdateUserRequest {
       'https://lh3.googleusercontent.com/a-/AOh14GjKQG9vq1X0w6ZvP8e8vX4Z9v2l9iJXOZtQXw7D=s96-c',
   })
   photo?: string;
+
+  @Field()
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  paymentId?: string;
 }

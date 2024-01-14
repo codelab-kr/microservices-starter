@@ -1,66 +1,28 @@
-<html lang='en'>
-  <head>
-    <meta charset='utf-8' />
-
-    <title>FlixTube: Vidos</title>
-
-    <link rel='stylesheet' href='css/tailwind.min.css' />
-    <link rel='stylesheet' href='css/app.css' />
-  </head>
-  <body>
-    <div class='flex flex-col'>
-      <div class='border-b-2 bg-gray-100'>
-        <div class='nav flex flex-row items-center mt-1 p-2'>
-          <div class='text-xl font-bold'>
-            <a href='/videos'>FlixTube</a>
-          </div>
-          <div class='ml-16 border-b-2 border-blue-600'>
-            <a href='/videos'>Videos</a>
-          </div>
-          <div class='ml-4'>
-            <a href='/upload'>Upload</a>
-          </div>
-          <div class='ml-4'>
-            <a href='/history'>History</a>
-          </div>
-          <div class='ml-16'>
-            {{#if user}}
-              [
-              {{user.email}}
-              ]
-              <a href='/logout'> logout</a>
-            {{else}}
-              <a href='/login'>login</a>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-
-      <div class='m-4'>
-        <h1>Videos</h1>
-        <div id='video-list' class='m-4'>
-          {{#if videos}}
-            <table>
-              <tr>
-                <th class='border-2 p-1 pl-2 pr-2'>Title</th>
-                <th class='border-2 p-1 pl-2 pr-2'>Disc</th>
-              </tr>
-              {{#each videos}}
-                <tr class='mt-1'>
-                  <td class='border-2 p-1 pl-2 pr-2'>
-                    <a href='/videos/{{this._id}}'>{{this.title}}</a>
-                  </td>
-                  <td class='border-2 p-1 pl-2 pr-2'>
-                    {{this.description}}
-                  </td>
-                </tr>
-              {{/each}}
-            </table>
-          {{else}}
-            No videos uploaded yet.
-          {{/if}}
-        </div>
-      </div>
+<div class='flex flex-col'>
+  {{> nav}}
+  <div class='m-4'>
+    <h1>Videos</h1>
+    <div id='video-list' class='m-4'>
+      {{#if videos}}
+        <table>
+          <tr>
+            <th class='border-2 p-1 pl-2 pr-2'>Title</th>
+            <th class='border-2 p-1 pl-2 pr-2'>Disc</th>
+          </tr>
+          {{#each videos}}
+          <tr class='mt-1'>
+            <td class='border-2 p-1 pl-2 pr-2'>
+              <a href='/videos/{{this._id}}'>{{this.title}}</a>
+            </td>
+            <td class='border-2 p-1 pl-2 pr-2'>
+              {{this.description}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{else}}
+        No videos uploaded yet.
+      {{/if}}
     </div>
-  </body>
-</html>
+  </div>
+</div>

@@ -2252,6 +2252,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@npmcli/promise-spawn@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@npmcli/promise-spawn@npm:7.0.1"
+  dependencies:
+    which: "npm:^4.0.0"
+  checksum: 441024049170fc9dd0c793fef7366fd1b2a36c06f1036c52ac4a5d0f2d46deced89f2a94fef20f51aa9934edb4d611ff76b060be2b82086d29d2094ee1b46122
+  languageName: node
+  linkType: hard
+
 "@npmcli/query@npm:^3.0.1":
   version: 3.0.1
   resolution: "@npmcli/query@npm:3.0.1"
@@ -2271,6 +2280,19 @@ __metadata:
     read-package-json-fast: "npm:^3.0.0"
     which: "npm:^4.0.0"
   checksum: 5b2b92d9dcedf9f0263861288f9ab9dbb54474bb326578e5fed635994ccdc31d56084c2768475652761cb88f88273bc04db79d2d5a3a35b91389c6fb9d272880
+  languageName: node
+  linkType: hard
+
+"@npmcli/run-script@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "@npmcli/run-script@npm:7.0.3"
+  dependencies:
+    "@npmcli/node-gyp": "npm:^3.0.0"
+    "@npmcli/promise-spawn": "npm:^7.0.0"
+    node-gyp: "npm:^10.0.0"
+    read-package-json-fast: "npm:^3.0.0"
+    which: "npm:^4.0.0"
+  checksum: 421a1752e6d32459945f293242889f57115dc67769e23f73c28a98e3d5c037508caf741ca91f5a3605a695ce9bae30f9479f5656a248d6bba6f0535a76e54d13
   languageName: node
   linkType: hard
 
@@ -2719,6 +2741,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/express-handlebars@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@types/express-handlebars@npm:6.0.0"
+  dependencies:
+    express-handlebars: "npm:*"
+  checksum: be1791a3edf4da64b882de3de630b1c512005c753ae508ef8d538bab3dad74a86194bde8bd862199dc97128ad286a3014e2f82fed31d62b31a73bcbda3f25891
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:^4.17.30, @types/express-serve-static-core@npm:^4.17.33":
   version: 4.17.41
   resolution: "@types/express-serve-static-core@npm:4.17.41"
@@ -3075,10 +3106,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:^13.7.10":
-  version: 13.11.7
-  resolution: "@types/validator@npm:13.11.7"
-  checksum: 9ca2a047d6e7c1d718c6dd28b12d6d893c4ac2acdb8a557b8d448dab17aaa044e92c7a13c8476601078f4c907ed66259e3b20525f7fa849378fbaf53a971d574
+"@types/validator@npm:^13.11.8":
+  version: 13.11.8
+  resolution: "@types/validator@npm:13.11.8"
+  checksum: 9e96e96b25a4ed2234fa081b9d99bcbd29e8714b7c48446ff386e3c47ea9c3bb482b5d03e4cb68da636c80c63350aee06a71f7c74bd7a8e3a08a1d75ec817d8a
   languageName: node
   linkType: hard
 
@@ -4221,7 +4252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cacache@npm:^18.0.0, cacache@npm:^18.0.1":
+"cacache@npm:^18.0.0":
   version: 18.0.1
   resolution: "cacache@npm:18.0.1"
   dependencies:
@@ -4238,6 +4269,26 @@ __metadata:
     tar: "npm:^6.1.11"
     unique-filename: "npm:^3.0.0"
   checksum: a31666805a80a8b16ad3f85faf66750275a9175a3480896f4f6d31b5d53ef190484fabd71bdb6d2ea5603c717fbef09f4af03d6a65b525c8ef0afaa44c361866
+  languageName: node
+  linkType: hard
+
+"cacache@npm:^18.0.2":
+  version: 18.0.2
+  resolution: "cacache@npm:18.0.2"
+  dependencies:
+    "@npmcli/fs": "npm:^3.1.0"
+    fs-minipass: "npm:^3.0.0"
+    glob: "npm:^10.2.2"
+    lru-cache: "npm:^10.0.1"
+    minipass: "npm:^7.0.3"
+    minipass-collect: "npm:^2.0.1"
+    minipass-flush: "npm:^1.0.5"
+    minipass-pipeline: "npm:^1.2.4"
+    p-map: "npm:^4.0.0"
+    ssri: "npm:^10.0.0"
+    tar: "npm:^6.1.11"
+    unique-filename: "npm:^3.0.0"
+  checksum: 7992665305cc251a984f4fdbab1449d50e88c635bc43bf2785530c61d239c61b349e5734461baa461caaee65f040ab14e2d58e694f479c0810cffd181ba5eabc
   languageName: node
   linkType: hard
 
@@ -4455,14 +4506,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "class-validator@npm:0.14.0"
+"class-validator@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "class-validator@npm:0.14.1"
   dependencies:
-    "@types/validator": "npm:^13.7.10"
-    libphonenumber-js: "npm:^1.10.14"
-    validator: "npm:^13.7.0"
-  checksum: 1f7c34052f0c342b1d27c5aec7c42b646bb77a56874acc0d8003e2ad8f0294e7da18b43e9caaac8e8817cbb309cf9f14bcebe4611994390ca4818f3b393783dc
+    "@types/validator": "npm:^13.11.8"
+    libphonenumber-js: "npm:^1.10.53"
+    validator: "npm:^13.9.0"
+  checksum: 946e914e47548b5081449c720ea6a4877bac63dc960e14fca4b990b56e64efe3802d12f07ec22d6420c290245b72ea2d646939239f2a3b597794e6c4c2a4f2ae
   languageName: node
   linkType: hard
 
@@ -5652,6 +5703,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-handlebars@npm:*, express-handlebars@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "express-handlebars@npm:7.1.2"
+  dependencies:
+    glob: "npm:^10.3.3"
+    graceful-fs: "npm:^4.2.11"
+    handlebars: "npm:^4.7.8"
+  checksum: d8d5dd70800a35a88399ab3d4ea4bfd2b12a3c4e991f9b3834d442f843fa869acbf141dc7a75bc07cffe11eedbe795b5605a10637452919dade0f97f3f847457
+  languageName: node
+  linkType: hard
+
 "express-session@npm:^1.17.3":
   version: 1.17.3
   resolution: "express-session@npm:1.17.3"
@@ -6275,7 +6337,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:10.3.10, glob@npm:^10.2.2, glob@npm:^10.3.10, glob@npm:^10.3.7":
+"glob@npm:10.3.10, glob@npm:^10.2.2, glob@npm:^10.3.10, glob@npm:^10.3.3, glob@npm:^10.3.7":
   version: 10.3.10
   resolution: "glob@npm:10.3.10"
   dependencies:
@@ -6468,7 +6530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handlebars@npm:^4.1.0":
+"handlebars@npm:^4.1.0, handlebars@npm:^4.7.8":
   version: 4.7.8
   resolution: "handlebars@npm:4.7.8"
   dependencies:
@@ -8015,7 +8077,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.10.14":
+"libphonenumber-js@npm:^1.10.53":
   version: 1.10.53
   resolution: "libphonenumber-js@npm:1.10.53"
   checksum: de5630a2c8c3a481fd4e37f2a36b5f199a7079b92f0e802e431124fe437c0401424a793bf3f18bcca151a57a6556d20ff8ccc2deea655a5675e2676ba2775224
@@ -8481,6 +8543,7 @@ __metadata:
     "@types/cookie-parser": "npm:^1.4.6"
     "@types/cron": "npm:^2.4.0"
     "@types/express": "npm:^4.17.21"
+    "@types/express-handlebars": "npm:^6.0.0"
     "@types/express-session": "npm:^1.17.10"
     "@types/hbs": "npm:^4.0.4"
     "@types/ioredis": "npm:^5.0.0"
@@ -8501,7 +8564,7 @@ __metadata:
     cache-manager-redis-store: "npm:^3.0.1"
     cheerio: "npm:^1.0.0-rc.12"
     class-transformer: "npm:^0.5.1"
-    class-validator: "npm:^0.14.0"
+    class-validator: "npm:^0.14.1"
     connect-redis: "npm:^7.1.0"
     cookie-parser: "npm:^1.4.6"
     cron: "npm:^3.1.6"
@@ -8510,6 +8573,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.1.3"
     express: "npm:^4.18.2"
+    express-handlebars: "npm:^7.1.2"
     express-session: "npm:^1.17.3"
     graphql: "npm:^16.8.1"
     graphql-tag: "npm:^2.12.6"
@@ -8527,13 +8591,13 @@ __metadata:
     nats: "npm:^2.19.0"
     nodemailer: "npm:^6.9.8"
     nodemon: "npm:^3.0.2"
-    npm: "npm:^10.2.5"
+    npm: "npm:^10.3.0"
     passport: "npm:^0.7.0"
     passport-google-oauth20: "npm:^2.0.0"
     passport-jwt: "npm:^4.0.1"
     passport-local: "npm:^1.0.0"
     path: "npm:^0.12.7"
-    prettier: "npm:^3.1.1"
+    prettier: "npm:^3.2.1"
     redis: "npm:^4.6.12"
     reflect-metadata: "npm:^0.2.1"
     rimraf: "npm:^5.0.5"
@@ -9403,9 +9467,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm@npm:^10.2.5":
-  version: 10.2.5
-  resolution: "npm@npm:10.2.5"
+"npm@npm:^10.3.0":
+  version: 10.3.0
+  resolution: "npm@npm:10.3.0"
   dependencies:
     "@isaacs/string-locale-compare": "npm:^1.1.0"
     "@npmcli/arborist": "npm:^7.2.1"
@@ -9413,12 +9477,12 @@ __metadata:
     "@npmcli/fs": "npm:^3.1.0"
     "@npmcli/map-workspaces": "npm:^3.0.4"
     "@npmcli/package-json": "npm:^5.0.0"
-    "@npmcli/promise-spawn": "npm:^7.0.0"
-    "@npmcli/run-script": "npm:^7.0.2"
+    "@npmcli/promise-spawn": "npm:^7.0.1"
+    "@npmcli/run-script": "npm:^7.0.3"
     "@sigstore/tuf": "npm:^2.2.0"
     abbrev: "npm:^2.0.0"
     archy: "npm:~1.0.0"
-    cacache: "npm:^18.0.1"
+    cacache: "npm:^18.0.2"
     chalk: "npm:^5.3.0"
     ci-info: "npm:^4.0.0"
     cli-columns: "npm:^4.0.0"
@@ -9481,7 +9545,7 @@ __metadata:
   bin:
     npm: bin/npm-cli.js
     npx: bin/npx-cli.js
-  checksum: ac248929d49730bb39297dca4cb09c5afd9cfe1661365a696baf3fa7451897e9e6a65b251dc7da0f77785f4220bf5e72504d63e97927c530437303377dbd0aa9
+  checksum: d1685a41dab46e8ee7d2402d7a5481e3b3353d0afc32b6df8a5f2758af152f96d2a665b5abeed3c8f281e2034d324f7c10ade8db6b72db0e7ef4821df55d60ee
   languageName: node
   linkType: hard
 
@@ -10044,12 +10108,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "prettier@npm:3.1.1"
+"prettier@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "prettier@npm:3.2.1"
   bin:
     prettier: bin/prettier.cjs
-  checksum: facc944ba20e194ff4db765e830ffbcb642803381f0d2033ed397e79904fa4ccc877dc25ad68f42d36985c01d051c990ca1b905fb83d2d7d65fe69e4386fa1a3
+  checksum: e01284f25c1e9a96dfaf4f7d0bfdf0726b26afc732b0e645a2653174d4ad5a1e85ae21ec4d327c71536f1acf8fee1dff5ea35c5b4b8e5b83ff00fe1dd6fef146
   languageName: node
   linkType: hard
 
@@ -12218,7 +12282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.7.0":
+"validator@npm:^13.9.0":
   version: 13.11.0
   resolution: "validator@npm:13.11.0"
   checksum: 0107da3add5a4ebc6391dac103c55f6d8ed055bbcc29a4c9cbf89eacfc39ba102a5618c470bdc33c6487d30847771a892134a8c791f06ef0962dd4b7a60ae0f5

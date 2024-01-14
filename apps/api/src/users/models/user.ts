@@ -23,6 +23,9 @@ export class User {
   @Field({ nullable: true })
   photo?: string;
 
+  @Field({ nullable: true })
+  paymentId?: string;
+
   @Field(() => Date, { nullable: true })
   createdAt?: Date;
 

@@ -10,6 +10,7 @@ type User {
   isSubscribed: Boolean
   providerId: String
   photo: String
+  paymentId: String
   payments: [Payment!]
 }
 
