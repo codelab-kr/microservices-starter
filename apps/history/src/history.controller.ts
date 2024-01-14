@@ -14,7 +14,6 @@ export class HistoryController {
 
   @EventPattern('videoViewed')
   async handleVideoCreated(@Payload() data: CreateHistoryInput) {
-    console.log('handleVideoCreated', data);
     this.historyService.create(data);
   }
 }

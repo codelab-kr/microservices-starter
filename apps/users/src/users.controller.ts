@@ -16,7 +16,12 @@ export class UsersController {
 
   @MessagePattern({ cmd: 'createUser' })
   async createUser(@Payload() data: CreateUserDto) {
-    return await this.usersService.createUser(data);
+    try {
+      return await this.usersService.createUser(data);
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   }
 
   @MessagePattern({ cmd: 'validateUser' })
@@ -24,9 +29,9 @@ export class UsersController {
     return this.usersService.validateUser(data);
   }
 
-  @MessagePattern({ cmd: 'getUser' })
-  async getUser(@Payload() data: any) {
-    return await this.usersService.getUser(data);
+  @MessagePattern({ cmd: 'getUserByEmail' })
+  async getUserByEmail(@Payload() email: any) {
+    return await this.usersService.getUserByEmail(email);
   }
 
   @MessagePattern({ cmd: 'getUserById' })

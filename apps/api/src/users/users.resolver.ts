@@ -24,7 +24,7 @@ export class UsersResolver {
 
   @Query(() => User, { nullable: true })
   getUser(@Args('id') id: string) {
-    return this.natsClient.send({ cmd: 'getUser' }, { id });
+    return this.natsClient.send({ cmd: 'getUser' }, id);
   }
 
   @Query(() => [User], { nullable: true })
@@ -34,7 +34,6 @@ export class UsersResolver {
 
   @ResolveField('payments', () => [Payment], { nullable: true })
   getUserPayments(@Parent() user: User) {
-    // const findUser = this.getUserById(user.id);
     const { id } = user;
     return this.natsClient.send({ cmd: 'getPaymentByUserId' }, { userId: id });
   }

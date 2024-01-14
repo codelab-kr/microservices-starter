@@ -31,7 +31,9 @@ export class VideosController {
     if (!user) {
       return res.redirect('/');
     }
-    const videos = await lastValueFrom(this.videosService.getVideos());
+    const videos = await lastValueFrom(
+      this.videosService.getVideos({ userId: user.id }),
+    );
     return res.render('video-list', { isVideos: true, videos, user });
   }
 

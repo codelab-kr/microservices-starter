@@ -12,8 +12,8 @@ export class VideosService {
     return this.natsClient.send({ cmd: 'createVideo' }, createVideoInput);
   }
 
-  getVideos() {
-    return this.natsClient.send({ cmd: 'getVideos' }, {});
+  getVideos(data: any) {
+    return this.natsClient.send({ cmd: 'getVideos' }, data);
   }
 
   getVideo(_id: string) {

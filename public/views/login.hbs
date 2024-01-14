@@ -11,8 +11,14 @@
     <div class='m-4'>
       <form class='login-form' id='login-form' method='post' action='/login'>
         <label for='email'>Email:</label>
-        <input type='email' id='email' name='email' class='mt-2' required /><br
-        />
+        <input
+          type='email'
+          id='email'
+          name='email'
+          class='mt-2'
+          value='{{input.email}}'
+          required
+        /><br />
         <label for='password'>Password:</label>
         <input
           type='password'
@@ -21,24 +27,37 @@
           class='mt-2'
           required
         /><br />
-        <button type='submit' class='mt-2'>Login</button>
+        <button
+          type='submit'
+          class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        >Login</button>
       </form>
     </div>
   </div>
-  {{#if google}}
-    <div class='m-4'>
-      <img
-        src='images/google_web_dark_sq_ctn@1x.png'
-        onclick="window.open('/google-auth', '_self')"
-      />
-    </div>
-  {{/if}}
+  <div class='m-4 flex items-center'>
+    <button
+      id='payment'
+      class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+      onclick="window.open('/signup', '_self')"
+    >
+      Sign Up Now!
+    </button>
+    {{#if google}}
+      <div class='flex items-cente ml-4'>
+        OR
+        <img
+          src='images/google_web_dark_sq_ctn@1x.png'
+          onclick="window.open('/google-auth', '_self')"
+          class='ml-4'
+        />
+      </div>
+    {{/if}}
+  </div>
+
   {{#if error}}
     <div class='m-4'>
-      <div class='m-4'>
-        <div class='text-red-600'>
-          {{error}}
-        </div>
+      <div class='text-red-600'>
+        {{error}}
       </div>
     </div>
   {{/if}}

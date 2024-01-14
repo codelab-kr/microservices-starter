@@ -7,8 +7,8 @@ import { CreatePaymentDto } from './dtos/create.payment.dto';
 export class PaymentsService {
   constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
 
-  createPayments(createPaymentsInput: CreatePaymentDto) {
-    return this.natsClient.send({ cmd: 'createPayment' }, createPaymentsInput);
+  createPayment(createPaymentInput: CreatePaymentDto) {
+    return this.natsClient.send({ cmd: 'createPayment' }, createPaymentInput);
   }
 
   getPayments(userId: string) {

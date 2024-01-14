@@ -1,0 +1,87 @@
+<div class='flex flex-col'>
+  <div class='border-b-2 bg-gray-100'>
+    <div class='nav flex flex-row items-center mt-1 p-2'>
+      <div class='text-xl font-bold'>
+        FlixTube
+      </div>
+    </div>
+  </div>
+
+  <div class='m-4'>
+    <div class='m-4'>
+      <form id='signup-form' method='post' action='/signup'>
+        <label for='email' class='mt-2'>Email </label>
+        <br />
+        <input
+          type='email'
+          name='email'
+          class='mt-2'
+          value='{{input.email}}'
+          required
+        /><br /><br />
+        <label for='password'>Password</label><br />
+        <input
+          type='password'
+          id='password'
+          name='password'
+          placeholder='Password'
+          class='mt-2'
+          required
+        /><br />
+        <input
+          type='password'
+          id='password2'
+          placeholder='Confirm Password'
+          class='mt-2'
+          required
+          oninput='checkPasswordMatch();'
+        /><br />
+        <div id='message' style='color: red;'></div><br />
+        <label for='username'>Username </label><br />
+        <input
+          type='text'
+          name='username'
+          class='mt-2'
+          value='{{input.username}}'
+          required
+        /><br /><br />
+        <label for=''>Subscribe </label>
+        <input
+          type='checkbox'
+          name='subscribe'
+          class='mt-2'
+          value='{{input.subscribe}}'
+        /><br /><br />
+        <button
+          type='submit'
+          class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        >Signup</button>
+      </form>
+    </div>
+  </div>
+
+  <div class='m-4 flex items-center'>
+    {{#if error}}
+      <div class='m-4'>
+        <div class='text-red-600'>
+          {{error}}
+        </div>
+      </div>
+      <br />
+      <br />
+    {{/if}}
+    <div class='m-4'>
+      Already have an account?
+      <a href='/login'>Login</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function checkPasswordMatch() { var password =
+  document.getElementById('password').value; var password2 =
+  document.getElementById('password2').value; var message =
+  document.getElementById('message'); if (password !== password2) {
+  message.textContent = 'Passwords do not match.'; } else { message.textContent
+  = ''; } }
+</script>

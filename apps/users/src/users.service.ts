@@ -38,12 +38,12 @@ export class UsersService {
     }
   }
 
-  async getUser(data: any) {
-    return this.usersRepository.findOneBy(data);
+  async getUserByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
   }
 
   async getUserById(id: string) {
-    return this.usersRepository.find({
+    return this.usersRepository.findOne({
       where: { id },
       relations: ['payments'],
     });
@@ -97,7 +97,7 @@ export class UsersService {
   }
 
   async getOrSaveUser(data: CreateUserDto) {
-    const foundUser = await this.getUser({ email: data.email });
+    const foundUser = await this.getUserByEmail(data.email);
     if (foundUser) {
       return foundUser;
     }

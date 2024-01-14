@@ -23,7 +23,7 @@ export class SessionSerializer extends PassportSerializer {
     let user: any;
     try {
       user = await lastValueFrom(
-        this.natsService.send({ cmd: 'getUser' }, { email: payload.email }),
+        this.natsService.send({ cmd: 'getUserByEmail' }, payload),
       );
     } catch (error) {
       console.log('deserializeUser error', error);

@@ -13,7 +13,6 @@ import { LoginUserRequest } from './users/dtos/login-user.request';
 import { User } from './users/models/user';
 import { CurrentUser, LocalAuthGuard, GoogleGuard } from '@app/common';
 import { ConfigService } from '@nestjs/config';
-
 @Controller()
 @ApiTags('API')
 export class AppController {
@@ -53,8 +52,7 @@ export class AppController {
       }
       res.redirect('/videos');
     } catch (error) {
-      console.log(error);
-      res.redirect('/');
+      res.render('login', { google: this.google, error: error.message });
     }
   }
 
@@ -85,5 +83,10 @@ export class AppController {
       return res.redirect('/');
     }
     res.render('upload-video', { isUpload: true, user });
+  }
+
+  @Get('me')
+  profile(@Res() res: Response, @CurrentUser() user?: any) {
+    res.json(user);
   }
 }

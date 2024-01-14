@@ -27,7 +27,7 @@ export class PaymentsController {
       userId: user.id,
     };
     const paymentResult = await lastValueFrom(
-      this.paymentsServic.createPayments(createPaymentDto),
+      this.paymentsServic.createPayment(createPaymentDto),
     );
     if (paymentResult) {
       return res.redirect('/payments');

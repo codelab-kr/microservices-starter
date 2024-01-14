@@ -8,12 +8,13 @@ const configService = new ConfigService();
 export const CurrentUser = createParamDecorator(
   async (_data: unknown, context: ExecutionContext) => {
     const session = configService.get('SESSION') === 'true';
-    // eslint-disable-next-line prefer-const
-    let userInfo = getRequestByContext(context)?.user;
-    if (!userInfo) return null;
-    let result: any;
-    if (!session) result = await addToken(userInfo);
-    userInfo = { ...userInfo, ...result };
+    const req = getRequestByContext(context);
+    let userInfo: any;
+    if (session) {
+      userInfo = req.user;
+    } else {
+      userInfo = { ...userInfo, ...(await addToken(userInfo)) };
+    }
     return isEmpty(userInfo) ? null : userInfo;
   },
 );

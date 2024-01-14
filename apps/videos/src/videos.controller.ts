@@ -24,8 +24,8 @@ export class VideosController {
   }
 
   @MessagePattern({ cmd: 'getVideos' })
-  async getVideos() {
-    return this.videosService.getVideos();
+  async getVideos(@Payload() data?: any) {
+    return this.videosService.getVideos(data);
   }
 
   // test: /videos/get?url=https://jsonplaceholder.typicode.com/todos/1
