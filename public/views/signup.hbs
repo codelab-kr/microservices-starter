@@ -9,7 +9,7 @@
 
   <div class='m-4'>
     <div class='m-4'>
-      <form id='signup-form' method='post' action='/signup'>
+      <form id='signup-form' method='post' action='/users/signup'>
         <label for='email' class='mt-2'>Email </label>
         <br />
         <input
@@ -60,20 +60,17 @@
     </div>
   </div>
 
-  <div class='m-4 flex items-center'>
-    {{#if error}}
-      <div class='m-4'>
-        <div class='text-red-600'>
-          {{error}}
-        </div>
+  {{#if error}}
+    <div class='m-4 flex items-center'>
+      <div class='text-red-600'>
+        {{error}}
       </div>
-      <br />
-      <br />
-    {{/if}}
-    <div class='m-4'>
-      Already have an account?
-      <a href='/login'>Login</a>
+
     </div>
+  {{/if}}
+  <div class='m-4 flex items-center'>
+    Already have an account? &nbsp;
+    <a href='/login'>Login</a>
   </div>
 </div>
 

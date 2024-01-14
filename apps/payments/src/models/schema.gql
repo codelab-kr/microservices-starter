@@ -16,7 +16,7 @@ type User {
 
 type Payment {
   id: String!
-  amount: Float!
+  amount: Int!
   user: User!
 }
 

@@ -24,8 +24,8 @@ export class VideosService {
     file: Express.Multer.File,
     createVideoInput: CreateVideoInput,
   ): Promise<any> {
-    // TODO: file 업로드 기능 공통으로 빼기?
-    // TODO: 멀티파트 파일 업로드
+    // TODO: file 업로드 기능 공통으로 빼기 ?
+    // TODO: 멀티파트 파일 업로드 ?
 
     const { title, type, path } = createVideoInput;
 

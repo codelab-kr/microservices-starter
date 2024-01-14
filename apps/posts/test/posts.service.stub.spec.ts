@@ -9,7 +9,7 @@ import { CreatePostInput } from '../src/utils/create.post.input';
 import { UpdatePostInput } from '../src/utils/update.post.ipnput';
 import { PostsModule } from '../src/posts.module';
 
-// TODO: 종료 후에도 자원이 해제되지 않음 ?
+// TODO: 종료 후에도 자원이 해제되지 않음
 
 describe('PostsService (Stub)', () => {
   let app: INestApplication;

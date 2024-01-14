@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Entity,
   Column,
@@ -17,8 +17,8 @@ export class Payment {
   @Field()
   id: string;
 
-  @Column('float')
-  @Field()
+  @Column('int')
+  @Field(() => Int)
   amount: number;
 
   @ManyToOne(() => User, (user) => user.payments)

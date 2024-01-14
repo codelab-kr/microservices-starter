@@ -6,7 +6,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
 import { engine } from 'express-handlebars';
-import * as hbs from 'handlebars';
 
 const BaseUrl = Symbol.for('BaseUrl');
 
@@ -39,8 +38,6 @@ async function bootstrap() {
   );
   app.set('view engine', 'hbs');
   app.set('views', path.resolve('public/views'));
-
-  hbs.registerHelper('or', (a, b) => a || b);
 
   await app.listen(port, async () => {
     console.log(

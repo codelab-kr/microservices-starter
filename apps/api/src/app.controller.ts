@@ -13,8 +13,9 @@ import { LoginUserRequest } from './users/dtos/login-user.request';
 import { User } from './users/models/user';
 import { CurrentUser, LocalAuthGuard, GoogleGuard } from '@app/common';
 import { ConfigService } from '@nestjs/config';
-@Controller()
+
 @ApiTags('API')
+@Controller()
 export class AppController {
   session: boolean;
   google: boolean;
@@ -77,16 +78,16 @@ export class AppController {
     res.clearCookie('Authentication');
   }
 
+  @Get('signup')
+  getSignup(@Res() res: Response) {
+    res.render('signup', {});
+  }
+
   @Get('upload')
   upload(@Res() res: Response, @CurrentUser() user?: any) {
     if (!user) {
       return res.redirect('/');
     }
     res.render('upload-video', { isUpload: true, user });
-  }
-
-  @Get('me')
-  profile(@Res() res: Response, @CurrentUser() user?: any) {
-    res.json(user);
   }
 }

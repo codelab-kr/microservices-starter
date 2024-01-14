@@ -23,7 +23,7 @@ export class PaymentsController {
   @Post()
   async CreatePayment(@Res() res: Response, @CurrentUser() user: any) {
     const createPaymentDto: CreatePaymentDto = {
-      amount: 10.0,
+      amount: 10000,
       userId: user.id,
     };
     const paymentResult = await lastValueFrom(
