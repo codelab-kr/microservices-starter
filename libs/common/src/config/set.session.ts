@@ -6,7 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import * as passport from 'passport';
 
-export function setupSession(app: NestExpressApplication) {
+export function setSession(app: NestExpressApplication) {
   const configService = app.get(ConfigService);
   const redisClient = new Redis(configService.get('REDIS_URL') as string);
   app.use(cookieParser());

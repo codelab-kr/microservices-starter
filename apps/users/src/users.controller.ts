@@ -1,10 +1,15 @@
 import { Body, Controller, Delete, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { MessagePattern, EventPattern, Payload } from '@nestjs/microservices';
+import {
+  MessagePattern,
+  EventPattern,
+  Payload,
+  RpcException,
+} from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create.user.dto';
-import { User } from './models/user';
 import { LoginUserRequest } from './dtos/login.user.dto';
 import { UpdateUserDto } from './dtos/update.user.dto';
+import { User } from './models/user';
 
 export interface TokenPayload {
   userId: string;
@@ -18,9 +23,10 @@ export class UsersController {
   async createUser(@Payload() data: CreateUserDto) {
     try {
       return await this.usersService.createUser(data);
-    } catch (e) {
-      console.log(e);
-      return e;
+    } catch (error) {
+      throw new RpcException(error);
+      // console.log(error);
+      // return error;
     }
   }
 

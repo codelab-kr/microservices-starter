@@ -6,7 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
-import { JwtAuthModule, SessionAuthModule, EnhancerModule } from '@app/common';
+import { JwtAuthModule, SessionAuthModule } from '@app/common';
 import { AppService } from './app.service';
 import { VideosModule } from './videos/videos.module';
 import { HistoryModule } from './history/history.module';
@@ -37,7 +37,7 @@ export class AppModule {
       ServeStaticModule.forRoot({
         rootPath: path.resolve('public'),
       }),
-      EnhancerModule,
+      // EnhancerModule,
       UsersModule,
       VideosModule,
       HistoryModule,

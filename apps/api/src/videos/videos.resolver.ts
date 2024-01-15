@@ -13,8 +13,8 @@ export class VideosResolver {
   //   return this.natsClient.send({ cmd: 'createVideo' }, createVideoDto);
   // }
   // @Query(() => Video, { nullable: true })
-  // getVideo(@Args('id') id: string) {
-  //   return this.natsClient.send({ cmd: 'getVideo' }, { id });
+  // getVideoById(@Args('id') id: string) {
+  //   return this.natsClient.send({ cmd: 'getVideoById' }, { id });
   // }
   // @Query(() => [Video], { nullable: true })
   // getVideos() {

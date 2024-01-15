@@ -1,48 +1,34 @@
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { setupSwagger, setupSession } from '@app/common';
-import { ValidationPipe } from '@nestjs/common';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import * as path from 'path';
-import { ConfigService } from '@nestjs/config';
-import { engine } from 'express-handlebars';
-
-const BaseUrl = Symbol.for('BaseUrl');
+import {
+  setSwagger,
+  setSession,
+  setGlobal,
+  setValidation,
+  setHbs,
+} from '@app/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule.register(),
   );
 
-  const configService = app.get(ConfigService);
-  const port = configService.get('PORT') ?? 4000;
-  const session = configService.get('SESSION'); // boolean type
+  setGlobal(app);
+  setSwagger(app);
+  setValidation(app);
 
-  global[BaseUrl] =
-    configService.get('NODE_ENV') === 'production'
-      ? configService.get('BASE_URL')
-      : `http://localhost:${port}`;
+  const port = global[Symbol.for('port')] ?? 4000;
+  const sessionAuth = global[Symbol.for('sessionAuth')];
+  const baseUrl = global[Symbol.for('baseUrl')];
 
-  if (session) setupSession(app);
-  setupSwagger(app);
-  app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
-  app.engine(
-    'hbs',
-    engine({
-      extname: 'hbs',
-      defaultLayout: 'main',
-      layoutsDir: path.resolve('public/views/layouts'),
-      partialsDir: path.resolve('public/views/partials'),
-    }),
-  );
-  app.set('view engine', 'hbs');
-  app.set('views', path.resolve('public/views'));
+  if (sessionAuth) setSession(app);
+  setHbs(app);
 
-  await app.listen(port, async () => {
+  await app.listen(port, () =>
     console.log(
-      `Listening on ${global[BaseUrl]} 🚀 \nRedis Session Set is ${session} `,
-    );
-  });
+      `Listening on ${baseUrl} 🚀 \nRedis Session Auth is ${sessionAuth} `,
+    ),
+  );
 }
 bootstrap();

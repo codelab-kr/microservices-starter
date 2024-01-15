@@ -3,7 +3,7 @@ export * from './auth/guards/local-auth.guard';
 export * from './auth/guards/auth.guard';
 export * from './auth/guards/google.guard';
 export * from './auth/session.auth.module';
-export * from './auth/session/setupSession';
+export * from './config/set.session';
 export * from './auth/utils/current-user';
 export * from './auth/jwt.auth.module';
 
@@ -22,12 +22,12 @@ export * from './database/typeorm-ex/typeorm-ex.decorator';
 export * from './rmq/rmq.service';
 export * from './rmq/rmq.module';
 
-// http
+// http (axios)
 export * from './http/http.module';
 export * from './http/http.service';
 
 // enhancer
-export * from './enhancer/enhancer.module';
+export * from './exception/enhancer.module';
 
 // email
 export * from './email/email.module';
@@ -38,10 +38,17 @@ export * from './nats-client/nats-client.module';
 export * from './nats-client/nats-client.service';
 
 // config
-export * from './config/swagger.config';
-export * from './config/app.config';
-export * from './util/shared.util';
+export * from './config/set.swagger';
+export * from './config/set.vaildation';
+export * from './config/set.session';
+export * from './config/set.global';
+export * from './config/set.hbs';
+
+// constant
 export * from './constant/services';
+
+// utils
+export * from './util/shared.util';
 
 // massage
 export * from './message/users.message';

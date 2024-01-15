@@ -32,7 +32,7 @@ const addToken = async (userInfo: any) => {
     return {
       access_token: jwtServiceInstance.sign({ userId }),
     };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 };

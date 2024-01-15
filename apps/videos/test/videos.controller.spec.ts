@@ -23,16 +23,16 @@ describe('VideosController', () => {
     jest.clearAllMocks();
   });
 
-  describe('getVideo', () => {
-    describe('when getVideo is called', () => {
+  describe('getVideoById', () => {
+    describe('when getVideoById is called', () => {
       let video: any;
 
       beforeEach(async () => {
-        video = await videosController.getVideo(videoStub()._id.toString());
+        video = await videosController.getVideoById(videoStub()._id.toString());
       });
 
       test('then it should call videosService', () => {
-        expect(videosService.getVideo).toHaveBeenCalledWith(
+        expect(videosService.getVideoById).toHaveBeenCalledWith(
           videoStub()._id.toString(),
         );
       });

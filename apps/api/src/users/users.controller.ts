@@ -11,7 +11,6 @@ import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { NATS_SERVICE } from '@app/common';
 import { Response } from 'express';
-// TODO: lastValueFrom 등과 유사 구문들을 http 모듈(가칭)을 적용하여 공통으로 빼기
 import { lastValueFrom } from 'rxjs';
 
 @Controller('users')
@@ -25,13 +24,15 @@ export class UsersController {
       result = await lastValueFrom(
         this.natsClient.send({ cmd: 'createUser' }, createUserDto),
       );
-      if (!result?.email) {
-        throw new Error(result.message);
-      }
-      res.render('login', { input: createUserDto });
-    } catch (e) {
-      console.log(e.messages);
-      res.render('signup', { input: createUserDto, error: e.message });
+
+      console.log(result);
+      // if (!result?.email) {
+      //   throw new Error(result.message);
+      // }
+      // res.render('login', { input: createUserDto });
+    } catch (error) {
+      console.log(error);
+      // res.render('signup', { input: createUserDto, error: error.message });
     }
   }
 

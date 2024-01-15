@@ -43,10 +43,10 @@ export class VideosController {
     @Param('_id') _id: string,
     @CurrentUser() user: any,
   ) {
-    const video = (await lastValueFrom(this.videosService.getVideo(_id)))[0];
-    const baseUrl = global[Symbol.for('BaseUrl')];
-    video.path = `${baseUrl}/uploads/videos/${video.path}`;
+    const video = await lastValueFrom(this.videosService.getVideoById(_id));
     this.updateHistory(video, user.id);
+    const baseUrl = global[Symbol.for('baseUrl')];
+    video.path = `${baseUrl}/uploads/videos/${video.path}`;
     res.render('play-video', { isVideos: true, video, user });
   }
 

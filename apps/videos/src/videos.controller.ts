@@ -18,9 +18,9 @@ export class VideosController {
     return await this.videosService.createVideo(data);
   }
 
-  @MessagePattern({ cmd: 'getVideo' })
-  async getVideo(@Body() data: any) {
-    return this.videosService.getVideo(data);
+  @MessagePattern({ cmd: 'getVideoById' })
+  async getVideoById(@Body() data: any) {
+    return this.videosService.getVideoById(data);
   }
 
   @MessagePattern({ cmd: 'getVideos' })

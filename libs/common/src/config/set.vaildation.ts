@@ -4,12 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-/**
- * App 세팅
- *
- * @param {INestApplication} app
- */
-export function setupApp(app: INestApplication): void {
+export function setValidation(app: INestApplication): void {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

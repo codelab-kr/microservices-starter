@@ -16,8 +16,8 @@ export class VideosService {
     return this.natsClient.send({ cmd: 'getVideos' }, data);
   }
 
-  getVideo(_id: string) {
-    return this.natsClient.send({ cmd: 'getVideo' }, { _id });
+  getVideoById(_id: string) {
+    return this.natsClient.send({ cmd: 'getVideoById' }, _id);
   }
 
   async upload(
