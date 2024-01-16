@@ -16,7 +16,7 @@ export class UsersController {
         this.usersService.createUser(createUserDto),
       );
       if (result) {
-        return res.redirect('/login');
+        return res.redirect(`/login?email=${result.email}`);
       }
     } catch (error) {
       res.render('signup', { input: createUserDto, error: error.message });

@@ -29,4 +29,12 @@ export class UsersService {
       throw new RpcException(error);
     }
   }
+
+  getUserPayments(userId: string) {
+    try {
+      return this.natsClient.send({ cmd: 'getPaymentByUserId' }, { userId });
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
 }

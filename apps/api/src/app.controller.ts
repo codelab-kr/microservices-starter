@@ -6,6 +6,7 @@ import {
   Req,
   Body,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
@@ -31,8 +32,8 @@ export class AppController {
   }
 
   @Get('login')
-  login(@Res() res: Response) {
-    res.render('login');
+  login(@Res() res: Response, @Query('email') email?: string) {
+    res.render('login', { email });
   }
 
   @Post('login')
