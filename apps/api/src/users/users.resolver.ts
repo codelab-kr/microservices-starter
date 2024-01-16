@@ -1,4 +1,4 @@
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import {
   Args,
   Mutation,
@@ -19,22 +19,41 @@ export class UsersResolver {
 
   @Mutation(() => User)
   CreateUser(@Args('createUserDto') createUserDto: CreateUserDto) {
-    return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+    try {
+      return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   @Query(() => User, { nullable: true })
   getUser(@Args('id') id: string) {
-    return this.natsClient.send({ cmd: 'getUser' }, id);
+    try {
+      return this.natsClient.send({ cmd: 'getUser' }, id);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   @Query(() => [User], { nullable: true })
   getUsers() {
-    return this.natsClient.send({ cmd: 'getUsers' }, {});
+    try {
+      return this.natsClient.send({ cmd: 'getUsers' }, {});
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   @ResolveField('payments', () => [Payment], { nullable: true })
   getUserPayments(@Parent() user: User) {
-    const { id } = user;
-    return this.natsClient.send({ cmd: 'getPaymentByUserId' }, { userId: id });
+    try {
+      const { id } = user;
+      return this.natsClient.send(
+        { cmd: 'getPaymentByUserId' },
+        { userId: id },
+      );
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 }

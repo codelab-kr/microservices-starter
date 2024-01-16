@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { NATS_SERVICE } from '@app/common';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 
@@ -8,10 +8,18 @@ export class PaymentsService {
   constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
 
   createPayment(createPaymentInput: CreatePaymentDto) {
-    return this.natsClient.send({ cmd: 'createPayment' }, createPaymentInput);
+    try {
+      return this.natsClient.send({ cmd: 'createPayment' }, createPaymentInput);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   getPayments(userId: string) {
-    return this.natsClient.send({ cmd: 'getPayments' }, { userId });
+    try {
+      return this.natsClient.send({ cmd: 'getPayments' }, { userId });
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 }

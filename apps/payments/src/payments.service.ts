@@ -4,7 +4,7 @@ import { PaymentsMessage } from '../../../libs/common/src/message/payments.messa
 import { UpdatePaymentInput } from './dtos/update.payment.input';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { Payment } from './models/payment';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CreatePaymentDto } from './dtos/create.payment.dto';
 import { lastValueFrom } from 'rxjs';
 import { NATS_SERVICE } from '@app/common';
@@ -23,15 +23,25 @@ export class PaymentsService {
    * @returns {Promise<Payment>}
    */
   async createPayment(createPaymentDto: CreatePaymentDto): Promise<Payment> {
-    const user = await lastValueFrom(
-      this.natsClient.send({ cmd: 'getUserById' }, createPaymentDto.userId),
-    );
+    let user: any;
+
+    try {
+      user = await lastValueFrom(
+        this.natsClient.send({ cmd: 'getUserById' }, createPaymentDto.userId),
+      );
+    } catch (error) {
+      throw new RpcException(error);
+    }
     if (user) {
       const payment = new Payment();
       payment.amount = createPaymentDto.amount;
       payment.user = user;
       const newPayment = await this.paymentsRepository.save(payment);
-      this.natsClient.emit('paymentCreated', newPayment);
+      try {
+        this.natsClient.emit('paymentCreated', newPayment);
+      } catch (error) {
+        throw new RpcException(error);
+      }
       return newPayment;
     }
     return null;

@@ -1,48 +1,43 @@
-import {
-  Controller,
-  Post,
-  Inject,
-  Body,
-  Get,
-  Param,
-  Res,
-} from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Controller, Post, Body, Get, Param, Res } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { NATS_SERVICE } from '@app/common';
 import { Response } from 'express';
+import { UsersService } from './users.sevice';
 import { lastValueFrom } from 'rxjs';
 
 @Controller('users')
 export class UsersController {
-  constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('signup')
   async CreateUser(@Res() res: Response, @Body() createUserDto: CreateUserDto) {
-    let result: any;
     try {
-      result = await lastValueFrom(
-        this.natsClient.send({ cmd: 'createUser' }, createUserDto),
+      const result = await lastValueFrom(
+        this.usersService.createUser(createUserDto),
       );
-
-      console.log(result);
-      // if (!result?.email) {
-      //   throw new Error(result.message);
-      // }
-      // res.render('login', { input: createUserDto });
+      if (result) {
+        return res.redirect('/login');
+      }
     } catch (error) {
-      console.log(error);
-      // res.render('signup', { input: createUserDto, error: error.message });
+      res.render('signup', { input: createUserDto, error: error.message });
     }
   }
 
   @Get()
   getUsers() {
-    return this.natsClient.send({ cmd: 'getUsers' }, {});
+    try {
+      return this.usersService.getUsers();
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   @Get(':id')
   getUserById(@Param('id') id: string) {
-    return this.natsClient.send({ cmd: 'getUserById' }, id);
+    try {
+      return this.getUserById(id);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 }

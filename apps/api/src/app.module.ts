@@ -6,7 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
-import { JwtAuthModule, SessionAuthModule } from '@app/common';
+import { JwtAuthModule, SessionAuthModule, ExceptionModule } from '@app/common';
 import { AppService } from './app.service';
 import { VideosModule } from './videos/videos.module';
 import { HistoryModule } from './history/history.module';
@@ -18,7 +18,8 @@ export class AppModule {
   static register(): DynamicModule {
     const configService = new ConfigService();
     const module = AppModule;
-    const session = configService.get('SESSION') === 'true';
+    const sessionAuth = configService.get('SESSION_AUTH');
+
     const imports = [
       GraphQLModule.forRoot<ApolloDriverConfig>({
         driver: ApolloDriver,
@@ -28,7 +29,7 @@ export class AppModule {
         isGlobal: true,
         validationSchema: Joi.object({
           SERVICE_NAME: Joi.string().required(),
-          SESSION: Joi.boolean().required(),
+          SESSION_AUTH: Joi.boolean().required(),
         }),
         envFilePath: './apps/api/.env',
         cache: true,
@@ -37,14 +38,14 @@ export class AppModule {
       ServeStaticModule.forRoot({
         rootPath: path.resolve('public'),
       }),
-      // EnhancerModule,
+      ExceptionModule,
       UsersModule,
       VideosModule,
       HistoryModule,
       PaymentsModule,
     ];
     let AuthModule: any;
-    if (session) {
+    if (sessionAuth) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       AuthModule = SessionAuthModule;
     } else {

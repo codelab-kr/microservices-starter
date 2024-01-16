@@ -8,6 +8,9 @@ export const getRequestByContext = (context: ExecutionContext): any => {
   if (context.getType() === 'rpc') {
     return context.switchToRpc().getData();
   }
+  if (context.getType() === 'ws') {
+    return context.switchToWs().getData();
+  }
   const ctx = GqlExecutionContext.create(context);
   return ctx.getContext().req;
 };

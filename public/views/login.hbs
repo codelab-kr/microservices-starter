@@ -7,59 +7,55 @@
     </div>
   </div>
 
-  <div class='m-4'>
+  <div class='m-4 flex-col'>
     <div class='m-4'>
       <form class='login-form' id='login-form' method='post' action='/login'>
-        <label for='email'>Email:</label>
+        <label
+          for='email'
+        >Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <input
           type='email'
           id='email'
           name='email'
-          class='mt-2'
+          class='mt-4 ml-4'
           value='{{input.email}}'
           required
         /><br />
-        <label for='password'>Password:</label>
+        <label for='password'>Password </label>
         <input
           type='password'
           id='password'
           name='password'
-          class='mt-2'
+          class='mt-4 ml-4'
           required
         /><br />
-        <button
-          type='submit'
-          class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-        >Login</button>
+        <br />
+        <div>
+          <button
+            type='submit'
+            class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          >Login</button>
+          <button
+            id='signup-button'
+            class='bg-blue-500 hover:bg-blue-700 text-white font-bold ml-4 py-2 px-4 rounded'
+            onclick="window.open('/signup', '_self')"
+          >
+            Sign Up
+          </button>
+        </div>
       </form>
     </div>
-  </div>
-  <div class='m-4 flex items-center'>
-    <button
-      id='payment'
-      class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-      onclick="window.open('/signup', '_self')"
-    >
-      Sign Up Now!
-    </button>
-    <br />
-    {{#if google}}
-      <div class='flex items-cente ml-4'>
-        OR
-        <br />
-        <img
-          src='images/google_web_dark_sq_ctn@1x.png'
-          onclick="window.open('/google-auth', '_self')"
-          class='ml-4'
-        />
-      </div>
-    {{/if}}
+    <img
+      src='images/google_web_dark_sq_ctn@1x.png'
+      onclick="window.open('/google-auth', '_self')"
+      class='ml-4'
+    />
   </div>
 
   {{#if error}}
     <div class='m-4'>
       <div class='text-red-600'>
-        {{error}}
+        {{error.message}}
       </div>
     </div>
   {{/if}}

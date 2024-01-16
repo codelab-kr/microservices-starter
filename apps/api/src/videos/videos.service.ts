@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { NATS_SERVICE } from '@app/common';
 import { CreateVideoInput } from './dtos/input/create-video.input';
 
@@ -9,15 +9,27 @@ export class VideosService {
   constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
 
   createVideo(createVideoInput: CreateVideoInput) {
-    return this.natsClient.send({ cmd: 'createVideo' }, createVideoInput);
+    try {
+      return this.natsClient.send({ cmd: 'createVideo' }, createVideoInput);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   getVideos(data: any) {
-    return this.natsClient.send({ cmd: 'getVideos' }, data);
+    try {
+      return this.natsClient.send({ cmd: 'getVideos' }, data);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   getVideoById(_id: string) {
-    return this.natsClient.send({ cmd: 'getVideoById' }, _id);
+    try {
+      return this.natsClient.send({ cmd: 'getVideoById' }, _id);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 
   async upload(

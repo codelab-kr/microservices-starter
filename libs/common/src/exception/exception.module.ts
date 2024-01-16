@@ -1,13 +1,13 @@
 import { Logger, Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from './filters/http.exception.filter';
+import { AllExceptionFilter } from './filters/exception.filter';
 
 @Module({
   providers: [
     Logger,
     {
       provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
+      useClass: AllExceptionFilter,
     },
   ],
 })

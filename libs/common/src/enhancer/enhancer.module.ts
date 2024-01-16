@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ExceptionsFilter } from './filters/--exception.filter';
-import { APP_FILTER /*, APP_INTERCEPTOR */ } from '@nestjs/core';
+// import { APP_FILTER /*, APP_INTERCEPTOR */ } from '@nestjs/core';
 // import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 // import * as redisStore from 'cache-manager-redis-store';
 
@@ -16,10 +15,10 @@ import { APP_FILTER /*, APP_INTERCEPTOR */ } from '@nestjs/core';
   //   }),
   // ],
   providers: [
-    {
-      provide: APP_FILTER,
-      useClass: ExceptionsFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: ExceptionsFilter,
+    // },
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: CacheInterceptor,

@@ -1,5 +1,4 @@
 import {
-  BadGatewayException,
   CallHandler,
   ExecutionContext,
   Injectable,
@@ -17,7 +16,7 @@ export class ErrorInterceptor implements NestInterceptor {
       next
         .handle()
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .pipe(catchError((err) => throwError(() => new BadGatewayException())))
+        .pipe(catchError((err) => throwError(() => new Error(err))))
     );
   }
 }

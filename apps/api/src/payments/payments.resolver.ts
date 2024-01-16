@@ -1,4 +1,4 @@
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
 import { Payment } from './models/payment';
@@ -11,6 +11,10 @@ export class PaymentsResolver {
 
   @Mutation(() => Payment)
   CreatePayment(@Args('createPaymentDto') createPaymentDto: CreatePaymentDto) {
-    return this.natsClient.send({ cmd: 'createPayment' }, createPaymentDto);
+    try {
+      return this.natsClient.send({ cmd: 'createPayment' }, createPaymentDto);
+    } catch (error) {
+      throw new RpcException(error);
+    }
   }
 }

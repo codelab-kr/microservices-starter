@@ -1,6 +1,5 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { HistoryService } from './history.service';
-
 import { lastValueFrom } from 'rxjs';
 import { CurrentUser } from '@app/common';
 import { Response } from 'express';

@@ -1,3 +1,27 @@
+# TODO
+
+- 오라클 클라우드 결제 정보 재등록 -완료
+- 에러 처리 마무리
+- 허스키 적용
+- 테스트 코드 작성
+
+- 젠킨스 CI/CD 연결
+- 테스트와 젠킨스 연결
+- 아르고 CD 연결
+- 아르고 CD와 젠킨스 연결
+
+- 캐시 전체 적용
+- 캐시 테스트 코드 작성?
+
+
+
+- 마이크로서비스 간 gql 연결 및 통합 ?
+  Apollo Federation: MSA for GraphQL
+  https://devstarsj.github.io/development/2023/03/12/Apollo.Federation/
+
+
+
+
 # MongoDB
 
 https://velog.io/@youngeui_hong/Docker를-사용하여-MongoDB-Replica-Set-구축하기 \
@@ -151,15 +175,9 @@ https://medium.com/@aashisingh640/securing-your-express-typescript-apps-using-se
 
 (+) passport 추가
 (+) 인증 방식 선택 기능 추가 (.env 파일 'SESSION' true(A) 또는 false(B)로 설정)
-    Allows to choose authentication method between Redis Session and JWT Cookie
-  - A: redis + express session + passport
-  - B: jwt + cookie + passport
+Allows to choose authentication method between Redis Session and JWT Cookie
+
+- A: redis + express session + passport
+- B: jwt + cookie + passport
   참고: .env 파일 변경사항 적용 시 재빌드해야 함
-  docker-compose -f docker-compose.yaml up api  --build -V -d 
-
-
-
-
-
-
-
+  docker-compose -f docker-compose.yaml up api --build -V -d

@@ -17,11 +17,9 @@ import { ConfigService } from '@nestjs/config';
 @ApiTags('API')
 @Controller()
 export class AppController {
-  session: boolean;
-  google: boolean;
+  private readonly sessionAuth: boolean;
   constructor(configService: ConfigService) {
-    this.session = configService.get('SESSION'); // boolean type
-    this.google = configService.get('GOOGLE'); // boolean type
+    this.sessionAuth = configService.get('SESSION_AUTH');
   }
 
   @Get()
@@ -34,7 +32,7 @@ export class AppController {
 
   @Get('login')
   login(@Res() res: Response) {
-    res.render('login', { google: this.google });
+    res.render('login');
   }
 
   @Post('login')
@@ -46,14 +44,14 @@ export class AppController {
     @CurrentUser() user: any,
   ) {
     try {
-      if (!this.session) {
+      if (!this.sessionAuth) {
         res.cookie('Authentication', user?.access_token, {
           maxAge: 60 * 60 * 1000,
         });
       }
       res.redirect('/videos');
     } catch (error) {
-      res.render('login', { google: this.google, error: error.message });
+      res.render('login', { error: error.message });
     }
   }
 

@@ -7,10 +7,10 @@ const configService = new ConfigService();
 
 export const CurrentUser = createParamDecorator(
   async (_data: unknown, context: ExecutionContext) => {
-    const session = configService.get('SESSION') === 'true';
+    const sessionAuth = configService.get('SESSION_AUTH') === 'true';
     const req = getRequestByContext(context);
     let userInfo: any;
-    if (session) {
+    if (sessionAuth) {
       userInfo = req.user;
     } else {
       userInfo = { ...userInfo, ...(await addToken(userInfo)) };

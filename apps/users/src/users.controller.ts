@@ -25,8 +25,6 @@ export class UsersController {
       return await this.usersService.createUser(data);
     } catch (error) {
       throw new RpcException(error);
-      // console.log(error);
-      // return error;
     }
   }
 

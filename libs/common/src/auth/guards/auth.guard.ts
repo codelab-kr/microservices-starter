@@ -1,10 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { getRequestByContext } from '../utils/get.request.by.context';
-import { ConfigService } from '@nestjs/config';
 import { AuthGuard as ForJwtAuthGaurd } from '@nestjs/passport';
+import { ConfigService } from '@nestjs/config';
 
 let AuthGuard: any;
-const session = new ConfigService().get('SESSION') === 'true';
+const sessionAuth = new ConfigService().get('SESSION_AUTH') === 'true';
 
 @Injectable()
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -24,6 +24,6 @@ class JwtAuthGuard extends ForJwtAuthGaurd('jwt') {
   }
 }
 
-if (session) AuthGuard = SessionAuthGuard;
+if (sessionAuth) AuthGuard = SessionAuthGuard;
 else AuthGuard = JwtAuthGuard;
 export { AuthGuard };

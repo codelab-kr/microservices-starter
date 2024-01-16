@@ -1,23 +1,30 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { NATS_SERVICE } from '@app/common';
-import { CreateHistoryInput } from './dtos/create-history.input';
 
 @Injectable()
-export class HistoryService {
+export class UsersService {
   constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
 
-  createHistory(createHistoryInput: CreateHistoryInput) {
+  createUser(createUserDto: any) {
     try {
-      return this.natsClient.send({ cmd: 'createHistory' }, createHistoryInput);
+      return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
     } catch (error) {
       throw new RpcException(error);
     }
   }
 
-  getHistory(userId: string) {
+  getUsers() {
     try {
-      return this.natsClient.send({ cmd: 'getHistory' }, { userId });
+      return this.natsClient.send({ cmd: 'getUsers' }, {});
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  getUserById(id: string) {
+    try {
+      return this.natsClient.send({ cmd: 'getUserById' }, id);
     } catch (error) {
       throw new RpcException(error);
     }

@@ -1,29 +1,30 @@
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  setSwagger,
-  setSession,
-  setGlobal,
-  setValidation,
-  setHbs,
-} from '@app/common';
+import { setSwagger, setSession, setValidation, setHbs } from '@app/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule.register(),
   );
 
-  setGlobal(app);
+  const conf = app.get(ConfigService);
+
   setSwagger(app);
   setValidation(app);
 
-  const port = global[Symbol.for('port')] ?? 4000;
-  const sessionAuth = global[Symbol.for('sessionAuth')];
-  const baseUrl = global[Symbol.for('baseUrl')];
+  const port = conf.get('PORT') ?? 4000;
+  const sessionAuth = conf.get('SESSION_AUTH');
+  const env = conf.get('NODE_ENV') ?? 'development';
+  console.log('sessionAuth', sessionAuth, typeof sessionAuth);
+  const baseUrl =
+    env !== 'production' ? conf.get('BASE_URL') : `http://localhost:${port}`;
 
   if (sessionAuth) setSession(app);
   setHbs(app);
+
+  app.enableCors();
 
   await app.listen(port, () =>
     console.log(

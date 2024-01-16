@@ -10,14 +10,26 @@ export class VideosResolver {
   // constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
   // @Mutation(() => Video)
   // CreateVideo(@Args('createVideoDto') createVideoDto: CreateVideoInput) {
+  // try {
   //   return this.natsClient.send({ cmd: 'createVideo' }, createVideoDto);
+  // } catch (error) {
+  //   throw new RpcException(error);
+  // }
   // }
   // @Query(() => Video, { nullable: true })
   // getVideoById(@Args('id') id: string) {
-  //   return this.natsClient.send({ cmd: 'getVideoById' }, { id });
+  // try {
+  //    return this.natsClient.send({ cmd: 'getVideoById' }, { id });
+  // } catch (error) {
+  //   throw new RpcException(error);
+  // }
   // }
   // @Query(() => [Video], { nullable: true })
   // getVideos() {
-  //   return this.natsClient.send({ cmd: 'getVideos' }, {});
+  // try {
+  //      return this.natsClient.send({ cmd: 'getVideos' }, {});
+  // } catch (error) {
+  //   throw new RpcException(error);
+  // }
   // }
 }

@@ -18,12 +18,14 @@ import { Video } from './models/video';
 import { CreateHistoryInput } from '../history/dtos/create-history.input';
 import { HistoryService } from '../history/history.service';
 import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('videos')
 export class VideosController {
   constructor(
     private readonly videosService: VideosService,
     private readonly histotyService: HistoryService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get()
@@ -45,7 +47,12 @@ export class VideosController {
   ) {
     const video = await lastValueFrom(this.videosService.getVideoById(_id));
     this.updateHistory(video, user.id);
-    const baseUrl = global[Symbol.for('baseUrl')];
+
+    const env = this.configService.get('NODE_ENV');
+    const port = this.configService.get('PORT');
+    const base_url = this.configService.get('BASE_URL');
+    const baseUrl =
+      env !== 'production' ? base_url : `http://localhost:${port}`;
     video.path = `${baseUrl}/uploads/videos/${video.path}`;
     res.render('play-video', { isVideos: true, video, user });
   }

@@ -27,7 +27,10 @@ export * from './http/http.module';
 export * from './http/http.service';
 
 // enhancer
-export * from './exception/enhancer.module';
+export * from './enhancer/enhancer.module';
+
+// exception
+export * from './exception/exception.module';
 
 // email
 export * from './email/email.module';
@@ -41,7 +44,6 @@ export * from './nats-client/nats-client.service';
 export * from './config/set.swagger';
 export * from './config/set.vaildation';
 export * from './config/set.session';
-export * from './config/set.global';
 export * from './config/set.hbs';
 
 // constant
