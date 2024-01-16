@@ -11,7 +11,6 @@ import { User } from './models/user';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Payment } from '../payments/models/payment';
 import { UsersService } from './users.sevice';
-import { NATS_SERVICE } from '@app/common';
 
 @Resolver(() => User)
 export class UsersResolver {

@@ -54,3 +54,4 @@ lerna-debug.log*
 apps/api/.env
 public/uploads/images/*
 public/uploads/videos/*
+.eslintcache
