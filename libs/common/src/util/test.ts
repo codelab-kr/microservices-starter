@@ -58,7 +58,7 @@ function ticker(num: number, cb: (err: Error, count: number) => void) {
 function ticker2(num: number, cb: (err: Error, count: number) => void) {
   const emitter = new EventEmitter();
   let count = 0;
-  const      doTick = () => {
+  const doTick = () => {
     if (Date.now() % 5 === 0) {
       // emitter.emit('error', new Error('Something went wrong'));
       return cb(new Error('Something went wrong'), count);
