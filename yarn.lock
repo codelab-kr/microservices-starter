@@ -7149,6 +7149,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "husky@npm:8.0.3"
+  bin:
+    husky: lib/bin.js
+  checksum: 6722591771c657b91a1abb082e07f6547eca79144d678e586828ae806499d90dce2a6aee08b66183fd8b085f19d20e0990a2ad396961746b4c8bd5bdb619d668
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -8980,6 +8989,7 @@ __metadata:
     graphql-tools: "npm:^9.0.0"
     hbs: "npm:^4.2.0"
     helmet: "npm:^7.1.0"
+    husky: "npm:^8.0.3"
     ics: "npm:^3.7.2"
     ioredis: "npm:^5.3.2"
     jest: "npm:29.7.0"
