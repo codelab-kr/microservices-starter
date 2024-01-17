@@ -144,8 +144,6 @@ describe('VideosRepository', () => {
           saveSpy = jest.spyOn(VideoModel.prototype, 'save');
           // constructorSpy = jest.spyOn(VideoModel.prototype, 'constructorSpy');
           video = await videosRepository.create(videoStub());
-
-          console.log('video', video);
         });
 
         test('then it should call the videoModel', () => {

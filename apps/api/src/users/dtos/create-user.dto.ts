@@ -37,7 +37,7 @@ export class CreateUserDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  @ApiProperty({ example: 'google-oauth2|1234567890' })
+  @ApiProperty({ example: '102121788398419656772' })
   providerId?: string;
 
   @Field({ nullable: true })
@@ -52,6 +52,6 @@ export class CreateUserDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  @ApiProperty({ example: 'paymentId' })
+  @ApiProperty({ example: null })
   paymentId?: string;
 }

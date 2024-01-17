@@ -1,31 +1,37 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class UpdateUserRequest {
   @Field()
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
-  @ApiProperty()
-  id?: string;
+  @ApiProperty({ example: 'bb5d4732-e76e-4acf-ab5c-d45db6598c1f' })
+  id: string;
 
   @Field()
   @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: 'abcd1234' })
   password?: string;
 
   @Field()
   @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: 'test' })
   username?: string;
 
   @Field()
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ example: true })
   isSubscribed?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ example: '102121788398419656772' })
+  providerId?: string;
 
   @Field()
   @IsOptional()
@@ -39,6 +45,6 @@ export class UpdateUserRequest {
   @Field()
   @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: null })
   paymentId?: string;
 }

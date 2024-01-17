@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy, Client, Transport } from '@nestjs/microservices';
+import * as os from 'os';
 
 @Injectable()
 export class NatsClientService {
   @Client({
     transport: Transport.NATS,
     options: {
-      servers: ['nats://nats'],
+      servers: [os.platform() === 'linux' ? 'nats://nats' : 'localhost'],
     },
   })
   client: ClientProxy;

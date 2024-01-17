@@ -6,8 +6,10 @@ import {
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from './repositories/users.repository';
 import { UpdateUserDto } from './dtos/update.user.dto';
-import { DeleteUserDto } from './dtos/delete.user.dto';
 import { CreateUserDto } from './dtos/create.user.dto';
+import { isEmpty } from 'class-validator';
+import { UsersMessage } from '@app/common';
+import { User } from './models/user';
 
 @Injectable()
 export class UsersService {
@@ -42,31 +44,37 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  async getUserById(id: string) {
-    return this.usersRepository.findOne({
-      where: { id },
-      relations: ['payments'],
-    });
-  }
-
   async getUsers() {
     return this.usersRepository.find({ relations: ['payments'] });
   }
 
-  async updateUser(request: UpdateUserDto) {
-    const updateRequst = { ...request };
-    if (updateRequst.password) {
-      updateRequst.password = await bcrypt.hash(updateRequst.password, 10);
+  async getUserById(id: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    if (isEmpty(user) === true) {
+      throw new UnprocessableEntityException(UsersMessage.NOT_FOUND_USER);
     }
-    const updatedUser = await this.usersRepository.update(
+
+    return user;
+  }
+
+  async updateUser(request: UpdateUserDto) {
+    const user = await this.getUserById(request.id);
+    const updateRequst = { ...user, ...request };
+    if (request.password) {
+      updateRequst.password = await bcrypt.hash(request.password, 10);
+    }
+    const updatedResult = await this.usersRepository.update(
       updateRequst.id,
       updateRequst,
     );
-    return updatedUser;
+
+    return updatedResult;
   }
 
-  async deleteUser(request: DeleteUserDto) {
-    return this.usersRepository.softDelete({ id: request.id });
+  async deleteUser(id: string) {
+    const deletedResult = await this.usersRepository.softDelete({ id });
+    return deletedResult;
   }
 
   async validateUser(data: any) {

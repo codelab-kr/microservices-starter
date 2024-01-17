@@ -1,24 +1,33 @@
-import { Body, Controller, Delete, Param } from '@nestjs/common';
-import { UsersService } from './users.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { UsersService } from '../users.service';
 import {
   MessagePattern,
   EventPattern,
   Payload,
   RpcException,
 } from '@nestjs/microservices';
-import { CreateUserDto } from './dtos/create.user.dto';
-import { LoginUserRequest } from './dtos/login.user.dto';
-import { UpdateUserDto } from './dtos/update.user.dto';
-import { User } from './models/user';
+import { CreateUserDto } from '../dtos/create.user.dto';
+import { LoginUserRequest } from '../dtos/login.user.dto';
+import { UpdateUserDto } from '../dtos/update.user.dto';
+import { User } from '../models/user';
 
 export interface TokenPayload {
   userId: string;
 }
 
-@Controller()
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post()
   @MessagePattern({ cmd: 'createUser' })
   async createUser(@Payload() data: CreateUserDto) {
     try {
@@ -33,26 +42,34 @@ export class UsersController {
     return this.usersService.validateUser(data);
   }
 
-  @MessagePattern({ cmd: 'getUserByEmail' })
-  async getUserByEmail(@Payload() email: any) {
-    return await this.usersService.getUserByEmail(email);
-  }
-
+  @Get(':id')
   @MessagePattern({ cmd: 'getUserById' })
-  async getUserById(@Payload() id: string) {
-    return await this.usersService.getUserById(id);
+  async getUserById(@Payload() id: string, @Param('id') paramId?: string) {
+    return await this.usersService.getUserById(paramId ?? id);
   }
 
+  @Get(':email')
+  @MessagePattern({ cmd: 'getUserByEmail' })
+  async getUserByEmail(
+    @Payload() email: string,
+    @Param('id') paramEmail?: string,
+  ) {
+    return await this.usersService.getUserByEmail(paramEmail ?? email);
+  }
+
+  @Get()
   @MessagePattern({ cmd: 'getUsers' })
   async getUsers(): Promise<User[]> {
     return await this.usersService.getUsers();
   }
 
+  @Post('get-or-saver')
   @MessagePattern({ cmd: 'getOrSaveUser' })
   async getOrSaveUser(@Payload() data: CreateUserDto) {
     return await this.usersService.getOrSaveUser(data);
   }
 
+  @Patch()
   @MessagePattern({ cmd: 'updateUser' })
   updateUser(@Body() request: UpdateUserDto): Promise<any> {
     return this.usersService.updateUser(request);
@@ -65,7 +82,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string): Promise<any> {
-    return this.usersService.deleteUser({ id });
+  @MessagePattern({ cmd: 'deleteUser' })
+  deleteUser(
+    @Payload() id: string,
+    @Param('id') paramId?: string,
+  ): Promise<any> {
+    return this.usersService.deleteUser(paramId ?? id);
   }
 }

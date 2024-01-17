@@ -14,7 +14,7 @@ export class CreateUserDto {
   isSubscribed?: boolean;
 
   @ApiProperty({ example: 'google-oauth2|1234567890' })
-  providerId: string;
+  providerId?: string;
 
   @ApiProperty({
     example:

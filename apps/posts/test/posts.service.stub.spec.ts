@@ -1,39 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, NotFoundException } from '@nestjs/common';
-import { DataSource, DeleteResult } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { PostsService } from '../src/posts.service';
 import { PostsRepository } from '../src/repositories/posts.repository';
 import { Post } from '../src/models/post';
 import { postStub } from './stubs/post.stub';
 import { CreatePostInput } from '../src/utils/create.post.input';
 import { UpdatePostInput } from '../src/utils/update.post.ipnput';
-import { PostsModule } from '../src/posts.module';
-
-// TODO: 종료 후에도 자원이 해제되지 않음
 
 describe('PostsService (Stub)', () => {
-  let app: INestApplication;
   let postsService: PostsService;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [PostsModule],
+      providers: [PostsService, PostsRepository],
     }).compile();
 
     postsService = moduleRef.get<PostsService>(PostsService);
-    app = moduleRef.createNestApplication();
-    const dataSource = app.get(DataSource);
-    await dataSource.synchronize();
-    await app.init();
+
+    jest.clearAllMocks();
   });
 
-  afterAll(async () => {
-    const dataSource = app.get(DataSource);
-    if (dataSource) {
-      await dataSource.dropDatabase();
-      dataSource.destroy();
-    }
-    await app.close();
+  test('should be defined', () => {
+    expect(postsService).toBeDefined();
   });
 
   describe('createPost', () => {

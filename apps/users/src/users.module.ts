@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersRepository } from './repositories/users.repository';
-import { UsersController } from './users.controller';
+import { UsersController } from './payloads/users.controller';
 import { UsersService } from './users.service';
 import { MysqlModule, TypeOrmExModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';

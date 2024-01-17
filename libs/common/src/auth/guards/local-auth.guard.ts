@@ -8,7 +8,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const result = (await super.canActivate(context)) as boolean;
     const sessionAuth = new ConfigService().get('SESSION_AUTH') === 'true';
-    console.log('sessionAuth', sessionAuth, typeof sessionAuth);
+
     if (sessionAuth) {
       const request = getRequestByContext(context);
       await super.logIn(request); // save user to session

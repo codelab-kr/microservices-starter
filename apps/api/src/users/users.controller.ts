@@ -1,9 +1,19 @@
-import { Controller, Post, Body, Get, Param, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Res,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Response } from 'express';
 import { UsersService } from './users.sevice';
 import { lastValueFrom } from 'rxjs';
+import { UpdateUserRequest } from './dtos/update-user.request';
 
 @Controller('users')
 export class UsersController {
@@ -36,6 +46,24 @@ export class UsersController {
   getUserById(@Param('id') id: string) {
     try {
       return this.getUserById(id);
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  @Patch()
+  updateUser(@Body() request: UpdateUserRequest) {
+    try {
+      return this.usersService.updateUser(request);
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: string) {
+    try {
+      return this.usersService.deleteUser(id);
     } catch (error) {
       throw new RpcException(error);
     }

@@ -1,8 +1,9 @@
 # TODO
 
+1/16
 - 오라클 클라우드 결제 정보 재등록 -완료
 - 에러 처리 마무리 -완료
-- 허스키 적용
+- 허스키 적용 -완료
 - 테스트 코드 작성
 
 - 젠킨스 CI/CD 연결
@@ -13,14 +14,9 @@
 - 캐시 전체 적용
 - 캐시 테스트 코드 작성?
 
-
-
 - 마이크로서비스 간 gql 연결 및 통합 ?
   Apollo Federation: MSA for GraphQL
   https://devstarsj.github.io/development/2023/03/12/Apollo.Federation/
-
-
-
 
 # MongoDB
 
