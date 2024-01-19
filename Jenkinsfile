@@ -6,7 +6,7 @@ node {
      }
 
      stage('Build image') {
-         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "-f ./apps/storage/Dockerfile --target development .")
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development")
      }
 
     stage('Test image') {
@@ -22,13 +22,13 @@ node {
          }
      }
 
-     stage('Trigger ManifestUpdate') { 
-        echo "triggering update-manifest job"
-        build job: 'update-manifest', parameters: [
-            string(name: 'STAGE', value: 'test'),
-            string(name: 'MAJOR', value: '0'),
-            string(name: 'MINOR', value: env.BUILD_NUMBER),
-            string(name: 'SERVICE', value: 'storage')
-        ]
-     }
+   //   stage('Trigger ManifestUpdate') { 
+   //      echo "triggering update-manifest job"
+   //      build job: 'update-manifest', parameters: [
+   //          string(name: 'STAGE', value: 'test'),
+   //          string(name: 'MAJOR', value: '0'),
+   //          string(name: 'MINOR', value: env.BUILD_NUMBER),
+   //          string(name: 'SERVICE', value: 'storage')
+   //      ]
+   //   }
 }
