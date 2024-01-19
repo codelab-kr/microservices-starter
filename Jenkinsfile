@@ -1,25 +1,25 @@
 node {
     def app
 
-   stage('Check Docker installation') {
-      sh 'docker --version || echo "Docker is not installed"'
-   }
+   // stage('Check Docker installation') {
+   //    sh 'docker --version || echo "Docker is not installed"'
+   // }
 
    stage('Clone repository') {
       checkout scm
    }
 
-   stage('Build-Docker-Image') {
-         steps {
-         container('docker') {
-            sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
-         }
-         }
-    }
+   // stage('Build-Docker-Image') {
+   //       steps {
+   //       container('docker') {
+   //          sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
+   //       }
+   //       }
+   //  }
 
-   //   stage('Build image') {
-   //       app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development")
-   //   }
+     stage('Build image') {
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development")
+     }
 
     stage('Test image') {
         app.inside {
