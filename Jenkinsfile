@@ -6,7 +6,7 @@ node {
      }
 
      stage('Build image') {
-         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/storage")
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage")
      }
 
     stage('Test image') {
@@ -18,7 +18,7 @@ node {
      stage('Push image') {
          docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
          // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
-             app.push("${env.BUILD_NUMBER}")
+             app.push("0.${env.BUILD_NUMBER}")
          }
      }
 
