@@ -23,8 +23,8 @@ node {
      }
 
      stage('Trigger ManifestUpdate') { 
-        echo "triggering tuplus-update-manifest job"
-        build job: 'tuplus-update-manifest', parameters: [
+        echo "triggering update-manifest job"
+        build job: 'update-manifest', parameters: [
             string(name: 'STAGE', value: 'test'),
             string(name: 'MAJOR', value: '0'),
             string(name: 'MINOR', value: env.BUILD_NUMBER),
