@@ -12,8 +12,7 @@ FROM node:alpine AS development
 WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY --from=builder /usr/src/app/ ./
-CMD npx wait-port mongodb-primary:27017 && \
-  yarn start:dev storage
+CMD yarn start:dev storage
 
 
 FROM node:alpine AS production
