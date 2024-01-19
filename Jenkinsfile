@@ -6,7 +6,7 @@ node {
      }
 
      stage('Build image') {
-         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage")
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "-f ./apps/storage/Dockerfile --target development .")
      }
 
     stage('Test image') {
