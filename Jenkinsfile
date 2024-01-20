@@ -1,9 +1,9 @@
 node {
     def app
 
-   // stage('Check Docker installation') {
-   //    sh 'docker --version || echo "Docker is not installed"'
-   // }
+   stage('Check Docker installation') {
+      sh 'docker --version || echo "Docker is not installed"'
+   }
 
    stage('Clone repository') {
       checkout scm
@@ -18,7 +18,7 @@ node {
    //  }
 
      stage('Build image') {
-         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development")
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development .")
      }
 
     stage('Test image') {
