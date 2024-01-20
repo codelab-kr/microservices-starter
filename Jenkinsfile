@@ -1,9 +1,9 @@
 node {
     def app
 
-   // stage('Check Docker installation') {
-   //    sh 'docker --version || echo "Docker is not installed"'
-   // }
+   stage('Check Docker installation') {
+      sh 'docker --version || echo "Docker is not installed"'
+   }
 
    stage('Clone repository') {
       checkout scm
