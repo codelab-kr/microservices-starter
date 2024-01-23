@@ -1,4 +1,4 @@
-node {
+node('docker') {
     def app
 
    stage('Check Docker installation') {
