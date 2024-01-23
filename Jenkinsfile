@@ -1,4 +1,4 @@
-node('docker') {
+node {
     def image
 
 //    stage('Check Docker installation') {
