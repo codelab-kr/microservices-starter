@@ -11,9 +11,9 @@ node {
 
    stage('Build-Docker-Image') {
          steps {
-         container('docker') {
-            sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
-         }
+            container('dind') {
+                sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
+            }
          }
     }
 
@@ -28,7 +28,8 @@ node {
     }
 
      stage('Push image') {
-         docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
+
+         dind.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
          // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
              app.push("0.${env.BUILD_NUMBER}")
          }
