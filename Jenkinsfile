@@ -9,15 +9,15 @@ node {
       checkout scm
    }
 
-   stage('Build-Docker-Image') {
-        container('dind') {
-            sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
-        }
-    }
+//    stage('Build-Docker-Image') {
+//         container('dind') {
+//             sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
+//         }
+//     }
 
-    //  stage('Build image') {
-    //      app = dind.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development .")
-    //  }
+     stage('Build image') {
+         app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development .")
+     }
 
     stage('Test image') {
         app.inside {
