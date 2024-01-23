@@ -14,7 +14,7 @@ node {
             container('dind') {
                 sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
             }
-         } 
+         }
     }
 
      stage('Build image') {
@@ -27,7 +27,7 @@ node {
         }
     }
 
-     stage('Push image') {
+     stage('Push image') { 
 
          dind.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
          // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
