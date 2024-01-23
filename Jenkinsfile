@@ -1,9 +1,9 @@
 node('docker') {
     def app
 
-   stage('Check Docker installation') {
-      sh 'docker --version || echo "Docker is not installed"'
-   }
+//    stage('Check Docker installation') {
+//       sh 'docker --version || echo "Docker is not installed"'
+//    }
 
    stage('Clone repository') {
       checkout scm
@@ -25,12 +25,12 @@ node('docker') {
         }
     }
 
-    //  stage('Push image') { 
-    //      dind.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
-    //      // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
-    //          app.push("0.${env.BUILD_NUMBER}")
-    //      }
-    //  }
+     stage('Push image') { 
+         dind.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
+         // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
+             app.push("0.${env.BUILD_NUMBER}")
+         }
+     }
 
    //   stage('Trigger ManifestUpdate') { 
    //      echo "triggering update-manifest job"
