@@ -17,9 +17,9 @@ node {
          }
     }
 
-   //   stage('Build image') {
-   //       app = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development")
-   //   }
+     stage('Build image') {
+         app = dind.build("ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage", "--target development .")
+     }
 
     stage('Test image') {
         app.inside {
