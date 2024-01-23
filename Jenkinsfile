@@ -14,7 +14,7 @@ node {
             container('dind') {
                 sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest --target development .'
             }
-         }
+         } 
     }
 
      stage('Build image') {
