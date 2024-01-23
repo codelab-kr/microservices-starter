@@ -28,7 +28,6 @@ node {
     }
 
      stage('Push image') { 
-
          dind.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
          // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') {   
              app.push("0.${env.BUILD_NUMBER}")
