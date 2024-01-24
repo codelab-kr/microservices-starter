@@ -23,8 +23,12 @@ node {
     //  }
 
     stage('Test image') {
-        image.inside {
-            sh 'echo "Tests passed"'
+        container('dind') {
+            script {
+                image.inside {
+                    sh 'echo "Tests passed"'
+                }
+            }
         }
     }
 
@@ -32,8 +36,8 @@ node {
         container('dind') {
             script {
                 docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
-                image.push("0.${env.BUILD_NUMBER}")
-                image.push("latest")
+                    image.push("0.${env.BUILD_NUMBER}")
+                    image.push("latest")
                 }
             }
             // sh 'docker push ap-seoul-1.ocir.io/cnqphqevfxnp/test-storage:latest'
