@@ -26,7 +26,7 @@ node {
         container('dind') {
             script {
                 image.inside {
-                    sh 'echo "Tests passed"'
+                    sh 'yarn test users'
                 }
             }
         }
