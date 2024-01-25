@@ -12,6 +12,7 @@ FROM node:alpine AS development
 WORKDIR /usr/src/app
 RUN yarn set version berry
 COPY --from=builder /usr/src/app/ ./
+EXPOSE 80
 CMD yarn start:dev storage
 
 
