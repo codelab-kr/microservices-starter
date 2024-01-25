@@ -26,6 +26,7 @@ node {
         container('dind') {
             script {
                 image.inside {
+                    sh 'yarn install'
                     sh 'yarn test users'
                 }
             }
