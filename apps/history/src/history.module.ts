@@ -16,7 +16,6 @@ import * as Joi from 'joi';
         MONGODB_URI: Joi.string().required(),
         SERVICE_NAME: Joi.string().required(),
       }),
-      envFilePath: './apps/videos/.env',
     }),
     MongoModule,
     MongooseModule.forFeature([{ name: History.name, schema: HistorySchema }]),

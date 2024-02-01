@@ -14,7 +14,6 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         SERVICE_NAME: Joi.string().required(),
       }),
-      envFilePath: './apps/users/.env',
     }),
     TypeOrmExModule.forCustomRepository([UsersRepository, PaymentsRepository]),
     MysqlModule,

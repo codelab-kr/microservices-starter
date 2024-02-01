@@ -37,22 +37,24 @@ lerna-debug.log*
 
 # yarn v2
 .yarn/*
+!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
-!.yarn/versions
+!.yarn/unplugged
+!.yarn/install-state.gz
+#.pnp.*
 
 # Swap the comments on the following lines if you wish to use zero-installs
 # In that case, don't forget to run `yarn config set enableGlobalCache false`!
 # Documentation here: https://yarnpkg.com/features/caching#zero-installs
 
-#!.yarn/cache
-.pnp.*
-
-
-apps/api/.env
 public/uploads/images/*
 public/uploads/videos/*
 .eslintcache
 test-report.html
+
+
+/.env
+/.api.env

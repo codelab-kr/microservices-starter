@@ -9,11 +9,11 @@ export const dataSource: DataSource = new DataSource({
   ...new TypeOrmConfigService(
     new ConfigService(
       dotenv.config({
-        path: path.resolve('../../database/.nats.env'),
+        path: path.resolve('.env'),
       }).parsed,
     ),
   ).dataSourceOptions,
-  entities: ['../../../apps/**/models/*.ts'],
+  entities: ['apps/**/models/*.ts'],
   migrationsTableName: 'migrations',
-  migrations: ['./*.ts'],
+  migrations: ['databases/mysql/*.ts'],
 });

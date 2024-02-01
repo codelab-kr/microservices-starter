@@ -1,3 +1,46 @@
+# For Developers
+
+## 1. Prerequisites
+
+````bash
+# Clone the repository
+git clone ....
+```
+
+.env 파일은 .env.example 파일을 복사해서 사용한다.
+mongodb.key 파일은 예시 파일이므로 실제 서비스 시에는 보안 상 다른 키를 사용해야 한다.
+
+```bash
+openssl rand -base64 756 > ./databases/mongo/mongodb.key
+
+chmod 400 ./databases/mongo/mongodb.key
+````
+
+## 2. Start the project
+
+```bash
+# Start DBs for the project
+docker compose -f docker-compose.db.yaml up --build -V -d
+docker compose -f docker-compose.db.yaml up -d
+
+# Start the project
+docker compose up --build -V -d
+docker compose up -d
+```
+
+## 3. Stop the project
+
+```bash
+# Stop the project
+docker compose down
+
+# Stop the project and remove volumes and images and networks
+docker compose down -v --rmi all --remove-orphans
+
+# Stop all for the project
+docker compose -f docker-compose.yaml -f docker-compose.db.yaml  down  -v --rmi all --remove-orphans
+```
+
 # TODO
 
 1/16
@@ -11,7 +54,7 @@
 
 - users, posts (typeorm + mysql) 테스트 코드 작성 -완료
 
-1/18 ~
+1/18 ~ 1/19
 
 - 1개만 젠킨스 CI/CD 연결
 - 1개만 테스트와 젠킨스 연결
@@ -63,36 +106,20 @@
 https://velog.io/@youngeui_hong/Docker를-사용하여-MongoDB-Replica-Set-구축하기 \
 https://blog.devgenius.io/ how-to-deploy-a-mongodb-replicaset-using-docker-compose-a538100db471
 
-```bash
-openssl rand -base64 756 > ./database/mongodb.key
-chmod 400 ./database/mongodb.key
-
-docker-compose -f docker-compose.db.yaml up --build -V -d
-
-docker exec -it microservices-starter-mongodb-primary-1 mongosh -u root -p password123
-
-docker-compose exec -it mongodb-primary mongosh -u root -p password123 --eval 'rs.initiate({
-	 _id: "mongoReplicaSet",
-	 members: [
-	   {_id: 0, host: "mongodb-primary"},
-	   {_id: 1, host: "mongodb-secondary"},
-	   {_id: 2, host: "mongodb-arbiter"}
-	 ]
-});'
-
 # docker restart microservices-starter-auth-1
+
 # docker restart microservices-starter-history-1
+
 # docker restart microservices-starter-videos-1
+
 # docker restart microservices-starter-stars-1
 
-
 rs.status()
-
 
 docker-compose up --build -V -d
 docker-compose up posts --build -V -d
 
-```
+````
 
 <br>
 
@@ -123,7 +150,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 	...
 }
-```
+````
 
 Http Headers
 

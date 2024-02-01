@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { UsersRepository } from './repositories/users.repository';
 import { UpdateUserDto } from './dtos/update.user.dto';
 import { CreateUserDto } from './dtos/create.user.dto';

@@ -31,9 +31,7 @@ export class AppModule {
           SERVICE_NAME: Joi.string().required(),
           SESSION_AUTH: Joi.boolean().required(),
         }),
-        envFilePath: './apps/api/.env',
         cache: true,
-        expandVariables: true,
       }),
       ServeStaticModule.forRoot({
         rootPath: path.resolve('public'),

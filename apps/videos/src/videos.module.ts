@@ -16,9 +16,14 @@ import * as Joi from 'joi';
         MONGODB_URI: Joi.string().required(),
         SERVICE_NAME: Joi.string().required(),
       }),
-      envFilePath: './apps/videos/.env',
     }),
     MongoModule,
+    // MongooseModule.forRoot(
+    //   'mongodb://root:password123@mongodb-primary:27017/development',
+    //   {
+    //     connectionName: 'development',
+    //   },
+    // ),
     MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
   ],
   controllers: [VideosController],
