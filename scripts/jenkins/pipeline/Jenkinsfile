@@ -27,31 +27,33 @@ node {
 
     }
 
-    env.STAGE = "${CHANGE_BRANCH}"
+    env.STAGE = "development"
     env.TAG = "0.${BUILD_NUMBER}"
 
     stage('check parameters') { 
+        def array = env.SERVICES.split(',')[:-1]
+
         echo "check parameters"
         echo "STAGE: ${STAGE}"
-        echo "SERVICES: ${SERVICES}"
+        echo "SERVICE: ${SERVICE}"
         echo "TAG: ${TAG}"
     }
 
-    // stage('Trigger build-test-push') { 
-    //     echo "triggering build-test-push job"
-    //     build job: 'build-test-push', parameters: [
-    //         string(name: 'STAGE', value: env.STAGE),
-    //         string(name: 'SERVICE', value: env.SERVICE),
-    //         string(name: 'TAG', value: env.TAG)
-    //     ]
-    // }
+    stage('Trigger build-test-push') { 
+        echo "triggering build-test-push job"
+        build job: 'build-test-push', parameters: [
+            string(name: 'STAGE', value: env.STAGE),
+            string(name: 'SERVICE', value: env.SERVICE),
+            string(name: 'TAG', value: env.TAG)
+        ]
+    }
 
-    // stage('Trigger update-manifest') { 
-    //     echo "triggering update-manifest job"
-    //     build job: 'update-manifest', parameters: [
-    //         string(name: 'STAGE', value: env.STAGE),
-    //         string(name: 'SERVICE', value: env.SERVICE),
-    //         string(name: 'TAG', value: env.TAG)
-    //     ]
-    // }
+    stage('Trigger update-manifest') { 
+        echo "triggering update-manifest job"
+        build job: 'update-manifest', parameters: [
+            string(name: 'STAGE', value: env.STAGE),
+            string(name: 'SERVICE', value: env.SERVICE),
+            string(name: 'TAG', value: env.TAG)
+        ]
+    }
 }
