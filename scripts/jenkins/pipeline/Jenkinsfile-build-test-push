@@ -6,33 +6,29 @@ pipeline {
     }
 
     stages {
-        def image
         stage('Clone repository') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build and push image') {
             steps {
-                echo "Building"
-                // sh "docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE} -f apps/${SERVICE}/Dockerfile  --target ${STAGE} ."
                 script {
-                    image = docker.build("ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}", "-f apps/${SERVICE}/Dockerfile --target ${STAGE} .")
+                    def imageName = "ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}"
+                    def image = docker.build(imageName, "-f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .")
+                    env.IMAGE_ID = image.id
                 }
             }
         }
 
-        stage('Test') {
+        stage('Test image') {
             steps {
-                echo "Testing"
-                // sh '''
-                //     cd apps/${SERVICE}
-                //     yarn test ${SERVICE}
-                // '''
                 script {
+                    def image = docker.image(env.IMAGE_ID)
                     image.inside {
-                        sh 'yarn test users'
+                        def testResult = sh(script: 'yarn test users', returnStatus: true)
+                        env.TEST_RESULT = testResult.toString()
                     }
                 }
             }
@@ -43,12 +39,9 @@ pipeline {
                 echo 'Deliver'
                 script {
                     docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
-                    // docker.withRegistry('https://register.hub.docker.com', 'docker-hub') { 
                         image.push($TAG)
                     }
                 }
-                // sh 'docker push ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}'
-                
             }
         }
     }
