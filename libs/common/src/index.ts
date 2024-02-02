@@ -26,9 +26,6 @@ export * from './rmq/rmq.module';
 export * from './http/http.module';
 export * from './http/http.service';
 
-// enhancer
-export * from './enhancer/enhancer.module';
-
 // exception
 export * from './exception/exception.module';
 

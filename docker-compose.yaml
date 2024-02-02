@@ -8,6 +8,8 @@ services:
     command: api
     env_file:
       - ./.api.env
+    ports:
+      - 4000:4000
     volumes:
       - ./apps/api:/usr/src/app/apps/api:z
       - ./libs/common:/usr/src/app/libs/common:z
@@ -104,6 +106,7 @@ services:
     volumes:
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z
+      - ./public:/usr/src/app/public:z
     depends_on:
       - nats
 

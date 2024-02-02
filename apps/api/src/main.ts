@@ -18,7 +18,7 @@ async function bootstrap() {
   const sessionAuth = conf.get('SESSION_AUTH');
   const env = conf.get('NODE_ENV') ?? 'development';
   const baseUrl =
-    env !== 'production' ? conf.get('BASE_URL') : `http://localhost:${port}`;
+    env === 'production' ? conf.get('BASE_URL') : `http://localhost:${port}`;
 
   if (sessionAuth) setSession(app);
   setHbs(app);

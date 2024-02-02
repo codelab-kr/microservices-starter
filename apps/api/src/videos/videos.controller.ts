@@ -52,7 +52,7 @@ export class VideosController {
     const port = this.configService.get('PORT');
     const base_url = this.configService.get('BASE_URL');
     const baseUrl =
-      env !== 'production' ? base_url : `http://localhost:${port}`;
+      env === 'production' ? base_url : `http://localhost:${port}`;
     video.path = `${baseUrl}/uploads/videos/${video.path}`;
     res.render('play-video', { isVideos: true, video, user });
   }
@@ -63,7 +63,7 @@ export class VideosController {
       title: video.title,
       userId,
     };
-    await lastValueFrom(this.histotyService.createHistory(createHistoryInput));
+    this.histotyService.createHistory(createHistoryInput);
   }
 
   @Post('upload')
