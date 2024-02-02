@@ -15,7 +15,7 @@ pipeline {
         stage('Build and push image') {
             steps {
                 script {
-                    echo docker --version
+                    // echo docker --version
                     def imageName = "ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}"
                     def image = docker.build(imageName, "-f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .")
                     env.IMAGE_ID = image.id
