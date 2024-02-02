@@ -3,24 +3,30 @@ node {
         checkout scm
         def output
         script {
-            output = sh(returnStdout: true, script: '''
-            commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
-            services=("api" "history" "payments" "posts" "users" "storage" "videos")
-            result=()
+            output = bash(returnStdout: true, script: '''
+            echo $(git diff-tree --no-commit-id --name-only -r HEAD)
+            '''            
+            ).trim()
+            //'''
+            // commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
+            // services=("api" "history" "payments" "posts" "users" "storage" "videos")
+            // result=()
 
-            for commit in "${commits[@]}"; do
-                directory=$(dirname "$commit");
-                filename=$(basename "$commit" .yaml);
-                for service in "${services[@]}"; do
-                    if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
-                        result+=($service)
-                    fi
-                done
-            done
+            // for commit in "${commits[@]}"; do
+            //     directory=$(dirname "$commit");
+            //     filename=$(basename "$commit" .yaml);
+            //     for service in "${services[@]}"; do
+            //         if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
+            //             result+=($service)
+            //         fi
+            //     done
+            // done
 
-            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ',')
-            echo $svc
-            ''').trim()
+            // svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ',')
+            // echo $svc
+            //echo "api,history,payments,posts,users,storage,videos"
+            //'''
+           
         }
         env.SERVICES = output
 
