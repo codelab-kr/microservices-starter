@@ -3,7 +3,7 @@ node {
         checkout scm
         def output
         script {
-            output = bash(returnStdout: true, script: '''
+            output = sh(returnStdout: true, script: '''#!/bin/bash
             echo $(git diff-tree --no-commit-id --name-only -r HEAD)
             '''            
             ).trim()
