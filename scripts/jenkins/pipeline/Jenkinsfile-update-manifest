@@ -17,7 +17,7 @@ node {
                     sh "sed -i 's+cnqphqevfxnp/${STAGE}-${SERVICE}.*+cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}+g' ./scripts/deploy/${STAGE}/${SERVICE}.yaml"
                     sh "cat ./scripts/deploy/${STAGE}/${SERVICE}.yaml"
                     sh "git add ."
-                    sh "git commit -m 'Done by Jenkins Job updatemaifest: [${STAGE}] ${SERVICE}:${TAG}'"
+                    sh "git commit -m 'Done by Jenkins Job update maifest: [${STAGE}] ${SERVICE}:${TAG}'"
                     sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/microservices-starter-manifest.git HEAD:${STAGE}"
                 }
             }
