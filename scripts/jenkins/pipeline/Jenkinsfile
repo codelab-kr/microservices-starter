@@ -22,16 +22,12 @@ node {
             echo $svc
             '''            
             ).trim()
-            //'''
-        
-            //'''
-           
         }
         env.SERVICES = output
 
     }
 
-    env.STAGE = env.BRANCH_NAME
+    env.STAGE = "${CHANGE_BRANCH}"
     env.TAG = "0.${BUILD_NUMBER}"
 
     stage('check parameters') { 

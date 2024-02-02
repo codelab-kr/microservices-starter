@@ -27,7 +27,7 @@ async function bootstrap() {
 
   await app.listen(port, () =>
     console.log(
-      `... Listening on ${baseUrl} 🚀 \nRedis Session Auth is ${sessionAuth} `,
+      `Listening on ${baseUrl} 🚀 \nRedis Session Auth is ${sessionAuth} `,
     ),
   );
 }
