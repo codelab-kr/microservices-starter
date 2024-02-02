@@ -5,11 +5,12 @@ pipeline {
         }
     }
 
-    def image
-
     stages {
+        def image
         stage('Clone repository') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
 
         stage('Build') {
@@ -30,10 +31,10 @@ pipeline {
                 //     yarn test ${SERVICE}
                 // '''
                 script {
-                image.inside {
-                    sh 'yarn test users'
+                    image.inside {
+                        sh 'yarn test users'
+                    }
                 }
-            }
             }
         }
 
