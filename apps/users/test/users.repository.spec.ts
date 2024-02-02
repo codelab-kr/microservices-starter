@@ -8,7 +8,6 @@ describe('UsersRepository', () => {
   let repository: UsersRepository;
   let saveSpy: jest.SpyInstance;
   let findSpy: jest.SpyInstance;
-  // let findOneSpy: jest.SpyInstance;
   let findOneBySpy: jest.SpyInstance;
   let updateSpy: jest.SpyInstance;
   let softDeleteSpy: jest.SpyInstance;
@@ -16,7 +15,6 @@ describe('UsersRepository', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        // UsersRepository,
         {
           provide: getRepositoryToken(User),
           useValue: {
@@ -35,7 +33,6 @@ describe('UsersRepository', () => {
     repository = module.get<UsersRepository>(UsersRepository);
     saveSpy = jest.spyOn(repository, 'save');
     findSpy = jest.spyOn(repository, 'find');
-    // findOneSpy = jest.spyOn(repository, 'findOne');
     findOneBySpy = jest.spyOn(repository, 'findOneBy');
     updateSpy = jest.spyOn(repository, 'update');
     softDeleteSpy = jest.spyOn(repository, 'softDelete');

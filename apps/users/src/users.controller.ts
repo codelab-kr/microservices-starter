@@ -7,17 +7,17 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { UsersService } from '../users.service';
+import { UsersService } from './users.service';
 import {
   MessagePattern,
   EventPattern,
   Payload,
   RpcException,
 } from '@nestjs/microservices';
-import { CreateUserDto } from '../dtos/create.user.dto';
-import { LoginUserRequest } from '../dtos/login.user.dto';
-import { UpdateUserDto } from '../dtos/update.user.dto';
-import { User } from '../models/user';
+import { CreateUserDto } from './dtos/create.user.dto';
+import { LoginUserRequest } from './dtos/login.user.dto';
+import { UpdateUserDto } from './dtos/update.user.dto';
+import { User } from './models/user';
 
 export interface TokenPayload {
   userId: string;

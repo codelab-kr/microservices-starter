@@ -23,6 +23,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         SERVICE_NAME: Joi.string().required(),
       }),
+      envFilePath: 'apps/posts/.env',
     }),
     TypeOrmExModule.forCustomRepository([
       PostsRepository,

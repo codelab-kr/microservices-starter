@@ -27,12 +27,6 @@ describe('Users - /users (e2e)', () => {
     await dataSource.synchronize();
     await app.startAllMicroservices();
     await app.init();
-    // app.connectMicroservice({
-    //   transport: Transport.NATS,
-    //   options: {
-    //     url: 'nats://localhost:4222',
-    //   },
-    // });
   });
 
   afterAll(async () => {

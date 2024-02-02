@@ -32,6 +32,7 @@ export class AppModule {
           SESSION_AUTH: Joi.boolean().required(),
         }),
         cache: true,
+        envFilePath: '/.api.env',
       }),
       ServeStaticModule.forRoot({
         rootPath: path.resolve('public'),

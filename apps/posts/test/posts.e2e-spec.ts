@@ -5,31 +5,30 @@ import { PostsModule } from '../src/posts.module';
 import { DataSource } from 'typeorm';
 import { print } from 'graphql';
 import { createPostMutation, getPostsQuery } from '../src/utils/queries';
-// import { jest } from '@jest/globals';
 
-function mockMysqlService(serviceName: string, actual: any) {
-  class MockTypeOrmConfigService extends actual.TypeOrmConfigService {
-    get dataSourceOptions() {
-      return {
-        ...super.dataSourceOptions,
-        database: 'test',
-        entities: [`./apps/${serviceName}/src/**/models/*.ts`],
-      };
-    }
-  }
+// function mockMysqlService(serviceName: string, actual: any) {
+//   class MockTypeOrmConfigService extends actual.TypeOrmConfigService {
+//     get dataSourceOptions() {
+//       return {
+//         ...super.dataSourceOptions,
+//         database: 'test',
+//         entities: [`apps/${serviceName}/src/**/models/*.ts`],
+//       };
+//     }
+//   }
 
-  return {
-    ...actual,
-    TypeOrmConfigService: MockTypeOrmConfigService,
-  };
-}
+//   return {
+//     ...actual,
+//     TypeOrmConfigService: MockTypeOrmConfigService,
+//   };
+// }
 
-jest.mock('../../../libs/common/src/database/mysql/mysql.service', () => {
-  const actual = jest.requireActual(
-    '../../../libs/common/src/database/mysql/mysql.service',
-  );
-  return mockMysqlService('posts', actual);
-});
+// jest.mock('../../../libs/common/src/database/mysql/mysql.service', () => {
+//   const actual = jest.requireActual(
+//     '../../../libs/common/src/database/mysql/mysql.service',
+//   );
+//   return mockMysqlService('posts', actual);
+// });
 
 describe('Graphql Server Posts (e2e)', () => {
   let app: INestApplication;

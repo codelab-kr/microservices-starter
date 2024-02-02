@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersRepository } from './repositories/users.repository';
-import { UsersController } from './payloads/users.controller';
+import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { MysqlModule, TypeOrmExModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
@@ -14,6 +14,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         SERVICE_NAME: Joi.string().required(),
       }),
+      envFilePath: 'apps/users/.env',
     }),
     TypeOrmExModule.forCustomRepository([UsersRepository, PaymentsRepository]),
     MysqlModule,

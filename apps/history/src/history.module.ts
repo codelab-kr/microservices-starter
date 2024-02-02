@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongoModule } from '@app/common';
 import { HistoryRepository } from './history.repository';
 import { MongooseModule } from '@nestjs/mongoose';
-import { History, HistorySchema } from '../models/history';
+import { History, HistorySchema } from './models/history';
 import * as Joi from 'joi';
 
 @Module({
@@ -16,6 +16,7 @@ import * as Joi from 'joi';
         MONGODB_URI: Joi.string().required(),
         SERVICE_NAME: Joi.string().required(),
       }),
+      envFilePath: 'apps/history/.env',
     }),
     MongoModule,
     MongooseModule.forFeature([{ name: History.name, schema: HistorySchema }]),
