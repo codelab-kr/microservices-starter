@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.442-jdk17
+FROM jenkins/jenkins:2.443-jdk17
 USER root
 RUN apt-get update && apt-get install -y lsb-release python3-pip  && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -10,3 +10,4 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli && apt-get clean && rm -rf /var/lib/apt/lists/*
 USER jenkins
 RUN jenkins-plugin-cli --plugins "blueocean:1.27.10 docker-workflow:572.v950f58993843"
+
