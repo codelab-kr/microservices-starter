@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: storage
+  name: api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: storage
+      app: api
   template:
     metadata:
       labels:
-        app: storage
+        app: api
     spec:
       imagePullSecrets:
         - name: ocir-registry-secret
       containers:
-        - name: storage
-          image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:latest
+        - name: api
+          image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:latest
           env:
             - name: 'SERVICE_NAME'
-              value: 'storage'
+              value: 'api'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: storage
+  name: api
 spec:
   selector:
-    app: storage
+    app: api
   type: ClusterIP # Network Load Balancer(L4) 적용 시 NodePort 사용, ingress-nginx(L4, L7) 적용 시 ClusterIP 가능
   ports:
     - protocol: TCP

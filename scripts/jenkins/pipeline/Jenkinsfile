@@ -1,9 +1,38 @@
-node {
-    env.STAGE = env.CHANGE_BRANCH
-    env.SERVICE = env.TAG_NAME
-    env.TAG = "${MAJOR}.${BUILD_NUMBER}"
+node('docker') {
+    stage('Clone repository') {
+        checkout scm
+        def output
+        script {
+            output = sh(returnStdout: true, script: '''#!/bin/bash
+            commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
+            services=("api" "history" "payments" "posts" "users" "storage" "videos")
+            result=()
+
+            for commit in "${commits[@]}"; do
+                directory=$(dirname "$commit");
+                filename=$(basename "$commit" .yaml);
+                for service in "${services[@]}"; do
+                    if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
+                        result+=($service)
+                    fi
+                done
+            done
+
+            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ',')
+            echo $svc
+            '''            
+            ).trim()
+        }
+        env.SERVICES = output
+
+    }
+
+    env.STAGE = "development"
+    env.TAG = "0.${BUILD_NUMBER}"
 
     stage('check parameters') { 
+        env.SERVICE = env.SERVICES.split(',')[0]
+
         echo "check parameters"
         echo "STAGE: ${STAGE}"
         echo "SERVICE: ${SERVICE}"
