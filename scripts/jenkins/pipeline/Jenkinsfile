@@ -35,20 +35,18 @@ node('docker') {
             echo "STAGE: ${STAGE}"
             echo "TAG: ${TAG}"
 
+            def jobs = [:]
+
             for (int i = 0; i < array.size(); i++) {
                 def service = array[i]
-                echo "[${i}] -${service}- service is triggered."
-
-                stage('Trigger service job') { 
-                    echo "triggering start-service-job"
+                jobs["service-${i}-${service}"] = {
                     build job: 'start-service-job', parameters: [
                         string(name: 'STAGE', value: env.STAGE),
                         string(name: 'SERVICE', value: service),
-                        string(name: 'TAG', value: env.TAG)
-                    ]
+                        string(name: 'TAG', value: env.TAG)]
                 }
             }
+            parallel jobs
         }
-
     }
 }
