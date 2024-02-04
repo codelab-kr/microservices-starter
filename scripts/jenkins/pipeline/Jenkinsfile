@@ -18,8 +18,8 @@ node('docker') {
                 done
             done
 
-            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')).trim()
-            echo $svc[@]
+            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+            echo $svc.trim()
             '''            
             ).trim()
         }
