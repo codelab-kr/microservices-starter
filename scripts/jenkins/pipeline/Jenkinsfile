@@ -24,17 +24,17 @@ node('docker') {
             ).trim()
         }
         env.SERVICES = output
-
     }
 
 
 
     stage('Trigger services') { 
+        echo SERVICES
         env.SERVICES = env.SERVICES.split(',')
         env.STAGE = "development"
         env.TAG = "0.${BUILD_NUMBER}"
 
-        echo "SERVICES: ${SERVICES}"
+        echo SERVICES
         echo "STAGE: ${STAGE}"
         echo "TAG: ${TAG}"
 
