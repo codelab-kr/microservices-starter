@@ -29,7 +29,6 @@ node('docker') {
 
     stage('Trigger services') { 
         script {
-            echo SERVICES
             def array = env.SERVICES.split(' ')
             echo array
             env.STAGE = "development"
