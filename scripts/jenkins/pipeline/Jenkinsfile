@@ -30,30 +30,25 @@ node('docker') {
     env.STAGE = "development"
     env.TAG = "0.${BUILD_NUMBER}"
 
-    stage('check parameters') { 
-        env.SERVICE = env.SERVICES.split(',')[0]
+    stage('Trigger services') { 
+        env.SERVICES = env.SERVICES.split(',')
+        for (int i = 0; i < env.SERVICES.size(); i++) {
+            env.SERVICE = env.SERVICES[i]
+            echo "check parameters"
+            echo "STAGE: ${STAGE}"
+            echo "SERVICE: ${SERVICE}"
+            echo "TAG: ${TAG}"
 
-        echo "check parameters"
-        echo "STAGE: ${STAGE}"
-        echo "SERVICE: ${SERVICE}"
-        echo "TAG: ${TAG}"
+            stage('Trigger services') { 
+                echo "triggering build-test-push job"
+                build job: 'build-test-push', parameters: [
+                    string(name: 'STAGE', value: env.STAGE),
+                    string(name: 'SERVICE', value: env.SERVICE),
+                    string(name: 'TAG', value: env.TAG)
+                ]
+            }
+        }
     }
 
-    stage('Trigger build-test-push') { 
-        echo "triggering build-test-push job"
-        build job: 'build-test-push', parameters: [
-            string(name: 'STAGE', value: env.STAGE),
-            string(name: 'SERVICE', value: env.SERVICE),
-            string(name: 'TAG', value: env.TAG)
-        ]
-    }
 
-    stage('Trigger update-manifest') { 
-        echo "triggering update-manifest job"
-        build job: 'update-manifest', parameters: [
-            string(name: 'STAGE', value: env.STAGE),
-            string(name: 'SERVICE', value: env.SERVICE),
-            string(name: 'TAG', value: env.TAG)
-        ]
-    }
 }
