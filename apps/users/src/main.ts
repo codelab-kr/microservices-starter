@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsersModule } from './users.module';
 
 async function bootstrap() {
-  console.log('users service is starting.....');
+  console.log('users service is starting...');
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     UsersModule,
     {
