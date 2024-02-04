@@ -19,13 +19,14 @@ node('docker') {
             done
 
             svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-            echo $svc | awk '{$1=$1};1'
+            svc2=$(echo $svc | awk '{$1=$1};1')
+            echo $svc2
             '''            
             ).trim()
         }
         env.SERVICES = output
     }
-    
+
     stage('Trigger services') { 
         script {
             echo SERVICES
