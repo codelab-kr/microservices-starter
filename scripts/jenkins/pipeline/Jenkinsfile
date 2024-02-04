@@ -18,8 +18,8 @@ node('docker') {
                 done
             done
 
-            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ',')
-            echo $svc
+            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+            echo $svc[@]
             '''            
             ).trim()
         }
@@ -30,7 +30,7 @@ node('docker') {
 
     stage('Trigger services') { 
         echo SERVICES
-        env.SERVICES = env.SERVICES.split(',')
+        env.SERVICES = env.SERVICES.split(' ')
         env.STAGE = "development"
         env.TAG = "0.${BUILD_NUMBER}"
 
@@ -40,7 +40,7 @@ node('docker') {
 
         for (int i = 0; i < env.SERVICES.size(); i++) {
             env.SERVICE = env.SERVICES[i]
-            echo "[${i}] ${SERVICE} service is triggered."
+            echo "[${i}] -${SERVICE}- service is triggered."
 
             stage('Trigger service job') { 
                 echo "triggering start-service-job"
