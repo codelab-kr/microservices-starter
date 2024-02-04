@@ -29,7 +29,7 @@ node('docker') {
     stage('Trigger services') { 
         script {
             def array = env.SERVICES.trim().split(' ')
-            echo array
+            echo "Array: ${array}"
             env.STAGE = "development"
             env.TAG = "0.${BUILD_NUMBER}"
             echo "STAGE: ${STAGE}"
