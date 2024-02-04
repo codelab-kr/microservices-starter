@@ -1,4 +1,4 @@
-node {
+node('docker') {
     stage('Clone repository') {
         checkout scm
         def output
