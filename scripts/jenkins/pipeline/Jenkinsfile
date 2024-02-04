@@ -27,21 +27,24 @@ node('docker') {
 
     }
 
-    env.STAGE = "development"
-    env.TAG = "0.${BUILD_NUMBER}"
+
 
     stage('Trigger services') { 
         env.SERVICES = env.SERVICES.split(',')
+        env.STAGE = "development"
+        env.TAG = "0.${BUILD_NUMBER}"
+
+        echo "SERVICES: ${SERVICES}"
+        echo "STAGE: ${STAGE}"
+        echo "TAG: ${TAG}"
+
         for (int i = 0; i < env.SERVICES.size(); i++) {
             env.SERVICE = env.SERVICES[i]
-            echo "check parameters"
-            echo "STAGE: ${STAGE}"
-            echo "SERVICE: ${SERVICE}"
-            echo "TAG: ${TAG}"
+            echo "[${i}] ${SERVICE} service is triggered."
 
-            stage('Trigger services') { 
-                echo "triggering build-test-push job"
-                build job: 'build-test-push', parameters: [
+            stage('Trigger service job') { 
+                echo "triggering start-service-job"
+                build job: 'start-service-job', parameters: [
                     string(name: 'STAGE', value: env.STAGE),
                     string(name: 'SERVICE', value: env.SERVICE),
                     string(name: 'TAG', value: env.TAG)
@@ -49,6 +52,4 @@ node('docker') {
             }
         }
     }
-
-
 }
