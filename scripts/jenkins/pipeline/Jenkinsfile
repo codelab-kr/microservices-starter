@@ -18,7 +18,7 @@ node('docker') {
                 done
             done
 
-            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ').trim()
             echo $svc[@]
             '''            
             ).trim()
@@ -29,26 +29,29 @@ node('docker') {
 
 
     stage('Trigger services') { 
-        echo SERVICES
-        env.SERVICES = env.SERVICES.split(' ')
-        env.STAGE = "development"
-        env.TAG = "0.${BUILD_NUMBER}"
+        steps {
+            script {
+                echo SERVICES
+                def array = env.SERVICES.split(' ')
+                echo array
+                env.STAGE = "development"
+                env.TAG = "0.${BUILD_NUMBER}"
+                echo "STAGE: ${STAGE}"
+                echo "TAG: ${TAG}"
 
-        echo SERVICES
-        echo "STAGE: ${STAGE}"
-        echo "TAG: ${TAG}"
+                for (int i = 0; i < array.size(); i++) {
+                    def service = array[i]
+                    echo "[${i}] -${service}- service is triggered."
 
-        for (int i = 0; i < env.SERVICES.size(); i++) {
-            env.SERVICE = env.SERVICES[i]
-            echo "[${i}] -${SERVICE}- service is triggered."
-
-            stage('Trigger service job') { 
-                echo "triggering start-service-job"
-                build job: 'start-service-job', parameters: [
-                    string(name: 'STAGE', value: env.STAGE),
-                    string(name: 'SERVICE', value: env.SERVICE),
-                    string(name: 'TAG', value: env.TAG)
-                ]
+                    stage('Trigger service job') { 
+                        echo "triggering start-service-job"
+                        build job: 'start-service-job', parameters: [
+                            string(name: 'STAGE', value: env.STAGE),
+                            string(name: 'SERVICE', value: service),
+                            string(name: 'TAG', value: env.TAG)
+                        ]
+                    }
+                }
             }
         }
     }
