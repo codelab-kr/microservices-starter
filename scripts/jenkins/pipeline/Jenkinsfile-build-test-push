@@ -6,7 +6,7 @@ pipeline {
         // }
         docker {
             image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '--entrypoint='' -t -d -u 1000:1000 -v /var/run/docker.sock:/var/run/docker.sock cat'
         }
     }
     
