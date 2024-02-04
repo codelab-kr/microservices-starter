@@ -15,6 +15,9 @@ pipeline {
         stage('Clone repository') {
             steps {
                 checkout scm
+                echo env.STAGE
+                echo env.SERVICE
+                echo env.TAG
             }
         }
 
