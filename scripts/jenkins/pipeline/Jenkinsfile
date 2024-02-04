@@ -25,34 +25,31 @@ node('docker') {
         }
         env.SERVICES = output
     }
-
-
-
+    
     stage('Trigger services') { 
-        steps {
-            script {
-                echo SERVICES
-                def array = env.SERVICES.split(' ')
-                echo array
-                env.STAGE = "development"
-                env.TAG = "0.${BUILD_NUMBER}"
-                echo "STAGE: ${STAGE}"
-                echo "TAG: ${TAG}"
+        script {
+            echo SERVICES
+            def array = env.SERVICES.split(' ')
+            echo array
+            env.STAGE = "development"
+            env.TAG = "0.${BUILD_NUMBER}"
+            echo "STAGE: ${STAGE}"
+            echo "TAG: ${TAG}"
 
-                for (int i = 0; i < array.size(); i++) {
-                    def service = array[i]
-                    echo "[${i}] -${service}- service is triggered."
+            for (int i = 0; i < array.size(); i++) {
+                def service = array[i]
+                echo "[${i}] -${service}- service is triggered."
 
-                    stage('Trigger service job') { 
-                        echo "triggering start-service-job"
-                        build job: 'start-service-job', parameters: [
-                            string(name: 'STAGE', value: env.STAGE),
-                            string(name: 'SERVICE', value: service),
-                            string(name: 'TAG', value: env.TAG)
-                        ]
-                    }
+                stage('Trigger service job') { 
+                    echo "triggering start-service-job"
+                    build job: 'start-service-job', parameters: [
+                        string(name: 'STAGE', value: env.STAGE),
+                        string(name: 'SERVICE', value: service),
+                        string(name: 'TAG', value: env.TAG)
+                    ]
                 }
             }
         }
+
     }
 }
