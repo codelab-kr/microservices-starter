@@ -11,7 +11,7 @@ node('docker') {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh "git config --global user.email master@code-lab.kr"
                     sh "git config --global user.name codelab-kr"
-                    sh "git checkout ${STAGE}"
+                    // sh "git checkout ${STAGE}"
                     sh "git pull"
                     sh "cat ./scripts/deploy/${STAGE}/${SERVICE}.yaml"
                     sh "sed -i 's+cnqphqevfxnp/${STAGE}-${SERVICE}.*+cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}+g' ./scripts/deploy/${STAGE}/${SERVICE}.yaml"
