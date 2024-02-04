@@ -19,7 +19,7 @@ node('docker') {
             done
 
             svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-            echo $svc.trim()
+            echo $svc | awk '{$1=$1};1'
             '''            
             ).trim()
         }
