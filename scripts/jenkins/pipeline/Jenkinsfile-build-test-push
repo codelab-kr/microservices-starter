@@ -44,6 +44,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 script {
+                    def image = docker.image(env.IMAGE_ID)
                     docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
                         image.push($TAG)
                     }
