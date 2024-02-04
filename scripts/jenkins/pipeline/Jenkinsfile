@@ -19,8 +19,8 @@ node('docker') {
             done
 
             svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-            svc2=$(echo $svc | awk '{$1=$1};1')
-            echo $svc2
+            // svc2=$(echo $svc | awk '{$1=$1};1')
+            echo $svc2[@]
             '''            
             ).trim()
         }
@@ -29,7 +29,7 @@ node('docker') {
 
     stage('Trigger services') { 
         script {
-            def array = env.SERVICES.split(' ')
+            def array = env.SERVICES.toString().split(' ')
             echo array
             env.STAGE = "development"
             env.TAG = "0.${BUILD_NUMBER}"
