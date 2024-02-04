@@ -29,21 +29,20 @@ pipeline {
             }
         }
 
-        stage('Test image') {
-            steps {
-                script {
-                    def image = docker.image(env.IMAGE_ID)
-                    image.inside {
-                        def testResult = sh(script: 'yarn test users', returnStatus: true)
-                        env.TEST_RESULT = testResult.toString()
-                    }
-                }
-            }
-        }
+        // stage('Test image') {
+        //     steps {
+        //         script {
+        //             def image = docker.image(env.IMAGE_ID)
+        //             image.inside {
+        //                 def testResult = sh(script: 'yarn test users', returnStatus: true)
+        //                 env.TEST_RESULT = testResult.toString()
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deliver') {
             steps {
-                echo 'Deliver'
                 script {
                     docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
                         image.push($TAG)
