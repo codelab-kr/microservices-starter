@@ -4,7 +4,7 @@ node('docker') {
         def output
         script {
             if (env.SERVICES.trim() == 'all') {
-                env.SERVICES = 'mysql mongo redis nats api history payments posts users storage videos'
+                env.SERVICES = 'api history payments posts users storage videos'
             } else {
                 output = sh(returnStdout: true, script: '''#!/bin/bash
                 commits=($(git diff-tree --no-commit-id --name-only -r HEAD))

@@ -19,7 +19,7 @@ node('docker') {
                     sh "cat ./scripts/deploy/${STAGE}/${SERVICE}.yaml"
                     sh "git add ."
                     sh "git commit -m 'Done by Jenkins Job update maifest: [${STAGE}] ${SERVICE}:${TAG}'"
-                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/microservices-starter-manifest.git HEAD:feature"
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/microservices-starter.git HEAD:feature"
                 }
             }
         }
