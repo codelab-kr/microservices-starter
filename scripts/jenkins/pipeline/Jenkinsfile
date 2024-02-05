@@ -13,10 +13,6 @@ node('docker') {
 
                 for commit in "${commits[@]}"; do
                     directory=$(dirname "$commit");
-                    if [[ $directory == *common* ]]; then
-                        echo "common"
-                        result+=$services
-                    fi
                     for service in "${services[@]}"; do
                         if [[ $directory == *"${service}"* ]]; then
                             result+=($service)
@@ -25,6 +21,9 @@ node('docker') {
                 done
 
                 svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+                if [[ $svc == *"common"* ]]; then
+                    svc="api history payments posts users storage videos"
+                fi
                 echo $svc
                 '''            
                 ).trim()
