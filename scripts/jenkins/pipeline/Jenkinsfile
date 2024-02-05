@@ -1,5 +1,18 @@
 node('docker') {
     stage('Clone repository') {
+        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+        if (env.BRANCH_NAME == 'master') {
+            echo "You are not allowed to run this job on master branch"
+            currentBuild.result = 'ABORTED'
+            return
+        }
+
+        echo "Check service env"
+        if (env.SERVICES != null && env.SERVICES != '') {
+            echo "services to deploy are: ${env.SERVICES}"
+            return
+        }
+        
         checkout scm
         def output
         script {
