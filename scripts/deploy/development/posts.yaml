@@ -13,7 +13,7 @@ spec:
         app: posts
     spec:
       imagePullSecrets:
-        - name: ocir-registry-secret
+        - name: ocir-registry-secret-seoul
       containers:
         - name: posts
 <<<<<<< HEAD

@@ -13,7 +13,7 @@ spec:
         app: payments
     spec:
       imagePullSecrets:
-        - name: ocir-registry-secret
+        - name: ocir-registry-secret-seoul
       containers:
         - name: payments
 <<<<<<< HEAD
