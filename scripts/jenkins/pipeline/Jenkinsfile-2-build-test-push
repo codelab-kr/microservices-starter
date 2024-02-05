@@ -4,10 +4,10 @@ pipeline {
         // node {
             label 'docker-agent'
         // }
-        // docker {
-        //     image 'docker:latest'
-        //     args '--entrypoint="" --user root -v /var/run/docker.sock:/var/run/docker.sock'
-        // }
+        docker {
+            image 'docker:latest'
+            args '--entrypoint="" --user root -v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
     
 
