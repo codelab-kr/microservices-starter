@@ -13,9 +13,12 @@ node('docker') {
 
                 for commit in "${commits[@]}"; do
                     directory=$(dirname "$commit");
-                    filename=$(basename "$commit" .yaml);
+                    if [[ $directory == *"common"* ]]; then
+                        result=services
+                        return
+                    fi
                     for service in "${services[@]}"; do
-                        if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
+                        if [[ $directory == *"${service}"* ]]; then
                             result+=($service)
                         fi
                     done
