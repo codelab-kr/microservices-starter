@@ -1,45 +1,44 @@
 node('docker') {
     stage('Clone repository') {
-        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-        if (env.BRANCH_NAME == 'master') {
-            echo "You are not allowed to run this job on master branch"
-            currentBuild.result = 'ABORTED'
-            return
-        }
-
-        echo "Check service env"
-        if (env.SERVICES != null && env.SERVICES != '') {
-            echo "services to deploy are: ${env.SERVICES}"
-            return
-        }
-        
         checkout scm
         def output
         script {
-            output = sh(returnStdout: true, script: '''#!/bin/bash
-            commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
-            services=("api" "history" "payments" "posts" "users" "storage" "videos")
-            result=()
+            if (env.SERVICES.trim() == 'all') {
+                env.SERVICES = 'mysql mongo redis nats api history payments posts users storage videos'
+            } else {
+                output = sh(returnStdout: true, script: '''#!/bin/bash
+                commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
+                services=("api" "history" "payments" "posts" "users" "storage" "videos" "mysql", "mongo", "redis", "nats")
+                result=()
 
-            for commit in "${commits[@]}"; do
-                directory=$(dirname "$commit");
-                filename=$(basename "$commit" .yaml);
-                for service in "${services[@]}"; do
-                    if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
-                        result+=($service)
-                    fi
+                for commit in "${commits[@]}"; do
+                    directory=$(dirname "$commit");
+                    filename=$(basename "$commit" .yaml);
+                    for service in "${services[@]}"; do
+                        if [[ $directory == *"${service}"* ]] || [[ $filename == $service ]]; then
+                            result+=($service)
+                        fi
+                    done
                 done
-            done
 
-            svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-            echo $svc
-            '''            
-            ).trim()
+                svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+                echo $svc
+                '''            
+                ).trim()
+
+                if (output != null && output.trim() != '') {
+                    env.SERVICES = (output + ' ' + env.SERVICES).trim()
+                }
+            }
         }
-        env.SERVICES = output
     }
 
     stage('Trigger services') { 
+        if (env.SERVICES == null || env.SERVICES.trim() == '') {
+            echo "No services to trigger"
+            return
+        }
+
         script {
             def array = env.SERVICES.trim().split(' ')
             echo "Array: ${array}"
