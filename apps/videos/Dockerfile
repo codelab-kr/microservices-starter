@@ -10,7 +10,6 @@ RUN yarn build videos
 FROM node:alpine AS development
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
-CMD npx wait-port mongodb-primary:27017
 ENTRYPOINT [ "yarn", "start:dev"]
 
 
