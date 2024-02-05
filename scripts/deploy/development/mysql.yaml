@@ -1,4 +1,38 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-env
+data:
+  MYSQL_ROOT_PASSWORD: 'testtest'
+  MYSQL_DATABASE: 'development'
+  MYSQL_USER: 'test'
+  MYSQL_PASSWORD: 'testtest'
+  MYSQL_TCP_PORT: '3306'
+  TZ: 'Asia/Seoul'
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  mysql.cnf: |
+    [mysqld]
+    character-set-server = utf8mb4
+    collation-server = utf8mb4_general_ci
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init
+data:
+  init.sql: |
+    GRANT ALL ON *.* TO root@'%';
+    CREATE DATABASE IF NOT EXISTS test;
+    CREATE USER 'test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'testtest';
+    GRANT ALL ON test.* to test@'localhost';
+    GRANT ALL ON test.* to test@'%';
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv
@@ -44,27 +78,36 @@ spec:
       containers:
         - name: mysql
           image: mysql:8
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: password
+          envFrom:
+            - configMapRef:
+                name: mysql-env
           ports:
             - containerPort: 3306
               name: mysql
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql
+            - name: mysql-config
+              mountPath: /etc/mysql/conf.d
+            - name: mysql-init
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
+        - name: mysql-config
+          mountPath: /etc/mysql/conf.d
+        - name: mysql-init
+          mountPath: /docker-entrypoint-initdb.d
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
 spec:
-  type: NodePort
   ports:
-    - port: 3306
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
   selector:
     app: mysql
