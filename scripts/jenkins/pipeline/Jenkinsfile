@@ -15,7 +15,6 @@ node('docker') {
                     directory=$(dirname "$commit");
                     if [[ $directory == *"common"* ]]; then
                         result=$services
-                        return
                     fi
                     for service in "${services[@]}"; do
                         if [[ $directory == *"${service}"* ]]; then
