@@ -16,11 +16,7 @@ spec:
         - name: ocir-registry-secret-seoul
       containers:
         - name: payments
-<<<<<<< HEAD
           image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.85
-=======
-          image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.105
->>>>>>> 3e7095ee4c3f2c19afdc122225ed0403d39cf4ec
           env:
             - name: 'SERVICE_NAME'
               value: 'payments'
