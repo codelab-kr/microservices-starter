@@ -3,7 +3,7 @@ node('docker') {
         checkout scm
         def output
         script {
-            if (env.SERVICES.trim() == 'all') {
+            if (env.SERVICES.trim() == 'all' || env.SERVICES.trim() == 'common') {
                 env.SERVICES = 'api history payments posts users storage videos'
             } else {
                 output = sh(returnStdout: true, script: '''#!/bin/bash
