@@ -21,7 +21,7 @@ node('docker') {
                 done
 
                 svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-                if [[ "common" in "${result[@]}" ]]; then
+                if [[ "common" == *"${svc}"* ]]; then
                     svc="api history payments posts users storage videos"
                 fi
                 echo $svc
