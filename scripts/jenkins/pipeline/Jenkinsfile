@@ -3,26 +3,22 @@ node('docker') {
         checkout scm
         def output
         script {
-            if (env.SERVICES.trim() == 'all' || env.SERVICES.trim() == 'common') {
+            if (env.SERVICES.trim() == 'all') {
                 env.SERVICES = 'api history payments posts users storage videos'
             } else {
                 output = sh(returnStdout: true, script: '''#!/bin/bash
                 commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
-                services=("api" "history" "payments" "posts" "users" "storage" "videos" "common")
+                services=("api" "history" "payments" "posts" "users" "storage" "videos")
                 result=()
 
                 for commit in "${commits[@]}"; do
                     directory=$(dirname "$commit");
-                    if [[ $directory == *"common"* ]]; then
-                        result=("api" "history" "payments" "posts" "users" "storage" "videos" "common")
-                    else
-                        for service in "${services[@]}"; do
-                            if [[ $directory == *"${service}"* ]]; then
-                                result+=($service)
-                            fi
-                        done
-                    fi
-                done 
+                    for service in "${services[@]}"; do
+                        if [[ $directory == *"${service}"* ]]; then
+                            result+=($service)
+                        fi
+                    done
+                done
 
                 svc=$(echo "${result[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
                 echo $svc
