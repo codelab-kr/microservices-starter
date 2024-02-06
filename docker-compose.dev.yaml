@@ -27,7 +27,7 @@ services:
       - ./.env
       - ./apps/users/.env
     volumes:
-      - ./apps/users:/usr/src/app/apps/paymusersents:z
+      - ./apps/users:/usr/src/app/apps/users:z
       - ./libs/common:/usr/src/app/libs/common:z
     depends_on:
       - nats
