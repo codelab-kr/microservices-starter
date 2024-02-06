@@ -27,5 +27,5 @@ RUN yarn install --immutable
 COPY --from=builder /usr/src/app/dist/ ./dist/
 
 
-ENTRYPOINT [ "yarn", "start:prod"]
-CMD storage
+# ENTRYPOINT [ "yarn", "start:prod"]
+# CMD storage
