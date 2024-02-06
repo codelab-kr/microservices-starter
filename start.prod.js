@@ -1,5 +1,7 @@
 const app = process.argv[2];
 
+console.log(process.argv);
+
 if (!app) {
   throw new Error('No app name provided');
 }
