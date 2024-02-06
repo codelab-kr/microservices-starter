@@ -43,9 +43,6 @@ spec:
       containers:
         - name: redis
           image: redis
-          ports:
-            - containerPort: 6379
-              name: redis
           volumeMounts:
             - name: redis-storage
               mountPath: /data
@@ -57,11 +54,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-service
+  name: redis
 spec:
   type: NodePort
   ports:
-    - port: 6379
+    - protocol: TCP
+      port: 6379
       targetPort: 6379
   selector:
     app: redis
