@@ -25,6 +25,7 @@ RUN yarn set version berry
 RUN yarn set version stable
 RUN yarn install --immutable
 COPY --from=builder /usr/src/app/dist/ ./dist/
-CMD yarn start:prod storage
 
-# ENTRYPOINT [ "yarn", "start:prod"]
+
+ENTRYPOINT [ "yarn", "start:prod"]
+CMD storage
