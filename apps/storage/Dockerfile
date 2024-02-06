@@ -10,7 +10,7 @@ RUN yarn build storage
 FROM node:alpine AS development
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
-ENTRYPOINT [ "yarn", "start:dev"]
+ENTRYPOINT [ "yarn", "start:development"]
 
 
 FROM node:alpine AS production
