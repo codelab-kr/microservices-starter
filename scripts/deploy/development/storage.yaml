@@ -20,8 +20,8 @@ spec:
           env:
             - name: 'SERVICE_NAME'
               value: 'storage'
-          command: ['yarn start:prod']
-          args: ['storage']
+          # command: ['yarn start:prod']
+          # args: ['storage']
           # command: ['storage']
 ---
 apiVersion: v1
