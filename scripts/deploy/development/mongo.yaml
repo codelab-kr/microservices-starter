@@ -6,7 +6,7 @@ data:
   MONGODB_USERNAME: 'root'
   MONGODB_PASSWORD: 'password123'
   MONGODB_DATABASE: 'development'
-  MONGODB_URI: 'mongodb://root:password123@mongodb:27017'
+  MONGODB_URI: 'mongodb://mongodb:27017'
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -52,9 +52,9 @@ spec:
       containers:
         - name: mongodb
           image: mongo
-          envFrom:
-            - configMapRef:
-                name: mongo-env
+          # envFrom:
+          #   - configMapRef:
+          #       name: mongo-env
           volumeMounts:
             - name: mongodb-storage
               mountPath: /data/db
