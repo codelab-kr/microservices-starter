@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: videos
+  name: users
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: videos
+      app: users
   template:
     metadata:
       labels:
-        app: videos
+        app: users
     spec:
       imagePullSecrets:
         - name: ocir-registry-secret-seoul
       containers:
-        - name: videos
-          image: ap-seoul-1.ocir.io/cnqphqevfxnp/production-videos:0.9
+        - name: users
+          image: ap-seoul-1.ocir.io/cnqphqevfxnp/production-users:0.9
           env:
             - name: 'SERVICE_NAME'
-              value: 'videos'
+              value: 'users'
           command: ['/bin/sh', '-c']
-          args: ['yarn start:prod videos']
+          args: ['yarn start:prod users']
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: videos
+  name: users
 spec:
   selector:
-    app: videos
+    app: users
   type: ClusterIP # Network Load Balancer(L4) 적용 시 NodePort 사용, ingress-nginx(L4, L7) 적용 시 ClusterIP 가능
   ports:
     - protocol: TCP

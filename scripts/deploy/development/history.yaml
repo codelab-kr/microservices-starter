@@ -20,6 +20,8 @@ spec:
           env:
             - name: 'SERVICE_NAME'
               value: 'history'
+          command: ['/bin/sh', '-c']
+          args: ['yarn start:dev history']
 ---
 apiVersion: v1
 kind: Service

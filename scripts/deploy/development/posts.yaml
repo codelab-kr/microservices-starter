@@ -20,6 +20,8 @@ spec:
           env:
             - name: 'SERVICE_NAME'
               value: 'posts'
+          command: ['/bin/sh', '-c']
+          args: ['yarn start:dev posts']
 ---
 apiVersion: v1
 kind: Service

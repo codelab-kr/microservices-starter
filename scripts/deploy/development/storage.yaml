@@ -21,7 +21,7 @@ spec:
             - name: 'SERVICE_NAME'
               value: 'storage'
           command: ['/bin/sh', '-c']
-          args: ['yarn start:development storage']
+          args: ['yarn start:dev storage']
 ---
 apiVersion: v1
 kind: Service

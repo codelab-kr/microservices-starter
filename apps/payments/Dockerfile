@@ -10,7 +10,7 @@ RUN yarn build payments
 FROM node:alpine AS development
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
-
+ENTRYPOINT [ "yarn", "start:development"]
 
 
 FROM node:alpine AS production
@@ -25,4 +25,5 @@ RUN yarn set version berry
 RUN yarn set version stable
 RUN yarn install --immutable
 COPY --from=builder /usr/src/app/dist/ ./dist/
+ENTRYPOINT [ "yarn", "start:production"]
 

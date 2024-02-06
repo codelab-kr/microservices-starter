@@ -20,6 +20,8 @@ spec:
           env:
             - name: 'SERVICE_NAME'
               value: 'payments'
+          command: ['/bin/sh', '-c']
+          args: ['yarn start:dev payments']
 ---
 apiVersion: v1
 kind: Service

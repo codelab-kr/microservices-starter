@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} api']
+    command: api
     env_file:
       - ./.api.env
     ports:
@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: ./apps/users/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} users']
+    command: users
     env_file:
       - ./.env
       - ./apps/users/.env
@@ -37,7 +37,7 @@ services:
       context: .
       dockerfile: ./apps/payments/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} payments']
+    command: payments
     env_file:
       - ./.env
       - ./apps/payments/.env
@@ -52,7 +52,7 @@ services:
       context: .
       dockerfile: ./apps/posts/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} posts']
+    command: posts
     env_file:
       - ./.env
       - ./apps/posts/.env
@@ -67,7 +67,7 @@ services:
       context: .
       dockerfile: ./apps/videos/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} videos']
+    command: videos
     env_file:
       - ./.env
       - ./apps/videos/.env
@@ -82,7 +82,7 @@ services:
       context: .
       dockerfile: ./apps/history/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} history']
+    command: history
     env_file:
       - ./.env
       - ./apps/history/.env
@@ -97,7 +97,7 @@ services:
       context: .
       dockerfile: ./apps/storage/Dockerfile
       target: ${NODE_ENV}
-    command: ['/bin/bash', '-c', 'yarn start:${NODE_ENV} storage']
+    command: storage
     env_file:
       - ./.env
       - ./apps/storage/.env
