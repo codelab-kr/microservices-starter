@@ -45,7 +45,7 @@ docker compose -f docker-compose.yaml -f docker-compose.db.yaml  down  -v --rmi 
 
 ```bash
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.9 -f apps/storage/Dockerfile --target development .
-docker run -d -p 4001:80 -e PORT=80 -e SERVICE_NAME=storage --name development-storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.9 -c "/bin/bash -c yarn start:prod storage"
+docker run -d -p 4003:80 -e PORT=80 -e SERVICE_NAME=storage --name development-storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.10 
 
 ```
 
