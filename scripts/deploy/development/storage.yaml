@@ -22,7 +22,7 @@ spec:
               value: 'storage'
           # command: ['yarn start:prod']
           # args: ['storage']
-          # command: ['storage']
+          command: ['storage']
 ---
 apiVersion: v1
 kind: Service
