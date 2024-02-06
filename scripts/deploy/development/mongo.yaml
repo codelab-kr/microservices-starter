@@ -1,4 +1,14 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-env
+data:
+  MONGODB_USERNAME: 'root'
+  MONGODB_PASSWORD: 'password123'
+  MONGODB_DATABASE: 'development'
+  MONGODB_URI: 'mongodb://root:password123@mongodb-service:27017'
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mongodb-pv
@@ -42,6 +52,9 @@ spec:
       containers:
         - name: mongodb
           image: mongo
+          envFrom:
+            - configMapRef:
+                name: mongo-env
           ports:
             - containerPort: 27017
               name: mongodb

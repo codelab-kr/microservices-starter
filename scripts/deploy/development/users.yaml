@@ -17,6 +17,9 @@ spec:
       containers:
         - name: users
           image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.11
+          envFrom:
+            - configMapRef:
+                name: mysql-env
           env:
             - name: 'SERVICE_NAME'
               value: 'users'

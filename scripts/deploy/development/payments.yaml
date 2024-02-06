@@ -20,6 +20,9 @@ spec:
           env:
             - name: 'SERVICE_NAME'
               value: 'payments'
+          envFrom:
+            - configMapRef:
+                name: mysql-env
           command: ['/bin/sh', '-c']
           args: ['yarn start:dev payments']
 ---

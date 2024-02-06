@@ -17,6 +17,9 @@ spec:
       containers:
         - name: videos
           image: ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.11
+          envFrom:
+            - configMapRef:
+                name: mongo-env
           env:
             - name: 'SERVICE_NAME'
               value: 'videos'
