@@ -31,26 +31,24 @@ spec:
           envFrom:
             - configMapRef:
                 name: api-env
-            - secretKeyRef:
-                name: tuplus-secret
           env:
             - name: 'SERVICE_NAME'
               value: 'api'
-            # - name: 'SECRET'
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: tuplus-secret
-            #       key: SECRET
-            # - name: 'GOOLGE_CLIENT_ID'
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: tuplus-secret
-            #       key: GOOLGE_CLIENT_ID
-            # - name: 'GOOGLE_CLIENT_SECRET'
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: tuplus-secret
-            #       key: GOOGLE_CLIENT_SECRET
+            - name: 'SECRET'
+              valueFrom:
+                secretKeyRef:
+                  name: tuplus-secret
+                  key: SECRET
+            - name: 'GOOLGE_CLIENT_ID'
+              valueFrom:
+                secretKeyRef:
+                  name: tuplus-secret
+                  key: GOOLGE_CLIENT_ID
+            - name: 'GOOGLE_CLIENT_SECRET'
+              valueFrom:
+                secretKeyRef:
+                  name: tuplus-secret
+                  key: GOOGLE_CLIENT_SECRET
           command: ['/bin/sh', '-c']
           args: ['yarn start:dev api']
 ---
