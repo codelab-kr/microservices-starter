@@ -5,9 +5,9 @@ metadata:
 data:
   PORT: '4000'
   EXPIRESIN: '3600000'
-  REDIS_URL: 'redis://redis-service:6379'
+  REDIS_URL: 'redis://redis:6379'
   SESSION_AUTH: 'true'
-  BASE_URL: 'https://tuplus.code-lab.kr'
+  BASE_URL: 'https://development.code-lab.kr'
 ---
 apiVersion: apps/v1
 kind: Deployment
