@@ -42,7 +42,7 @@ data:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysqldb-pv
+  name: mysql-pv
   labels:
     type: local
 spec:
@@ -57,7 +57,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysqldb-pv-claim
+  name: mysql-pv-claim
 spec:
   storageClassName: standard
   accessModes:
@@ -96,7 +96,7 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: mysqldb-pv-claim
+            claimName: mysql-pv-claim
         - name: mysql-config
           configMap:
             name: mysql-config
