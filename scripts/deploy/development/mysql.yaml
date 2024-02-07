@@ -42,7 +42,7 @@ data:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv
+  name: mysqldb-pv
   labels:
     type: local
 spec:
@@ -57,7 +57,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: mysqldb-pv-claim
 spec:
   storageClassName: standard
   accessModes:
@@ -96,11 +96,13 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: mysql-pv-claim
+            claimName: mysqldb-pv-claim
         - name: mysql-config
-          mountPath: /etc/mysql/conf.d
+          configMap:
+            name: mysql-config
         - name: mysql-init
-          mountPath: /docker-entrypoint-initdb.d
+          configMap:
+            name: mysql-init
 ---
 apiVersion: v1
 kind: Service

@@ -52,9 +52,9 @@ spec:
       containers:
         - name: mongodb
           image: mongo
-          # envFrom:
-          #   - configMapRef:
-          #       name: mongo-env
+          envFrom:
+            - configMapRef:
+                name: mongo-env
           volumeMounts:
             - name: mongodb-storage
               mountPath: /data/db
