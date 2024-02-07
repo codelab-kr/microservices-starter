@@ -1,4 +1,4 @@
-node('docker-agent') {
+node('docker') {
     stage('Clone repository') {
         checkout scm
         def output

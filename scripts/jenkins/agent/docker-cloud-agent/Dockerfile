@@ -1,6 +1,5 @@
-FROM jenkins/agent:latest-jdk17
+FROM jenkins/inbound-agent:latest
 USER root
-
 RUN apt-get update && apt-get install -y lsb-release && \
    curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
    https://download.docker.com/linux/debian/gpg && \
@@ -9,9 +8,8 @@ RUN apt-get update && apt-get install -y lsb-release && \
    https://download.docker.com/linux/debian \
    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list && \
    apt-get update && apt-get install -y docker.io && \
-   apt-get clean && rm -rf /var/lib/apt/lists/* && \
+   apt-get clean && rm -rf /var/lib/apt/lists/*  && \
    usermod -aG docker jenkins
-
 USER jenkins
 
 # docker build -t codelabmaster/jenkins-agent-docker . 
