@@ -36,7 +36,6 @@ pipeline {
             steps {
                 container('dind') {
                         sh 'docker --version'
-                        sh 'npm install nest-cli -g'
                         sh 'echo "ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}"'
                         sh 'docker build --build-arg SERVICE=${SERVICE} -t ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG} -f apps/${SERVICE}/Dockerfile --target ${STAGE} .'
                     }
