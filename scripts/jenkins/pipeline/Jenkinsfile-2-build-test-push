@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        label 'default'
+        kubernetes {
+            label 'default'
+        } 
     }
     // agent {
     //     docker {
