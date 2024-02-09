@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'jenkins-jenkins-agent'
+            inheritFrom 'jenkins-jenkins-agent'
         } 
     }
     // agent {
@@ -35,6 +35,7 @@ pipeline {
             // }
             steps {
                 container('dind') {
+                    sh 'docker --version'
                     sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG} -f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .'                    
                 }
             }
