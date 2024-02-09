@@ -10,6 +10,7 @@ export class StorageController {
 
   @Post('/upload')
   UploadVideo(@Req() req: Request, @Res() res: Response) {
+    console.log('Uploading video...');
     const localFilePath = path.resolve(
       `public/uploads/videos/${req.headers.path.toString()}`,
     );

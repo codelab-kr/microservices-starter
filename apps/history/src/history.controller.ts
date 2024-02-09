@@ -13,7 +13,8 @@ export class HistoryController {
   }
 
   @EventPattern('videoViewed')
-  async handleVideoCreated(@Payload() data: CreateHistoryInput) {
-    this.historyService.create(data);
+  async handleVideoViewed(@Payload() data: CreateHistoryInput) {
+    console.log('videoViewed', data);
+    return this.historyService.create(data);
   }
 }

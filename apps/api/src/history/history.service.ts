@@ -9,7 +9,8 @@ export class HistoryService {
 
   createHistory(createHistoryInput: CreateHistoryInput) {
     try {
-      return this.natsClient.send('videoViewed', createHistoryInput);
+      console.log('----- videoViewed createHistoryInput', createHistoryInput);
+      this.natsClient.emit('videoViewed', createHistoryInput);
     } catch (error) {
       throw new RpcException(error);
     }

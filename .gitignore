@@ -58,4 +58,4 @@ test-report.html
 
 /.env
 /.api.env
-/README-secret.md
+README-secret.md
