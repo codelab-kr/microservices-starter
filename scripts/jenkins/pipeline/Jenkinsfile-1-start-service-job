@@ -1,4 +1,4 @@
-node('docker') {
+node {
     stage('check parameters') { 
         echo "check parameters"
         echo "STAGE: ${STAGE}"
