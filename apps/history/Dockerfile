@@ -4,10 +4,14 @@ COPY . .
 RUN yarn set version berry
 RUN yarn set version stable
 RUN yarn install
-RUN yarn build history
+# RUN yarn build history
 
 
 FROM node:alpine AS development
+
+ARG SERVICE
+ENV SERVICE=${SERVICE}
+
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
 ENTRYPOINT [ "yarn", "start:dev"]
