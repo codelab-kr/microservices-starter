@@ -34,11 +34,11 @@ pipeline {
                 
             // }
             steps {
-                container('dind') {}
+                container('dind') {
                     sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG} -f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .'                    
                 }
             }
-        
+        }
 
         // stage('Test image') {
         //     steps {
