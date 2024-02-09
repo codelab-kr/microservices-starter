@@ -3,8 +3,12 @@ node {
         checkout scm
         def output
         script {
-            if (env.SERVICES.trim() == 'all') {
-                env.SERVICES = 'api history payments posts users storage videos'
+            if (env.SERVICES.trim()) {
+                if (env.SERVICES.trim() == 'all') {
+                    env.SERVICES = 'api history payments posts users storage videos'
+                } else {
+                    env.SERVICES = env.SERVICES.trim()
+                }
             } else {
                 output = sh(returnStdout: true, script: '''#!/bin/bash
                 commits=($(git diff-tree --no-commit-id --name-only -r HEAD))
