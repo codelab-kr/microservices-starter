@@ -35,9 +35,10 @@ pipeline {
             // }
             steps {
                 container('dind') {
-                    sh 'docker --version'
-                    sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG} -f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .'                    
-                }
+                        sh 'docker --version'
+                        sh 'echo "ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}"'
+                        sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG} -f apps/${SERVICE}/Dockerfile --target ${STAGE} .'
+                    }
             }
         }
 
