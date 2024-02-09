@@ -36,6 +36,9 @@ pipeline {
             steps {
                 container('dind') {
                         sh 'docker --version'
+                        sh 'echo "ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}"'
+                        sh 'echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin https://ap-seoul-1.ocir.io'
+                        sh 'docker build --build-arg SERVICE=${SERVICE} -t ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG} -f apps/${SERVICE}/Dockerfile --target ${STAGE} .'
 
                     }
             }
@@ -66,10 +69,7 @@ pipeline {
             steps {
                 container('dind') {
                     withCredentials([usernamePassword(credentialsId: 'ocir-seoul', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'echo "ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}"'
-                        sh 'docker build --build-arg SERVICE=${SERVICE} -t ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG} -f apps/${SERVICE}/Dockerfile --target ${STAGE} .'
-                        sh 'echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin https://ap-seoul-1.ocir.io'
-                        sh 'docker push ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG}' 
+                        sh 'docker push ap-seoul-1.ocir.io/cnqphqevfxnp/${STAGE}-${SERVICE}:${TAG}' 
                     } 
                 }
             }
