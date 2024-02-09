@@ -44,8 +44,8 @@ docker compose -f docker-compose.yaml -f docker-compose.db.yaml  down  -v --rmi 
 ## 4. Test the project
 
 ```bash
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.9 -f apps/storage/Dockerfile --target development .
-docker run -d -p 4003:80 -e PORT=80 -e SERVICE_NAME=storage --name development-storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.10 
+docker build --build-arg SERVICE=api -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.9 -f apps/api/Dockerfile --target development .
+docker run -d -p 4010:80 --env-file=.api.env --name development-api ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.9
 
 ```
 
