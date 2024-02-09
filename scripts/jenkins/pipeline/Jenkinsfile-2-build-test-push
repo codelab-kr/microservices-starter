@@ -1,10 +1,11 @@
 pipeline {
-    agent {
-        docker {
-                image 'docker:latest'
-                args '--entrypoint="" --user root -v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
+    // agent {
+    //     docker {
+    //             image 'docker:latest'
+    //             args '--entrypoint="" --user root -v /var/run/docker.sock:/var/run/docker.sock'
+    //     }
+    // }
 
 
 
@@ -19,12 +20,18 @@ pipeline {
         }
 
         stage('Build and push image') {
+            // steps {
+                // script {
+                //     // echo docker --version
+                //     def imageName = "ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}"
+                //     def image = docker.build(imageName, "-f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .")
+                //     env.IMAGE_ID = image.id
+                // }
+                
+            // }
             steps {
-                script {
-                    // echo docker --version
-                    def imageName = "ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}"
-                    def image = docker.build(imageName, "-f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .")
-                    env.IMAGE_ID = image.id
+                container('dind') {
+                    sh 'docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG} -f apps/${env.SERVICE}/Dockerfile --target ${env.STAGE} .'                    
                 }
             }
         }
@@ -42,14 +49,24 @@ pipeline {
         // }
 
         stage('Deliver') {
+            // steps {
+            //     script {
+            //         def image = docker.image(env.IMAGE_ID)
+            //         docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
+            //             image.push(env.TAG)
+            //         }
+            //     }
+            // }
+
             steps {
-                script {
-                    def image = docker.image(env.IMAGE_ID)
-                    docker.withRegistry('https://ap-seoul-1.ocir.io', 'ocir-seoul') {
-                        image.push(env.TAG)
-                    }
+                container('dind') {
+                    withCredentials([usernamePassword(credentialsId: 'ocir-seoul', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin https://ap-seoul-1.ocir.io'
+                        sh 'docker push ap-seoul-1.ocir.io/cnqphqevfxnp/${env.STAGE}-${env.SERVICE}:${env.TAG}' 
+                    } 
                 }
             }
+            
         }
     }
 }
