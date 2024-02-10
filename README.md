@@ -51,21 +51,21 @@ docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 -f apps
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55
 docker run -d -p 4011:80 --env-file=apps/storage/.env --name storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 --command '/bin/sh -c' --args='yarn start:dev storage'  -n microservices-starter
 
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.56 -f apps/api/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.56 -f apps/history/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.56 -f apps/payments/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.56 -f apps/posts/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.56 -f apps/storage/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.56 -f apps/users/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.56 -f apps/videos/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1 -f apps/api/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.1 -f apps/history/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.1 -f apps/payments/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.1 -f apps/posts/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.1 -f apps/storage/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.1 -f apps/users/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.1 -f apps/videos/Dockerfile --target development .
 
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.56
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.56
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.1
 
 
 ```

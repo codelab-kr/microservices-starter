@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors();
   app.useStaticAssets(resolve('public'));
   // await app.startAllMicroservices();
-  await app.listen(80);
+  await app.listen(4001);
 }
 bootstrap();
 
