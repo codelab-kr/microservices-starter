@@ -47,6 +47,9 @@ docker compose -f docker-compose.yaml -f docker-compose.db.yaml  down  -v --rmi 
 docker build --build-arg SERVICE=api -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.9 -f apps/api/Dockerfile --target development .
 docker run -d -p 4000:80 --env-file=.api.env --name microservices-starter-api ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1 -n microservices-starter-network
 
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 -f apps/storage/Dockerfile --target development .
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55
+docker run -d -p 4011:80 --env-file=apps/storage/.env --name storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 --command '/bin/sh -c' --args='yarn start:dev storage'  -n microservices-starter
 ```
 
 # TODO

@@ -10,9 +10,6 @@ RUN yarn install
 
 FROM node:alpine AS development
 
-ARG SERVICE
-ENV SERVICE=${SERVICE}
-
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
 ENTRYPOINT [ "yarn", "start:dev"]
@@ -21,9 +18,7 @@ ENTRYPOINT [ "yarn", "start:dev"]
 FROM node:alpine AS production
 
 ARG NODE_ENV=production
-ARG SERVICE
 ENV NODE_ENV=${NODE_ENV}
-ENV SERVICE=${SERVICE}
 
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package.json /usr/src/app/yarn.lock /usr/src/app/.yarnrc.yml /usr/src/app/.pnp.* /usr/src/app/start.prod.js ./

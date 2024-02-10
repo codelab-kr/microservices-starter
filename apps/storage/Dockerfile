@@ -9,8 +9,6 @@ RUN yarn install
 
 FROM node:alpine AS development
 
-ARG SERVICE
-ENV SERVICE=${SERVICE}
 
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
