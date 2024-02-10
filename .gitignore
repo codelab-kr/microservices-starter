@@ -52,6 +52,8 @@ lerna-debug.log*
 
 public/uploads/images/*
 public/uploads/videos/*
+!public/uploads/images/.gitkeep
+!public/uploads/videos/.gitkeep
 .eslintcache
 test-report.html
 
