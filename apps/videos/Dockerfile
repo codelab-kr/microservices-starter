@@ -4,7 +4,7 @@ COPY . .
 RUN yarn set version berry
 RUN yarn set version stable
 RUN yarn install
-# RUN yarn build videos
+RUN yarn build videos
 
 
 FROM node:alpine AS development

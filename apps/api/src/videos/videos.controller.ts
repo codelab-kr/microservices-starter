@@ -50,8 +50,8 @@ export class VideosController {
     console.log('video', video);
     this.updateHistory(video, user.id);
 
-    const baseUrl = this.configService.get('BASE_URL');
-    video.path = `${baseUrl}/uploads/videos/${video.path}`;
+    const storageUrl = this.configService.get('STORAGE_URL');
+    video.path = `${storageUrl}/uploads/videos/${video.path}`;
     res.render('play-video', { isVideos: true, video, user });
   }
 

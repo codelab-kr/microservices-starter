@@ -56,4 +56,7 @@ test-report.html
 
 /.env
 /.api.env
-README-secret.md
+*-secret.md
+
+**/secret/*
+**/kyverno/*
