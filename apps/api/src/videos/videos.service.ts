@@ -41,6 +41,7 @@ export class VideosService {
 
     const { title, type, path } = createVideoInput;
 
+    console.log('createVideoInput', createVideoInput);
     const response = await axios({
       method: 'POST',
       url: 'http://storage/upload',
