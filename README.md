@@ -2,19 +2,24 @@
 
 ## 1. Prerequisites
 
-````bash
-# Clone the repository
+- [Docker](https://www.docker.com/products/docker-desktop)
+
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+- Clone the repository
+
+```bash
 git clone ....
 ```
 
-.env 파일은 .env.example 파일을 복사해서 사용한다.
-mongodb.key 파일은 예시 파일이므로 실제 서비스 시에는 보안 상 다른 키를 사용해야 한다.
+- apps/api/.env.example 파일을 복사하여 apps/api/.env 파일을 생성하고 설정을 변경합니다.
+
+- databases/mongo/mongodb.key 파일은 예시 파일이므로 실제 서비스 시에는 보안 상 다른 키를 사용해야 합니다. 아래 명령어로 새로운 키를 생성합니다.
 
 ```bash
 openssl rand -base64 756 > ./databases/mongo/mongodb.key
-
 chmod 400 ./databases/mongo/mongodb.key
-````
+```
 
 ## 2. Start the project
 
@@ -44,26 +49,31 @@ docker compose -f docker-compose.yaml -f docker-compose.db.yaml  down  -v --rmi 
 ## 4. Test the project
 
 ```bash
-docker build --build-arg SERVICE=api -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.9 -f apps/api/Dockerfile --target development .
+ docker run --rm --name api-test ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.55 yarn test users | grep "Test Suites:"
+
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.9 -f apps/api/Dockerfile --target development .
 docker run -d -p 4000:80 --env-file=.api.env --name microservices-starter-api ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1 -n microservices-starter-network
 
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 -f apps/storage/Dockerfile --target development .
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55
-docker run -d -p 4011:80 --env-file=apps/storage/.env --name storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 --command '/bin/sh -c' --args='yarn start:dev storage'  -n microservices-starter
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.55 -f apps/users/Dockerfile --target development .
+# docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55
+docker run --rm --env-file=apps/storage/.env --env-file=.env --name storage ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.55 --command '/bin/sh -c' --args=' yarn test users'  -n microservices-starter
 
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1 -f apps/api/Dockerfile --target development .
+docker run --rm --env-file=apps/users/.env --env-file=.env --name users ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.55 --command '/bin/sh -c' --args=' yarn test users'  -n microservices-starter
+
+
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.2 -f apps/api/Dockerfile --target development .
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.1 -f apps/history/Dockerfile --target development .
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.1 -f apps/payments/Dockerfile --target development .
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.1 -f apps/posts/Dockerfile --target development .
-docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.1 -f apps/storage/Dockerfile --target development .
+docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.2 -f apps/storage/Dockerfile --target development .
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.1 -f apps/users/Dockerfile --target development .
 docker build -t ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.1 -f apps/videos/Dockerfile --target development .
 
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-api:0.2
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-history:0.1
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-payments:0.1
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-posts:0.1
-docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.1
+docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-storage:0.2
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-users:0.1
 docker push ap-seoul-1.ocir.io/cnqphqevfxnp/development-videos:0.1
 

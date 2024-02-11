@@ -5,9 +5,9 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile
       target: ${NODE_ENV}
-    command: api
+    command: yarn start:dev api
     env_file:
-      - ./.api.env
+      - ./apps/api/.env
     ports:
       - 4000:4000
     volumes:
@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: ./apps/users/Dockerfile
       target: ${NODE_ENV}
-    command: users
+    command: yarn start:dev users
     env_file:
       - ./.env
       - ./apps/users/.env
@@ -37,7 +37,7 @@ services:
       context: .
       dockerfile: ./apps/payments/Dockerfile
       target: ${NODE_ENV}
-    command: payments
+    command: yarn start:dev payments
     env_file:
       - ./.env
       - ./apps/payments/.env
@@ -52,7 +52,7 @@ services:
       context: .
       dockerfile: ./apps/posts/Dockerfile
       target: ${NODE_ENV}
-    command: posts
+    command: yarn start:dev posts
     env_file:
       - ./.env
       - ./apps/posts/.env
@@ -67,7 +67,7 @@ services:
       context: .
       dockerfile: ./apps/videos/Dockerfile
       target: ${NODE_ENV}
-    command: videos
+    command: yarn start:dev videos
     env_file:
       - ./.env
       - ./apps/videos/.env
@@ -82,7 +82,7 @@ services:
       context: .
       dockerfile: ./apps/history/Dockerfile
       target: ${NODE_ENV}
-    command: history
+    command: yarn start:dev history
     env_file:
       - ./.env
       - ./apps/history/.env
@@ -97,7 +97,7 @@ services:
       context: .
       dockerfile: ./apps/storage/Dockerfile
       target: ${NODE_ENV}
-    command: storage
+    command: yarn start:dev storage
     env_file:
       - ./.env
       - ./apps/storage/.env

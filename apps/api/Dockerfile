@@ -1,5 +1,4 @@
 FROM node:alpine AS builder
-
 WORKDIR /usr/src/app
 COPY . .
 RUN yarn set version berry
@@ -9,10 +8,8 @@ RUN yarn build api
 
 
 FROM node:alpine AS development
-
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/ ./
-ENTRYPOINT [ "yarn", "start:dev"]
 
 
 FROM node:alpine AS production
@@ -27,4 +24,4 @@ RUN yarn set version berry
 RUN yarn set version stable
 RUN yarn install --immutable
 COPY --from=builder /usr/src/app/dist/ ./dist/
-ENTRYPOINT [ "yarn", "start:prod"]
+# ENTRYPOINT [ "yarn", "start:prod"]

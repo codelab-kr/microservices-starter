@@ -55,7 +55,7 @@ test-report.html
 
 
 /.env
-/.api.env
+/apps/api/.env
 *-secret.md
 
 **/secret/*
