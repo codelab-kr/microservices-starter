@@ -29,6 +29,9 @@ cp ./apps/api/.env.example ./apps/api/.env && vi ./apps/api/.env
 ## 2. Start the project
 
 ```bash
+# Activate Docker BiuldKit
+export DOCKER_BUILDKIT=1
+
 # Start DBs for the project
 docker compose -f docker-compose.db.yaml up --build -V -d
 
