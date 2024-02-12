@@ -16,9 +16,7 @@ async function bootstrap() {
 
   const port = conf.get('PORT') ?? 4000;
   const sessionAuth = conf.get('SESSION_AUTH');
-  const env = conf.get('NODE_ENV') ?? 'development';
-  const baseUrl =
-    env === 'production' ? conf.get('BASE_URL') : `http://localhost:${port}`;
+  const baseUrl = conf.get('BASE_URL');
 
   if (sessionAuth) setSession(app);
   setHbs(app);
@@ -27,7 +25,7 @@ async function bootstrap() {
 
   await app.listen(port, () =>
     console.log(
-      `....Listening on ${baseUrl} 🚀 \nRedis Session Auth is ${sessionAuth} `,
+      `Listening on ${baseUrl} 🚀 \nRedis Session Auth is ${sessionAuth} `,
     ),
   );
 }

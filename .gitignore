@@ -50,11 +50,16 @@ lerna-debug.log*
 # In that case, don't forget to run `yarn config set enableGlobalCache false`!
 # Documentation here: https://yarnpkg.com/features/caching#zero-installs
 
-public/uploads/images/*
-public/uploads/videos/*
 .eslintcache
 test-report.html
 
 
 /.env
-/.api.env
+/apps/api/.env
+*-secret.md
+*for-me.md
+
+**/secret/*
+**/kyverno/*
+
+public/uploads/videos/*

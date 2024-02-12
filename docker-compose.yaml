@@ -5,9 +5,9 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile
       target: ${NODE_ENV}
-    command: api
+    command: yarn start:${NODE_ENV} api
     env_file:
-      - ./.api.env
+      - ./apps/api/.env
     ports:
       - 4000:4000
     volumes:
@@ -22,12 +22,12 @@ services:
       context: .
       dockerfile: ./apps/users/Dockerfile
       target: ${NODE_ENV}
-    command: users
+    command: yarn start:${NODE_ENV} users
     env_file:
       - ./.env
       - ./apps/users/.env
     volumes:
-      - ./apps/users:/usr/src/app/apps/paymusersents:z
+      - ./apps/users:/usr/src/app/apps/users:z
       - ./libs/common:/usr/src/app/libs/common:z
     depends_on:
       - nats
@@ -37,7 +37,7 @@ services:
       context: .
       dockerfile: ./apps/payments/Dockerfile
       target: ${NODE_ENV}
-    command: payments
+    command: yarn start:${NODE_ENV} payments
     env_file:
       - ./.env
       - ./apps/payments/.env
@@ -52,7 +52,7 @@ services:
       context: .
       dockerfile: ./apps/posts/Dockerfile
       target: ${NODE_ENV}
-    command: posts
+    command: yarn start:${NODE_ENV} posts
     env_file:
       - ./.env
       - ./apps/posts/.env
@@ -67,7 +67,7 @@ services:
       context: .
       dockerfile: ./apps/videos/Dockerfile
       target: ${NODE_ENV}
-    command: videos
+    command: yarn start:${NODE_ENV} videos
     env_file:
       - ./.env
       - ./apps/videos/.env
@@ -82,7 +82,7 @@ services:
       context: .
       dockerfile: ./apps/history/Dockerfile
       target: ${NODE_ENV}
-    command: history
+    command: yarn start:${NODE_ENV} history
     env_file:
       - ./.env
       - ./apps/history/.env
@@ -97,12 +97,12 @@ services:
       context: .
       dockerfile: ./apps/storage/Dockerfile
       target: ${NODE_ENV}
-    command: storage
+    command: yarn start:${NODE_ENV} storage
     env_file:
       - ./.env
       - ./apps/storage/.env
     ports:
-      - 4001:80
+      - 4001:4001
     volumes:
       - ./apps/storage:/usr/src/app/apps/storage:z
       - ./libs/common:/usr/src/app/libs/common:z

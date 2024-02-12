@@ -45,15 +45,13 @@ export class VideosController {
     @Param('_id') _id: string,
     @CurrentUser() user: any,
   ) {
+    console.log('playVideo');
     const video = await lastValueFrom(this.videosService.getVideoById(_id));
+    console.log('video', video);
     this.updateHistory(video, user.id);
 
-    const env = this.configService.get('NODE_ENV');
-    const port = this.configService.get('PORT');
-    const base_url = this.configService.get('BASE_URL');
-    const baseUrl =
-      env === 'production' ? base_url : `http://localhost:${port}`;
-    video.path = `${baseUrl}/uploads/videos/${video.path}`;
+    const storageUrl = this.configService.get('STORAGE_URL');
+    video.path = `${storageUrl}/uploads/videos/${video.path}`;
     res.render('play-video', { isVideos: true, video, user });
   }
 
@@ -63,6 +61,7 @@ export class VideosController {
       title: video.title,
       userId,
     };
+    console.log('createHistoryInput', createHistoryInput);
     this.histotyService.createHistory(createHistoryInput);
   }
 
