@@ -98,10 +98,10 @@ export class UsersService {
     if (data.email && data.password) {
       const { email, password } = data;
       const user = await this.usersRepository.findOneBy({ email });
-      const { password: hashedPassword, ...userInfo } = user;
       if (!user) {
         return null;
       }
+      const { password: hashedPassword, ...userInfo } = user;
       const passwordIsVal = await bcrypt.compare(password, hashedPassword);
       if (!passwordIsVal) {
         return null;
