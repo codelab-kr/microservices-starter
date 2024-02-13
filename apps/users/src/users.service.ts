@@ -22,6 +22,9 @@ export class UsersService {
         ...request,
         password: await bcrypt.hash(request.password, 10),
       });
+      if (!seveUser) {
+        throw new InternalServerErrorException(UsersMessage.CANNOT_CREATE_USER);
+      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...user } = seveUser;
       return user;
@@ -80,28 +83,31 @@ export class UsersService {
   async validateUser(data: any) {
     // for passport-jwt strategy to validate user
     if (data.userId) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...userInfo } = await this.usersRepository.findOneBy({
+      const user = await this.usersRepository.findOneBy({
         id: data.userId,
       });
-      if (!userInfo) {
+      if (!user) {
         return null;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...userInfo } = user;
       return userInfo;
     }
 
     // for passport-local strategy to validate user
-    const { email, password } = data;
-    const { password: hashedPassword, ...userInfo } =
-      await this.usersRepository.findOneBy({ email });
-    if (!userInfo) {
-      return null;
+    if (data.email && data.password) {
+      const { email, password } = data;
+      const user = await this.usersRepository.findOneBy({ email });
+      const { password: hashedPassword, ...userInfo } = user;
+      if (!user) {
+        return null;
+      }
+      const passwordIsVal = await bcrypt.compare(password, hashedPassword);
+      if (!passwordIsVal) {
+        return null;
+      }
+      return userInfo;
     }
-    const passwordIsVal = await bcrypt.compare(password, hashedPassword);
-    if (!passwordIsVal) {
-      return null;
-    }
-    return userInfo;
   }
 
   async getOrSaveUser(data: CreateUserDto) {
