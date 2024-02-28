@@ -1,3 +1,7 @@
+스타터 키트 복사본이 아닙니다 :)
+한타 한타(?) 직접 만들었습니다.
+
+
 # For Developers
 
 ## 0. Prerequisites
